@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kumarankit-dangi.github.io/chhatsong-website/sitemap.xml
