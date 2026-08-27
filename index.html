@@ -44,7 +44,9 @@
     .metadata { display:flex; flex-wrap:wrap; justify-content:center; gap:11px; margin-top:30px; }
     .tag { padding:7px 10px; border:1px solid #ffd68d70; border-radius:99px; font:10px 'DM Mono'; color:#ffe5b9; background:#4e1e1380; }
     .playlist-switcher { position:relative; display:inline-flex; margin-top:28px; padding:4px; border:1px solid #ffd68d70; border-radius:99px; background:#4e1e1380; }
-    .playlist-option { cursor:pointer; min-width:112px; border:0; border-radius:99px; padding:8px 13px; color:#4a160e; background:#ffbd4a; font:10px 'DM Mono'; }
+    .playlist-option { position:relative; cursor:pointer; min-width:112px; border:0; border-radius:99px; padding:8px 28px 8px 13px; color:#4a160e; background:#ffbd4a; font:10px 'DM Mono'; }
+    .playlist-option:after { content:"▾"; position:absolute; right:11px; top:50%; transform:translateY(-52%); font-size:13px; line-height:1; }
+    .playlist-switcher.is-open .playlist-option:after { content:"▴"; }
     .playlist-menu { position:absolute; z-index:6; top:calc(100% + 6px); left:0; right:0; display:none; padding:4px; border:1px solid #ffd68d70; border-radius:14px; background:rgba(57,20,14,.96); box-shadow:0 12px 30px #120706a8; }
     .playlist-switcher.is-open .playlist-menu { display:grid; gap:3px; }
     .playlist-choice { cursor:pointer; border:0; border-radius:10px; padding:9px 10px; color:#ffe5b9; background:transparent; font:10px 'DM Mono'; text-align:left; }
