@@ -213,39 +213,6 @@ document.addEventListener('click', function() {
   playlistSwitcher.classList.remove('is-open');
 });
   </script>
-  <script type="module">
-    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
-    import { getAuth, signInAnonymously } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
-    import { getDatabase, ref, onValue, onDisconnect, set } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js';
-
-    const firebaseConfig = {
-      apiKey: 'AIzaSyDYZFCorRFRMy9TWEiTMp8AAc7IHTlB4ME',
-      authDomain: 'chhath-song-b5e61.firebaseapp.com',
-      databaseURL: 'https://chhath-song-b5e61-default-rtdb.asia-southeast1.firebasedatabase.app',
-      projectId: 'chhath-song-b5e61',
-      appId: '1:420844144157:web:28ca6a38f2e2772038e8f4'
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const database = getDatabase(app);
-    const presenceRef = ref(database, 'presence');
-    const liveUsers = document.getElementById('liveUsers');
-
-    signInAnonymously(auth).then(({ user }) => {
-      const userRef = ref(database, `presence/${user.uid}`);
-      onDisconnect(userRef).remove();
-      return set(userRef, true).then(() => {
-        onValue(presenceRef, (snapshot) => {
-          liveUsers.textContent = `${snapshot.size} live`;
-        }, () => {
-          liveUsers.textContent = 'offline';
-        });
-      });
-    }).catch((error) => {
-      console.error('Firebase presence error:', error);
-      liveUsers.textContent = 'offline';
-    });
-  </script>
+  <script type="module" src="presence.js"></script>
 </body>
 </html>

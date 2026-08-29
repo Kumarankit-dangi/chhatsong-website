@@ -337,9 +337,9 @@
         यादों के वो पुराने सुर
       </div>
 
-      <div class="live-users">
+      <div class="live-users" aria-live="polite">
         <i></i>
-        <span>0 live</span>
+        <span id="liveUsers">0 live</span>
       </div>
     </nav>
 
@@ -658,3 +658,6 @@ if (playlist === "navratri") {
 
 
 </script>
+  <script type="module" src="presence.js"></script>
+</body>
+</html>
