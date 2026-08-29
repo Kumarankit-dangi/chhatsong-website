@@ -7,6 +7,16 @@
   <title>पुराने गीत / 2026</title>
 
   <style>
+    #progressWrap {
+  cursor: pointer;
+  touch-action: none;
+  user-select: none;
+}
+
+#progressWrap .progress {
+  cursor: pointer;
+  touch-action: none;
+}
     * {
       box-sizing: border-box;
     }
@@ -19,19 +29,20 @@
       background: #222;
       overflow-x: hidden;
     }
+.scene {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  overflow: hidden;
+}
+   
 
-    .scene {
-      position: fixed;
-      inset: 0;
-      z-index: -2;
-      overflow: hidden;
-    }
-
-    .scene img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+   .scene img {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  object-position: center center;
+}
 
     .overlay {
       position: absolute;
@@ -344,10 +355,9 @@
           पुराने <em>गीत</em>
         </h1>
 
-        <p class="intro">
-          वो गीत जो पापा के जमाने से आज तक दिल में बसे हैं—
-          पुरानी धुन, पुरानी यादें और वही अपना अंदाज़।
-        </p>
+       <p class="intro">
+  सफ़र पुराना है, मगर हर धुन आज भी दिल के करीब है।
+</p>
 
         <div class="metadata">
           <span class="tag">पुराने नगमे</span>
@@ -537,6 +547,50 @@ console.log("Purane songs:", files);
       ":" +
       String(Math.floor(currentTime % 60)).padStart(2, "0");
   });
+  // ===== SONG PROGRESS: CLICK + MOBILE TOUCH/DRAG =====
+
+const progressWrap = document.getElementById("progressWrap");
+
+function seekSong(clientX) {
+  if (!audio.duration) return;
+
+  const rect = progressWrap.getBoundingClientRect();
+
+  let position = (clientX - rect.left) / rect.width;
+
+  // 0% se 100% ke beech rakho
+  position = Math.max(0, Math.min(1, position));
+
+  audio.currentTime = position * audio.duration;
+}
+
+// Laptop: mouse click
+progressWrap.addEventListener("click", (e) => {
+  seekSong(e.clientX);
+});
+
+// Mobile + laptop: finger/mouse drag
+progressWrap.addEventListener("pointerdown", (e) => {
+  if (!audio.duration) return;
+
+  e.preventDefault();
+
+  progressWrap.setPointerCapture(e.pointerId);
+
+  seekSong(e.clientX);
+});
+
+progressWrap.addEventListener("pointermove", (e) => {
+  if (e.buttons === 1) {
+    seekSong(e.clientX);
+  }
+});
+
+progressWrap.addEventListener("pointerup", (e) => {
+  if (progressWrap.hasPointerCapture(e.pointerId)) {
+    progressWrap.releasePointerCapture(e.pointerId);
+  }
+});
 
   audio.addEventListener("ended", () => {
     loadTrack(current + 1, true);
