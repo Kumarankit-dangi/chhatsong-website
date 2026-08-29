@@ -137,9 +137,7 @@
     <button class="playlist-choice is-active" type="button" data-playlist="bhojpuri" role="menuitem">भोजपुरी</button>
     <button class="playlist-choice" type="button" data-playlist="chhath" role="menuitem">छठ पूजा</button>
     <button class="playlist-choice" type="button" data-playlist="navratri" role="menuitem">नवरात्रि</button>
-    <button class="playlist-choice" data-playlist="purane">
-  पुराने गीत
-</button>
+    <button class="playlist-choice" type="button" data-playlist="purane" role="menuitem"> पुराने गीत</button>
   </div>
 </div>
         
@@ -195,9 +193,10 @@ document.querySelectorAll('.playlist-choice').forEach(function(option) {
     else if (option.dataset.playlist === 'chhath') {
       window.location.href = 'index.html';
     } 
-    else if (option.dataset.playlist === 'navratri') {
-      window.location.href = 'navratri.html';
-    }
+    
+   else if (option.dataset.playlist === 'navratri') {
+  window.location.href = 'index.html?playlist=navratri';
+}
   });
 });
 
