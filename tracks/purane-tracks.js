@@ -169,3 +169,17 @@
     "चर चर दल तर चरयग - Chori Chori Dil Tera  Kumar Sanu  Romantic Songs - 90\u0027s Love Song.mp3",
     "सपरहट गन - Saathiya Bin Tere Dil Mane Na - 90s Sunny Deol Hit  Tabu  Kumar Sanu  Shilpa.mp3"
 ];
+// Papa ke songs hata kar remaining Purane songs
+window.remainingPuraneTrackFiles =
+  window.puraneTrackFiles.filter(
+    file => !file.toLowerCase().includes("90s love song")
+  );
+
+let files = window.remainingPuraneTrackFiles || [];
+
+console.log("PURANE TOTAL:", window.puraneTrackFiles.length);
+console.log("REMAINING TOTAL:", files.length);
+
+let urls = files.map(file =>
+  "tracks/purane/" + encodeURIComponent(file)
+);

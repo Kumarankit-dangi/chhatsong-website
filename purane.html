@@ -483,7 +483,6 @@
   const bar = document.getElementById("bar");
   const time = document.getElementById("time");
   const track = document.getElementById("track");
-
 let files = window.puraneTrackFiles || [];
 
 let urls = files.map(file =>
@@ -492,97 +491,138 @@ let urls = files.map(file =>
 
 let current = 0;
 
-  // PURANE SONGS GITHUB SE AUTOMATICALLY LOAD
-  if (files.length > 0) {
-  loadTrack(0);
-} else {
-  track.textContent = "पुराने गीत जल्द जुड़ेंगे";
-}
+console.log("PURANE TOTAL:", files.length);
+
 console.log("Purane songs:", files);
-  
 
-  function loadTrack(index, shouldPlay = false) {
-    if (!files.length) return;
+function loadTrack(index, shouldPlay = false) {
 
-    current = (index + files.length) % files.length;
+  if (!files.length) return;
 
-    audio.src = urls[current];
+  current = (index + files.length) % files.length;
 
-    track.textContent = files[current].replace(/\.mp3$/i, "");
+  audio.src = urls[current];
 
-    audio.load();
+  track.textContent =
+    files[current].replace(/\.mp3$/i, "");
 
-    if (shouldPlay) {
-      audio.play().catch(error => {
-        console.log("Play error:", error);
-      });
-    }
+  audio.load();
+
+  if (shouldPlay) {
+
+    audio.play().catch(error => {
+      console.log("Play error:", error);
+    });
+
   }
 
-  play.onclick = () => {
-    if (!files.length) return;
-
-    if (audio.paused) {
-      audio.play().catch(error => {
-        console.log("Play error:", error);
-      });
-    } else {
-      audio.pause();
-    }
-  };
-
-  prev.onclick = () => {
-    loadTrack(current - 1, true);
-  };
-
-  next.onclick = () => {
-    loadTrack(current + 1, true);
-  };
-
-  audio.addEventListener("play", () => {
-    play.textContent = "⏸";
-  });
-
-  audio.addEventListener("pause", () => {
-    play.textContent = "▶";
-  });
-
-  audio.addEventListener("timeupdate", () => {
-    const duration = audio.duration || 0;
-    const currentTime = audio.currentTime || 0;
-
-    bar.style.width =
-      duration ? (currentTime / duration * 100) + "%" : "0%";
-
-    time.textContent =
-      String(Math.floor(currentTime / 60)).padStart(2, "0") +
-      ":" +
-      String(Math.floor(currentTime % 60)).padStart(2, "0");
-  });
-  // ===== SONG PROGRESS: CLICK + MOBILE TOUCH/DRAG =====
-
-const progressWrap = document.getElementById("progressWrap");
-
-function seekSong(clientX) {
-  if (!audio.duration) return;
-
-  const rect = progressWrap.getBoundingClientRect();
-
-  let position = (clientX - rect.left) / rect.width;
-
-  // 0% se 100% ke beech rakho
-  position = Math.max(0, Math.min(1, position));
-
-  audio.currentTime = position * audio.duration;
 }
 
-// Laptop: mouse click
-progressWrap.addEventListener("click", (e) => {
-  seekSong(e.clientX);
+
+play.onclick = () => {
+
+  if (!files.length) return;
+
+  if (audio.paused) {
+
+    audio.play().catch(error => {
+      console.log("Play error:", error);
+    });
+
+  } else {
+
+    audio.pause();
+
+  }
+
+};
+
+
+prev.onclick = () => {
+
+  loadTrack(current - 1, true);
+
+};
+
+
+next.onclick = () => {
+
+  loadTrack(current + 1, true);
+
+};
+
+
+audio.addEventListener("play", () => {
+
+  play.textContent = "⏸";
+
 });
 
+
+audio.addEventListener("pause", () => {
+
+  play.textContent = "▶";
+
+});
+
+
+audio.addEventListener("timeupdate", () => {
+
+  const duration = audio.duration || 0;
+
+  const currentTime = audio.currentTime || 0;
+
+  bar.style.width =
+    duration
+      ? (currentTime / duration * 100) + "%"
+      : "0%";
+
+  time.textContent =
+    String(Math.floor(currentTime / 60)).padStart(2, "0") +
+    ":" +
+    String(Math.floor(currentTime % 60)).padStart(2, "0");
+
+});
+
+
+// ===== SONG PROGRESS: CLICK + MOBILE TOUCH/DRAG =====
+
+const progressWrap =
+  document.getElementById("progressWrap");
+
+
+function seekSong(clientX) {
+
+  if (!audio.duration) return;
+
+  const rect =
+    progressWrap.getBoundingClientRect();
+
+  let position =
+    (clientX - rect.left) / rect.width;
+
+  position =
+    Math.max(0, Math.min(1, position));
+
+  audio.currentTime =
+    position * audio.duration;
+
+}
+
+
+// Laptop: mouse click
+
+progressWrap.addEventListener("click", (e) => {
+
+  seekSong(e.clientX);
+
+});
+
+
 // Mobile + laptop: finger/mouse drag
+
 progressWrap.addEventListener("pointerdown", (e) => {
+
   if (!audio.duration) return;
 
   e.preventDefault();
@@ -590,93 +630,143 @@ progressWrap.addEventListener("pointerdown", (e) => {
   progressWrap.setPointerCapture(e.pointerId);
 
   seekSong(e.clientX);
+
 });
+
 
 progressWrap.addEventListener("pointermove", (e) => {
+
   if (e.buttons === 1) {
+
     seekSong(e.clientX);
+
   }
+
 });
+
 
 progressWrap.addEventListener("pointerup", (e) => {
+
   if (progressWrap.hasPointerCapture(e.pointerId)) {
+
     progressWrap.releasePointerCapture(e.pointerId);
+
   }
+
 });
 
-  audio.addEventListener("ended", () => {
-    loadTrack(current + 1, true);
+
+audio.addEventListener("ended", () => {
+
+  loadTrack(current + 1, true);
+
+});
+
+
+// ===== DROPDOWN =====
+
+const playlistSelect =
+  document.getElementById("playlistSelect");
+
+const playlistSwitcher =
+  document.querySelector(".playlist-switcher");
+
+
+playlistSelect.onclick = (e) => {
+
+  e.stopPropagation();
+
+  const isOpen =
+    playlistSwitcher.classList.toggle("is-open");
+
+  playlistSelect.setAttribute(
+    "aria-expanded",
+    isOpen
+  );
+
+};
+
+
+document.querySelectorAll(".playlist-choice")
+  .forEach(option => {
+
+    option.onclick = (e) => {
+
+      e.stopPropagation();
+
+      const playlist =
+        option.dataset.playlist;
+
+
+      if (playlist === "purane") {
+
+        window.location.href = "purane.html";
+
+      }
+
+
+      if (playlist === "chhath") {
+
+        window.location.href = "index.html";
+
+      }
+
+
+      if (playlist === "navratri") {
+
+        window.location.href =
+          "index.html?playlist=navratri";
+
+      }
+
+
+      if (playlist === "bhojpuri") {
+
+        window.location.href = "bhojpuri.html";
+
+      }
+
+
+      if (playlist === "jhadu-pocha") {
+
+        window.location.href =
+          "jhadu-pocha.html";
+
+      }
+
+
+      if (playlist === "papa") {
+
+        window.location.href =
+          "tracks/papa.html";
+
+      }
+
+    };
+
   });
 
 
-  /* DROPDOWN */
+document.addEventListener("click", () => {
 
-  const playlistSelect =
-    document.getElementById("playlistSelect");
+  playlistSwitcher.classList.remove("is-open");
 
-  const playlistSwitcher =
-    document.querySelector(".playlist-switcher");
+  playlistSelect.setAttribute(
+    "aria-expanded",
+    "false"
+  );
 
-  playlistSelect.onclick = (e) => {
-    e.stopPropagation();
-
-    const isOpen =
-      playlistSwitcher.classList.toggle("is-open");
-
-    playlistSelect.setAttribute(
-      "aria-expanded",
-      isOpen
-    );
-  };
-
-  document.querySelectorAll(".playlist-choice")
-    .forEach(option => {
-
-      option.onclick = (e) => {
-        e.stopPropagation();
-
-        const playlist =
-          option.dataset.playlist;
-
-        if (playlist === "purane") {
-          window.location.href = "purane.html";
-        }
-
-        if (playlist === "chhath") {
-          window.location.href = "index.html";
-        }
-if (playlist === "navratri") {
-  window.location.href = "index.html?playlist=navratri";
-}
-
-        if (playlist === "bhojpuri") {
-          window.location.href = "bhojpuri.html";
-        }
-        
-        if (playlist === "jhadu-pocha") {
-          window.location.href = "jhadu-pocha.html";
-        }
-       if (playlist === "papa") {
-  window.location.href = "tracks/papa.html";
-}
-      };
-
-    });
-
-  document.addEventListener("click", () => {
-    playlistSwitcher.classList.remove("is-open");
-
-    playlistSelect.setAttribute(
-      "aria-expanded",
-      "false"
-    );
-  });
+});
 
 
-  // SONGS START LOAD
+// SONGS START LOAD
 
+loadTrack(0);
 
 </script>
-  <script type="module" src="presence.js"></script>
+
+<script type="module" src="presence.js"></script>
+
 </body>
+
 </html>
