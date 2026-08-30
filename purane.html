@@ -483,45 +483,38 @@
   const bar = document.getElementById("bar");
   const time = document.getElementById("time");
   const track = document.getElementById("track");
-let files = window.puraneTrackFiles || [];
+const puraneFiles = window.remainingPuraneTrackFiles || window.puraneTrackFiles || [];
 
-let urls = files.map(file =>
+const tracksurls = puraneFiles.map(file =>
   "tracks/purane/" + encodeURIComponent(file)
 );
 
 let current = 0;
 
-console.log("PURANE TOTAL:", files.length);
-
-console.log("Purane songs:", files);
+console.log("PURANE TOTAL:", puraneFiles.length);
+console.log("Purane songs:", puraneFiles);
 
 function loadTrack(index, shouldPlay = false) {
+  if (!puraneFiles.length) return;
 
-  if (!files.length) return;
+  current = (index + puraneFiles.length) % puraneFiles.length;
 
-  current = (index + files.length) % files.length;
+  audio.src = trackurls[current];
 
-  audio.src = urls[current];
-
-  track.textContent =
-    files[current].replace(/\.mp3$/i, "");
+  track.textContent = puraneFiles[current].replace(/\.mp3$/i, "");
 
   audio.load();
 
   if (shouldPlay) {
-
     audio.play().catch(error => {
       console.log("Play error:", error);
     });
-
   }
-
 }
-
 
 play.onclick = () => {
 
-  if (!files.length) return;
+  if (!puraneFiles.length) return;
 
   if (audio.paused) {
 
