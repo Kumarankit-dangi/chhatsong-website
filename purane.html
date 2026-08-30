@@ -403,6 +403,11 @@
               data-playlist="bhojpuri">
               भोजपुरी
             </button>
+            <button
+              class="playlist-choice"
+              data-playlist="jhadu-pocha">
+              jhadu-pocha
+            </button>
 
           </div>
         </div>
@@ -472,7 +477,8 @@
   const bar = document.getElementById("bar");
   const time = document.getElementById("time");
   const track = document.getElementById("track");
-let files = window.puraneTrackFiles || [];
+  
+let files = window.remainingPuraneTrackFiles || [];
 
 let urls = files.map(file =>
   "tracks/purane/" + encodeURIComponent(file)
@@ -639,6 +645,10 @@ if (playlist === "navratri") {
 
         if (playlist === "bhojpuri") {
           window.location.href = "bhojpuri.html";
+        }
+        
+        if (playlist === "jhadu-pocha") {
+          window.location.href = "jhadu-pocha.html";
         }
       };
 

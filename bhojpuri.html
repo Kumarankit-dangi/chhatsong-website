@@ -137,12 +137,11 @@
     <button class="playlist-choice is-active" type="button" data-playlist="bhojpuri" role="menuitem">भोजपुरी</button>
     <button class="playlist-choice" type="button" data-playlist="chhath" role="menuitem">छठ पूजा</button>
     <button class="playlist-choice" type="button" data-playlist="navratri" role="menuitem">नवरात्रि</button>
-  <a
-  class="playlist-choice"
-  href="./purane.html"
-  role="menuitem">
-  पुराने गीत
-</a>
+    <button class="playlist-choice" type="button" data-playlist="purane" role="menuitem">पुराने</button>
+    <button class="playlist-choice" type="button" data-playlist="jhadu-pocha" role="menuitem">झाड़ू-पोछा 🧹</button>
+    <button class="playlist-choice" type="button" data-playlist="papa" role="menuitem"> 📻पापा के ज़माने के गाने</button>
+
+ 
   </div>
 </div>
         
@@ -206,6 +205,12 @@ else if (option.dataset.playlist ===  'purane'){
   window.location.href = 'purane.html';
 }
 
+    else if (option.dataset.playlist === 'jhadu-pocha'){
+      window.location.href = 'jhadu-pocha.html';
+    }
+    else if (option.dataset.playlist === 'papa'){
+      window.location.href = "tracks/papa.html";
+    }
   });
 });
 

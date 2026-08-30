@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>झाड़ू-पोछा टाइम | Jhaadu Pocha Time</title>
+
+  <meta
+    name="description"
+    content="झाड़ू-पोछा टाइम — घर के काम के साथ अपने पसंदीदा गाने सुनिए।"
+  >
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Tiro+Devanagari+Hindi&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    :root {
+      --cream: #f5e8cf;
+      --gold: #e6b866;
+      --gold-light: #ffd98b;
+      --dark: #100b08;
+      --glass: rgba(18, 12, 9, 0.72);
+      --border: rgba(255, 218, 150, 0.25);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+    }
+
+    body {
+      min-height: 100vh;
+      overflow-x: hidden;
+      background: #100b08;
+      color: var(--cream);
+      font-family: "DM Sans", sans-serif;
+    }
+
+    /* ================= BACKGROUND ================= */
+
+    .background {
+      position: fixed;
+      inset: 0;
+      z-index: -10;
+      overflow: hidden;
+      background: #100b08;
+    }
+
+    .background img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    filter:
+  brightness(0.70)
+  contrast(1.05)
+  saturate(0.90);
+      transform: scale(1.02);
+    }
+
+    .background::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+
+     background:
+  linear-gradient(
+    90deg,
+    rgba(7, 5, 4, 0.72) 0%,
+    rgba(12, 8, 6, 0.48) 38%,
+    rgba(12, 8, 6, 0.18) 70%,
+    rgba(7, 5, 4, 0.45) 100%
+  ),
+  linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.12),
+    rgba(0, 0, 0, 0.42)
+  );
+    }
+
+    /* ================= PAGE ================= */
+
+    main {
+      min-height: 100vh;
+      padding: 28px clamp(18px, 6vw, 85px) 155px;
+
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ================= NAV ================= */
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      font-family: "DM Mono", monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+    }
+
+    .brand {
+      color: #fff0d0;
+      font-family: "DM Sans", sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .nav-note {
+      color: #f3dcaeaa;
+      text-transform: uppercase;
+    }
+
+    .live-users {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+
+      color: #baf2a6;
+    }
+
+    .live-users i {
+      width: 7px;
+      height: 7px;
+
+      border-radius: 50%;
+
+      background: #80e46c;
+      box-shadow: 0 0 10px #80e46c;
+    }
+
+    /* ================= HERO ================= */
+
+    .hero {
+      flex: 1;
+
+      display: flex;
+      align-items: center;
+
+      width: 100%;
+      max-width: 1000px;
+
+      margin: auto;
+      padding: 55px 0 25px;
+    }
+
+    .hero-content {
+      width: min(650px, 100%);
+    }
+
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      color: var(--gold-light);
+
+      font-family: "DM Mono", monospace;
+      font-size: 10px;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+
+      width: 35px;
+      height: 1px;
+
+      background: var(--gold-light);
+    }
+
+    h1 {
+      margin: 20px 0;
+
+      color: #fff0d0;
+
+      font-family: "Tiro Devanagari Hindi", serif;
+      font-size: clamp(4rem, 10vw, 8.5rem);
+      font-weight: 400;
+      line-height: 0.86;
+
+      letter-spacing: -0.06em;
+
+      text-shadow: 0 8px 35px #000;
+    }
+
+    h1 span {
+      display: block;
+
+      margin-top: 13px;
+
+      font-size: 0.48em;
+      letter-spacing: 0;
+    }
+
+    .intro {
+      max-width: 570px;
+
+      margin: 0;
+
+      color: #f3dfbdde;
+
+      font-size: 16px;
+      line-height: 1.75;
+    }
+
+    /* ================= TAGS ================= */
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+
+      gap: 8px;
+
+      margin-top: 25px;
+    }
+
+    .tag {
+      padding: 7px 11px;
+
+      border: 1px solid var(--border);
+      border-radius: 50px;
+
+      background: rgba(55, 34, 22, 0.52);
+
+      color: #f5ddb1;
+
+      font-family: "DM Mono", monospace;
+      font-size: 9px;
+    }
+
+    /* ================= PLAYLIST DROPDOWN ================= */
+
+    .playlist-switcher {
+      position: relative;
+
+      display: inline-flex;
+
+      margin-top: 26px;
+
+      padding: 4px;
+
+      border: 1px solid var(--border);
+      border-radius: 50px;
+
+      background: rgba(45, 27, 18, 0.82);
+    }
+
+    .playlist-select {
+      position: relative;
+
+      min-width: 155px;
+
+      padding: 10px 35px 10px 14px;
+
+      border: 0;
+      border-radius: 50px;
+
+      background: transparent;
+
+      color: #ffe9bf;
+
+      cursor: pointer;
+
+      font-family: "DM Mono", monospace;
+      font-size: 10px;
+
+      text-align: left;
+    }
+
+    .playlist-select::after {
+      content: "▾";
+
+      position: absolute;
+      right: 13px;
+      top: 50%;
+
+      transform: translateY(-50%);
+    }
+
+    .playlist-switcher.is-open
+      .playlist-select::after {
+      content: "▴";
+    }
+
+    .playlist-menu {
+      position: absolute;
+
+      top: calc(100% + 7px);
+      left: 0;
+      right: 0;
+
+      display: none;
+
+      z-index: 50;
+
+      padding: 5px;
+
+      border: 1px solid var(--border);
+      border-radius: 14px;
+
+      background: rgba(22, 14, 10, 0.98);
+
+      box-shadow: 0 15px 40px #000c;
+    }
+
+    .playlist-switcher.is-open
+      .playlist-menu {
+      display: grid;
+      gap: 3px;
+    }
+
+    .playlist-choice {
+      border: 0;
+      border-radius: 9px;
+
+      padding: 9px 10px;
+
+      background: transparent;
+
+      color: #ffe7b9;
+
+      cursor: pointer;
+
+      font-family: "DM Mono", monospace;
+      font-size: 10px;
+
+      text-align: left;
+    }
+
+    .playlist-choice:hover,
+    .playlist-choice.active {
+      background: rgba(255, 215, 140, 0.12);
+      color: white;
+    }
+
+    /* ================= QUOTE ================= */
+
+    .quote-box {
+      width: min(510px, 100%);
+
+      margin-top: 28px;
+
+      padding-left: 15px;
+
+      border-left: 1px solid var(--gold-light);
+    }
+
+    .quote {
+      margin: 0;
+
+      color: #ffedca;
+
+      font-family: "Tiro Devanagari Hindi", serif;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    .quote-small {
+      margin-top: 7px;
+
+      color: #d6aa61;
+
+      font-family: "DM Mono", monospace;
+      font-size: 9px;
+    }
+
+    /* ================= PLAYER ================= */
+
+    .player {
+      position: fixed;
+
+      z-index: 100;
+
+      left: 50%;
+      bottom: 20px;
+
+      transform: translateX(-50%);
+
+      width: min(760px, calc(100% - 26px));
+
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+
+      align-items: center;
+
+      gap: 14px;
+
+      padding: 13px 16px;
+
+      border: 1px solid rgba(255, 218, 150, 0.38);
+      border-radius: 20px;
+
+      background:
+        linear-gradient(
+          105deg,
+          rgba(47, 29, 20, 0.91),
+          rgba(17, 12, 9, 0.90)
+        );
+
+      box-shadow:
+        0 15px 50px #000d,
+        inset 0 1px rgba(255, 238, 195, 0.08);
+
+      backdrop-filter: blur(18px);
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .control {
+      width: 31px;
+      height: 31px;
+
+      border: 0;
+
+      background: transparent;
+
+      color: #fff0d0;
+
+      cursor: pointer;
+
+      font-size: 17px;
+
+      transition: 0.2s;
+    }
+
+    .control:hover {
+      color: #ffd071;
+      transform: scale(1.1);
+    }
+
+    .play {
+      width: 44px;
+      height: 44px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 50%;
+
+      background: #e9b957;
+
+      color: #32180e;
+
+      font-size: 15px;
+
+      box-shadow: 0 3px 18px #e9b95745;
+    }
+
+    .song-info {
+      min-width: 0;
+    }
+
+    .song-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+
+      color: #fff0d0;
+
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    #track {
+      overflow: hidden;
+
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    #time {
+      color: #e7bb67;
+
+      font-family: "DM Mono", monospace;
+      font-size: 9px;
+
+      white-space: nowrap;
+    }
+
+    .progress-wrap {
+      height: 17px;
+
+      display: flex;
+      align-items: center;
+
+      cursor: pointer;
+
+      touch-action: none;
+    }
+
+    .progress {
+      width: 100%;
+      height: 3px;
+
+      overflow: hidden;
+
+      border-radius: 10px;
+
+      background: #e7bd7240;
+    }
+
+    #bar {
+      display: block;
+
+      width: 0%;
+      height: 100%;
+
+      background: #edc465;
+
+      box-shadow: 0 0 8px #edc465;
+    }
+
+    .fm {
+      color: #dfbd7c;
+
+      font-family: "DM Mono", monospace;
+      font-size: 9px;
+
+      white-space: nowrap;
+    }
+
+    /* ================= MOBILE ================= */
+
+    @media (max-width: 700px) {
+
+      main {
+        padding: 20px 15px 145px;
+      }
+
+      .nav-note {
+        display: none;
+      }
+
+      nav {
+        font-size: 9px;
+      }
+
+      .hero {
+        padding-top: 45px;
+      }
+
+      h1 {
+        font-size: clamp(4rem, 20vw, 6rem);
+      }
+
+      .intro {
+        font-size: 14px;
+      }
+
+      .tag {
+        font-size: 8px;
+      }
+
+      .player {
+        bottom: 11px;
+
+        width: calc(100% - 20px);
+
+        padding: 9px 10px;
+
+        gap: 6px;
+      }
+
+      .control {
+        width: 27px;
+      }
+
+      .play {
+        width: 43px;
+        height: 43px;
+      }
+
+      .song-top {
+        font-size: 9px;
+      }
+
+      .fm {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ================= BACKGROUND ================= -->
+
+  <div class="background">
+    <img src="jhadu-pocha-girl.png" alt="">
+  </div>
+
+
+  <main>
+
+    <!-- ================= NAV ================= -->
+
+    <nav>
+
+      <div class="brand">
+        झाड़ू-पोछा टाइम / 2026
+      </div>
+
+      <div class="nav-note">
+        काम भी · म्यूजिक भी
+      </div>
+
+      <div class="live-users" aria-live="polite">
+        <i></i>
+        <span id="liveUsers">0 live</span>
+      </div>
+
+    </nav>
+
+
+    <!-- ================= HERO ================= -->
+
+    <section class="hero">
+
+      <div class="hero-content">
+
+        <div class="eyebrow">
+          CLEAN · PLAY · REPEAT
+        </div>
+
+
+        <h1>
+          झाड़ू
+          <span>पोछा टाइम</span>
+        </h1>
+
+
+        <p class="intro">
+          झाड़ू हाथ में हो, headphones कान में हों
+          और favourite गाना चल रहा हो —
+          फिर घर का काम भी थोड़ा आसान लगने लगता है।
+        </p>
+
+
+        <div class="tags">
+
+          <span class="tag">
+            🧹 सफाई टाइम
+          </span>
+
+          <span class="tag">
+            🎧 HEADPHONES ON
+          </span>
+
+          <span class="tag">
+            🎵 MUSIC ON
+          </span>
+
+        </div>
+
+
+        <!-- ================= PLAYLIST ================= -->
+
+        <div class="playlist-switcher">
+
+          <button
+            id="playlistSelect"
+            class="playlist-select"
+            type="button"
+            aria-expanded="false"
+          >
+            झाड़ू-पोछा
+          </button>
+
+
+          <div
+            class="playlist-menu"
+            id="playlistMenu"
+          >
+
+            <button
+              class="playlist-choice active"
+              data-playlist="jhadu-pocha"
+            >
+              🧹 झाड़ू-पोछा
+            </button>
+
+            <button
+              class="playlist-choice"
+              data-playlist="chhath"
+            >
+              🌅 छठ पूजा
+            </button>
+
+            <button
+              class="playlist-choice"
+              data-playlist="navratri"
+            >
+              🔱 नवरात्रि
+            </button>
+
+            <button
+              class="playlist-choice"
+              data-playlist="bhojpuri"
+            >
+              🎵 भोजपुरी
+            </button>
+
+            <button
+              class="playlist-choice"
+              data-playlist="purane"
+            >
+              📻 पुराने गीत
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- ================= QUOTE ================= -->
+
+        <div class="quote-box">
+
+          <p class="quote">
+           “माँ —पहले झाड़ू-पोछा, फिर फोन! 🧹📱😄”
+          </p>
+
+          <p class="quote-small">
+            — JHAADU POCHA TIME
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- ================= PLAYER ================= -->
+
+  <section
+    class="player"
+    aria-label="Music player"
+  >
+
+    <div class="controls">
+
+      <button
+        class="control"
+        id="prev"
+        aria-label="Previous"
+      >
+        ⏮
+      </button>
+
+      <button
+        class="control play"
+        id="play"
+        aria-label="Play"
+      >
+        ▶
+      </button>
+
+      <button
+        class="control"
+        id="next"
+        aria-label="Next"
+      >
+        ⏭
+      </button>
+
+    </div>
+
+
+    <div class="song-info">
+
+      <div class="song-top">
+
+        <span id="track">
+          Jhaadu-Pocha Time
+        </span>
+
+        <span id="time">
+          00:00
+        </span>
+
+      </div>
+
+
+      <div
+        class="progress-wrap"
+        id="progressWrap"
+      >
+
+        <div class="progress">
+          <i id="bar"></i>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="fm">
+      GHAR FM
+    </div>
+
+  </section>
+
+
+  <audio
+    id="audio"
+    preload="metadata"
+  ></audio>
+
+
+  <!-- ================= JAVASCRIPT ================= -->
+
+  <script>
+
+    /*
+      ==================================================
+      JHAADU-POCHA SONGS
+
+      Abhi songs empty rakhe hain.
+
+      Baad me jab songs add karenge:
+      
+      tracks/jhadu-pocha/
+
+      folder ke andar MP3 rakhenge.
+
+      Example:
+
+      const files = [
+        "song1.mp3",
+        "song2.mp3"
+      ];
+      ==================================================
+    */
+
+    const files = [];
+
+
+    const audio =
+      document.getElementById("audio");
+
+    const play =
+      document.getElementById("play");
+
+    const prev =
+      document.getElementById("prev");
+
+    const next =
+      document.getElementById("next");
+
+    const track =
+      document.getElementById("track");
+
+    const time =
+      document.getElementById("time");
+
+    const bar =
+      document.getElementById("bar");
+
+    const progressWrap =
+      document.getElementById("progressWrap");
+
+
+    let current = 0;
+
+
+    /* ================= LOAD TRACK ================= */
+
+    function loadTrack(
+      index,
+      shouldPlay = false
+    ) {
+
+      if (!files.length) {
+
+        track.textContent =
+          "Jhaadu-Pocha Time";
+
+        return;
+      }
+
+
+      current =
+        (index + files.length) %
+        files.length;
+
+
+      audio.src =
+        "https://raw.githubusercontent.com/Kumarankit-dangi/chhatsong-website/main/tracks/jhadu-pocha/" +
+        encodeURIComponent(files[current]);
+
+
+      track.textContent =
+        files[current]
+          .replace(/\.mp3$/i, "");
+
+
+      audio.load();
+
+
+      if (shouldPlay) {
+
+        audio.play()
+          .catch(() => {});
+
+      }
+
+    }
+
+
+    /* ================= PLAY ================= */
+
+    play.onclick = () => {
+
+      if (!files.length) {
+
+        track.textContent =
+          "Songs folder me add karne hain";
+
+        return;
+      }
+
+
+      if (audio.paused) {
+
+        audio.play();
+
+      } else {
+
+        audio.pause();
+
+      }
+
+    };
+
+
+    /* ================= PREVIOUS ================= */
+
+    prev.onclick = () => {
+
+      loadTrack(
+        current - 1,
+        true
+      );
+
+    };
+
+
+    /* ================= NEXT ================= */
+
+    next.onclick = () => {
+
+      loadTrack(
+        current + 1,
+        true
+      );
+
+    };
+
+
+    /* ================= PLAY STATE ================= */
+
+    audio.addEventListener(
+      "play",
+      () => {
+
+        play.textContent = "⏸";
+
+      }
+    );
+
+
+    audio.addEventListener(
+      "pause",
+      () => {
+
+        play.textContent = "▶";
+
+      }
+    );
+
+
+    /* ================= AUTO NEXT ================= */
+
+    audio.addEventListener(
+      "ended",
+      () => {
+
+        loadTrack(
+          current + 1,
+          true
+        );
+
+      }
+    );
+
+
+    /* ================= PROGRESS ================= */
+
+    audio.addEventListener(
+      "timeupdate",
+      () => {
+
+        const duration =
+          audio.duration || 0;
+
+        const currentTime =
+          audio.currentTime || 0;
+
+
+        if (duration) {
+
+          bar.style.width =
+            (currentTime / duration * 100) +
+            "%";
+
+        } else {
+
+          bar.style.width = "0%";
+
+        }
+
+
+        time.textContent =
+          String(
+            Math.floor(currentTime / 60)
+          ).padStart(2, "0") +
+          ":" +
+          String(
+            Math.floor(currentTime % 60)
+          ).padStart(2, "0");
+
+      }
+    );
+
+
+    /* ================= SEEK ================= */
+
+    function seekSong(clientX) {
+
+      if (!audio.duration) return;
+
+
+      const rect =
+        progressWrap.getBoundingClientRect();
+
+
+      let position =
+        (clientX - rect.left) /
+        rect.width;
+
+
+      position =
+        Math.max(
+          0,
+          Math.min(1, position)
+        );
+
+
+      audio.currentTime =
+        position * audio.duration;
+
+    }
+
+
+    progressWrap.addEventListener(
+      "click",
+      (event) => {
+
+        seekSong(event.clientX);
+
+      }
+    );
+
+
+    progressWrap.addEventListener(
+      "pointerdown",
+      (event) => {
+
+        if (!audio.duration) return;
+
+
+        event.preventDefault();
+
+
+        progressWrap.setPointerCapture(
+          event.pointerId
+        );
+
+
+        seekSong(event.clientX);
+
+      }
+    );
+
+
+    progressWrap.addEventListener(
+      "pointermove",
+      (event) => {
+
+        if (event.buttons === 1) {
+
+          seekSong(event.clientX);
+
+        }
+
+      }
+    );
+
+
+    progressWrap.addEventListener(
+      "pointerup",
+      (event) => {
+
+        if (
+          progressWrap.hasPointerCapture(
+            event.pointerId
+          )
+        ) {
+
+          progressWrap.releasePointerCapture(
+            event.pointerId
+          );
+
+        }
+
+      }
+    );
+
+
+    /* ================= DROPDOWN ================= */
+
+    const playlistSelect =
+      document.getElementById(
+        "playlistSelect"
+      );
+
+
+    const playlistSwitcher =
+      document.querySelector(
+        ".playlist-switcher"
+      );
+
+
+    playlistSelect.onclick =
+      (event) => {
+
+        event.stopPropagation();
+
+
+        const isOpen =
+          playlistSwitcher.classList.toggle(
+            "is-open"
+          );
+
+
+        playlistSelect.setAttribute(
+          "aria-expanded",
+          String(isOpen)
+        );
+
+      };
+
+
+    document
+      .querySelectorAll(
+        ".playlist-choice"
+      )
+      .forEach(
+        (option) => {
+
+          option.onclick =
+            (event) => {
+
+              event.stopPropagation();
+
+
+              const playlist =
+                option.dataset.playlist;
+
+
+              if (
+                playlist === "chhath"
+              ) {
+
+                window.location.href =
+                  "index.html";
+
+              }
+
+
+              if (
+                playlist === "navratri"
+              ) {
+
+                window.location.href =
+                  "index.html?playlist=navratri";
+
+              }
+
+
+              if (
+                playlist === "bhojpuri"
+              ) {
+
+                window.location.href =
+                  "bhojpuri.html";
+
+              }
+
+
+              if (
+                playlist === "purane"
+              ) {
+
+                window.location.href =
+                  "purane.html";
+
+              }
+
+
+              if (
+                playlist === "jhadu-pocha"
+              ) {
+
+                playlistSwitcher
+                  .classList
+                  .remove("is-open");
+
+              }
+
+            };
+
+        }
+      );
+
+
+    document.addEventListener(
+      "click",
+      () => {
+
+        playlistSwitcher
+          .classList
+          .remove("is-open");
+
+
+        playlistSelect.setAttribute(
+          "aria-expanded",
+          "false"
+        );
+
+      }
+    );
+
+
+    /* INITIAL */
+
+    loadTrack(0);
+
+  </script>
+
+
+  <!-- SAME FIREBASE LIVE USER SYSTEM -->
+
+  <script
+    type="module"
+    src="presence.js"
+  ></script>
+
+
+</body>
+</html>
