@@ -406,7 +406,13 @@
             <button
               class="playlist-choice"
               data-playlist="jhadu-pocha">
-              jhadu-pocha
+              झाड़ू-पोछा🧹
+      
+            </button>
+             <button
+              class="playlist-choice"
+              data-playlist="papa">
+              📻पापा के ज़माने के गाने 
             </button>
 
           </div>
@@ -477,7 +483,7 @@
   const bar = document.getElementById("bar");
   const time = document.getElementById("time");
   const track = document.getElementById("track");
-  
+
 let files = window.remainingPuraneTrackFiles || [];
 
 let urls = files.map(file =>
@@ -650,6 +656,9 @@ if (playlist === "navratri") {
         if (playlist === "jhadu-pocha") {
           window.location.href = "jhadu-pocha.html";
         }
+       if (playlist === "papa") {
+  window.location.href = "tracks/papa.html";
+}
       };
 
     });

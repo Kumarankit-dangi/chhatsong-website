@@ -597,6 +597,18 @@
         display: none;
       }
     }
+    /* ================= PLAYLIST MENU ================= */
+
+.playlist-menu {
+  position: absolute;
+  top: 100%;
+  bottom: auto;
+  left: 0;
+  z-index: 9999;
+
+  max-height: 300px;
+  overflow-y: auto;
+}
   </style>
 </head>
 
@@ -724,6 +736,13 @@
               data-playlist="purane"
             >
               📻 पुराने गीत
+            </button>
+            
+            <button
+              class="playlist-choice"
+              data-playlist="papa"
+            >
+             📻पापा के ज़माने के गाने
             </button>
 
           </div>
@@ -1239,7 +1258,9 @@
                   "purane.html";
 
               }
-
+            if (playlist === "papa") {
+  window.location.href = "tracks/papa.html";
+}
 
               if (
                 playlist === "jhadu-pocha"
