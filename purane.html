@@ -471,8 +471,7 @@
     </div>
 
   </section>
-
-  <audio id="audio" preload="metadata"></audio>
+<audio id="audio" preload="auto" playsinline></audio>
   <script src="tracks/purane-tracks.js"></script>
 
 <script>
@@ -489,17 +488,14 @@ const tracksurls = puraneFiles.map(file =>
   "tracks/purane/" + encodeURIComponent(file)
 );
 
-let current = 0;
-
-console.log("PURANE TOTAL:", puraneFiles.length);
-console.log("Purane songs:", puraneFiles);
-
 function loadTrack(index, shouldPlay = false) {
+
   if (!puraneFiles.length) return;
 
-  current = (index + puraneFiles.length) % puraneFiles.length;
+  current =
+    (index + puraneFiles.length) % puraneFiles.length;
 
-  audio.src = trackurls[current];
+  audio.src = tracksurls[current];
 
   track.textContent = puraneFiles[current].replace(/\.mp3$/i, "");
 
@@ -511,7 +507,6 @@ function loadTrack(index, shouldPlay = false) {
     });
   }
 }
-
 play.onclick = () => {
 
   if (!puraneFiles.length) return;
