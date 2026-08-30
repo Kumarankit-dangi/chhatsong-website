@@ -484,7 +484,7 @@
   const time = document.getElementById("time");
   const track = document.getElementById("track");
 
-let files = window.remainingPuraneTrackFiles || [];
+let files = window.puraneTrackFiles || [];
 
 let urls = files.map(file =>
   "tracks/purane/" + encodeURIComponent(file)
