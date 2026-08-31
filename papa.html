@@ -1,20 +1,15 @@
 <!DOCTYPE html>
 <html lang="hi">
-
 <head>
   <meta charset="UTF-8">
-
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
   <title>पापा के ज़माने के गीत</title>
 
   <style>
-
-    /* =====================================================
+    /* =========================
        RESET
-    ===================================================== */
-
+    ========================== */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -29,164 +24,118 @@
 
     body {
       min-height: 100vh;
-
       color: #fff;
-
-      font-family:
-        Arial,
-        "Noto Sans Devanagari",
-        sans-serif;
-
+      font-family: Arial, "Noto Sans Devanagari", sans-serif;
       background: #17130f;
-
       overflow-x: hidden;
     }
 
+    button {
+      font: inherit;
+    }
 
-    /* =====================================================
+    /* =========================
        BACKGROUND
-    ===================================================== */
-
+       IMPORTANT:
+       - Desktop: cover
+       - Mobile: contain, so the
+         COMPLETE image remains visible
+    ========================== */
     .scene {
       position: fixed;
-
       inset: 0;
-
       width: 100%;
       height: 100%;
-
       z-index: -2;
-
       overflow: hidden;
-
       background: #17130f;
     }
 
     .scene img {
+      position: absolute;
+      inset: 0;
       width: 100%;
       height: 100%;
-
       display: block;
-
       object-fit: cover;
-
       object-position: center center;
     }
 
     .overlay {
       position: absolute;
-
       inset: 0;
-
-      background:
-        linear-gradient(
-          rgba(0,0,0,.18),
-          rgba(0,0,0,.35)
-        ),
-        url("../papa-chai.png");
+      background: linear-gradient(
+        rgba(0, 0, 0, 0.18),
+        rgba(0, 0, 0, 0.42)
+      );
     }
 
-
-    /* =====================================================
+    /* =========================
        MAIN
-    ===================================================== */
-
+    ========================== */
     main {
-      width: min(1150px, 92%);
-
+      width: min(1150px, calc(100% - 40px));
       margin: 0 auto;
     }
 
-
-    /* =====================================================
+    /* =========================
        NAVBAR
-    ===================================================== */
-
+    ========================== */
     nav {
       min-height: 90px;
-
       display: flex;
-
       align-items: center;
-
       justify-content: space-between;
-
       gap: 20px;
     }
 
     .brand {
       font-size: 22px;
-
       font-weight: 700;
-
       white-space: nowrap;
     }
 
     .nav-note {
       font-size: 14px;
-
-      opacity: .85;
-
+      opacity: 0.85;
       text-align: center;
     }
 
-
-    /* =====================================================
+    /* =========================
        LIVE USERS
-    ===================================================== */
-
+    ========================== */
     .live-users {
       display: flex;
-
       align-items: center;
-
       gap: 7px;
-
       font-size: 14px;
-
       white-space: nowrap;
-
-      opacity: .95;
+      opacity: 0.95;
     }
 
     .live-users i {
       width: 9px;
       height: 9px;
-
       display: block;
-
+      flex-shrink: 0;
       border-radius: 50%;
-
       background: #777;
-
-      transition:
-        background .2s ease,
-        box-shadow .2s ease;
+      transition: background 0.2s ease, box-shadow 0.2s ease;
     }
 
     .live-users.is-active i {
       background: #00ff66;
-
-      box-shadow:
-        0 0 8px #00ff66;
+      box-shadow: 0 0 8px #00ff66;
     }
 
-
-    /* =====================================================
+    /* =========================
        HERO
-    ===================================================== */
-
+    ========================== */
     .hero {
-      min-height:
-        calc(100vh - 90px);
-
+      min-height: calc(100vh - 90px);
       display: flex;
-
       align-items: center;
-
-      padding:
-        30px 0
-        180px;
+      padding: 30px 0 180px;
     }
 
     .hero-content {
@@ -195,521 +144,375 @@
 
     .eyebrow {
       font-size: 15px;
-
       letter-spacing: 1px;
-
-      opacity: .9;
-
+      opacity: 0.9;
       margin-bottom: 16px;
     }
 
     h1 {
       margin: 0;
-
       max-width: 850px;
-
-      font-size:
-        clamp(50px, 8vw, 92px);
-
-      line-height: .95;
+      font-size: clamp(50px, 8vw, 92px);
+      line-height: 0.95;
     }
 
     h1 em {
       display: block;
-
       font-style: normal;
-
-      opacity: .95;
+      opacity: 0.95;
     }
 
     .intro {
       max-width: 700px;
-
       margin: 25px 0;
-
       font-size: 18px;
-
       line-height: 1.7;
-
-      opacity: .92;
+      opacity: 0.92;
     }
 
-
-    /* =====================================================
+    /* =========================
        TAGS
-    ===================================================== */
-
+    ========================== */
     .metadata {
       display: flex;
-
       flex-wrap: wrap;
-
       gap: 9px;
-
       margin-bottom: 25px;
     }
 
     .tag {
-      padding:
-        9px 14px;
-
-      border:
-        1px solid
-        rgba(255,255,255,.30);
-
+      padding: 9px 14px;
+      border: 1px solid rgba(255, 255, 255, 0.30);
       border-radius: 999px;
-
-      background:
-        rgba(0,0,0,.18);
-
+      background: rgba(0, 0, 0, 0.18);
       font-size: 13px;
-
       backdrop-filter: blur(5px);
     }
 
-
-    /* =====================================================
+    /* =========================
        PLAYLIST DROPDOWN
-    ===================================================== */
-
+    ========================== */
     .playlist-switcher {
       position: relative;
-
       display: inline-block;
-
       margin-top: 8px;
     }
 
     .playlist-option {
-      width: 150px;
-
+      width: 220px;
       min-height: 45px;
-
-      padding:
-        8px 15px;
-
-      border:
-        1px solid
-        rgba(255,255,255,.35);
-
+      padding: 8px 15px;
+      border: 1px solid rgba(255, 255, 255, 0.35);
       border-radius: 999px;
-
-      background:
-        rgba(30,30,30,.42);
-
+      background: rgba(30, 30, 30, 0.42);
       color: #fff;
-
       cursor: pointer;
-
       font-size: 14px;
-
       backdrop-filter: blur(8px);
     }
 
     .playlist-menu {
       display: none;
-
       position: absolute;
-
       left: 0;
-
-      top:
-        calc(100% + 8px);
-
-      width: 180px;
-
+      top: calc(100% + 8px);
+      width: 220px;
+      max-width: calc(100vw - 40px);
       padding: 7px;
-
       border-radius: 14px;
-
-      background:
-        rgba(20,20,20,.96);
-
-      border:
-        1px solid
-        rgba(255,255,255,.20);
-
+      background: rgba(20, 20, 20, 0.96);
+      border: 1px solid rgba(255, 255, 255, 0.20);
       z-index: 1000;
     }
 
-    .playlist-switcher.is-open
-    .playlist-menu {
+    .playlist-switcher.is-open .playlist-menu {
       display: grid;
-
       gap: 3px;
     }
 
     .playlist-choice {
       width: 100%;
-
       border: 0;
-
       background: transparent;
-
       color: #fff;
-
-      padding:
-        10px 12px;
-
+      padding: 10px 12px;
       border-radius: 9px;
-
       text-align: left;
-
       font-size: 13px;
-
       cursor: pointer;
     }
 
     .playlist-choice:hover,
     .playlist-choice.is-active {
-      background:
-        rgba(255,255,255,.12);
+      background: rgba(255, 255, 255, 0.12);
     }
 
-
-    /* =====================================================
+    /* =========================
        QUOTE
-    ===================================================== */
-
+    ========================== */
     .quote-box {
       max-width: 600px;
-
       margin-top: 38px;
-
-      padding:
-        18px 20px;
-
-      border-left:
-        2px solid
-        rgba(255,255,255,.65);
-
-      background:
-        rgba(0,0,0,.10);
+      padding: 18px 20px;
+      border-left: 2px solid rgba(255, 255, 255, 0.65);
+      background: rgba(0, 0, 0, 0.10);
     }
 
     .quote {
       margin-bottom: 8px;
-
       font-size: 20px;
-
       line-height: 1.5;
     }
 
     .quote-author {
       font-size: 13px;
-
-      opacity: .7;
+      opacity: 0.7;
     }
 
-
-    /* =====================================================
+    /* =========================
        PLAYER
-       SAME HORIZONTAL DESIGN ON PC + MOBILE
-    ===================================================== */
-
+    ========================== */
     .offer {
       position: fixed;
-
       left: 50%;
-
-      bottom: 22px;
-
-      transform:
-        translateX(-50%);
-
-      width:
-        min(1000px, calc(100% - 32px));
-
+      bottom: max(22px, env(safe-area-inset-bottom));
+      transform: translateX(-50%);
+      width: min(1000px, calc(100% - 32px));
       min-height: 72px;
-
-      padding:
-        10px 16px;
-
+      padding: 10px 16px;
       display: flex;
-
       align-items: center;
-
       gap: 15px;
-
-      border:
-        1px solid
-        rgba(255,255,255,.22);
-
+      border: 1px solid rgba(255, 255, 255, 0.22);
       border-radius: 20px;
-
-      background:
-        rgba(20,20,20,.78);
-
-      backdrop-filter:
-        blur(16px);
-
-      box-shadow:
-        0 15px 50px
-        rgba(0,0,0,.35);
-
+      background: rgba(20, 20, 20, 0.78);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.35);
       z-index: 5000;
     }
 
-
-    /* =====================================================
+    /* =========================
        CONTROLS
-    ===================================================== */
-
+    ========================== */
     .transport {
       flex-shrink: 0;
-
       display: flex;
-
       align-items: center;
-
       gap: 8px;
     }
 
     .control {
       width: 40px;
       height: 40px;
-
       flex-shrink: 0;
-
-      border:
-        1px solid
-        rgba(255,255,255,.22);
-
+      border: 1px solid rgba(255, 255, 255, 0.22);
       border-radius: 50%;
-
-      background:
-        rgba(255,255,255,.08);
-
+      background: rgba(255, 255, 255, 0.08);
       color: #fff;
-
       cursor: pointer;
-
       font-size: 17px;
-
       display: flex;
-
       align-items: center;
-
       justify-content: center;
-
-      transition:
-        transform .15s ease,
-        background .15s ease;
+      transition: transform 0.15s ease, background 0.15s ease;
+      -webkit-tap-highlight-color: transparent;
     }
 
     .control:hover {
-      background:
-        rgba(255,255,255,.18);
-
+      background: rgba(255, 255, 255, 0.18);
       transform: scale(1.05);
+    }
+
+    .control:active {
+      transform: scale(0.96);
     }
 
     .main-control {
       width: 48px;
       height: 48px;
-
       font-size: 21px;
-
-      background:
-        rgba(255,255,255,.16);
+      background: rgba(255, 255, 255, 0.16);
     }
 
-
-    /* =====================================================
+    /* =========================
        SONG AREA
-    ===================================================== */
-
+    ========================== */
     .song {
       flex: 1;
-
       min-width: 0;
     }
 
     .song-line {
       width: 100%;
-
       display: flex;
-
       align-items: center;
-
       gap: 10px;
+      min-width: 0;
     }
 
     #track {
       flex: 1;
-
       min-width: 0;
-
       overflow: hidden;
-
       white-space: nowrap;
-
       text-overflow: ellipsis;
-
       font-size: 14px;
-
       font-weight: 600;
     }
 
     #time {
       flex-shrink: 0;
-
       min-width: 42px;
-
       text-align: right;
-
       font-size: 13px;
-
-      opacity: .9;
+      opacity: 0.9;
     }
 
-
-    /* =====================================================
+    /* =========================
        PLAY STATE
-    ===================================================== */
-
+    ========================== */
     .play-state {
       flex-shrink: 0;
-
       display: flex;
-
       align-items: center;
-
       gap: 6px;
-
       font-size: 12px;
-
       white-space: nowrap;
-
-      opacity: .8;
+      opacity: 0.8;
     }
 
     .play-state-dot {
       width: 7px;
       height: 7px;
-
       border-radius: 50%;
-
       background: #777;
-
-      transition:
-        background .2s ease,
-        box-shadow .2s ease;
+      transition: background 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .play-state.is-playing
-    .play-state-dot {
+    .play-state.is-playing .play-state-dot {
       background: #00ff66;
-
-      box-shadow:
-        0 0 7px #00ff66;
+      box-shadow: 0 0 7px #00ff66;
     }
 
-
-    /* =====================================================
+    /* =========================
        PROGRESS
-    ===================================================== */
-
+    ========================== */
     .progress-wrap {
       width: 100%;
-
-      height: 6px;
-
+      height: 7px;
       margin-top: 7px;
-
       border-radius: 20px;
-
-      background:
-        rgba(255,255,255,.18);
-
+      background: rgba(255, 255, 255, 0.18);
       cursor: pointer;
-
       overflow: hidden;
-
       touch-action: none;
-
       user-select: none;
     }
 
     .progress {
       width: 100%;
       height: 100%;
-
       position: relative;
     }
 
     .progress i {
       display: block;
-
       width: 0%;
-
       height: 100%;
-
       border-radius: inherit;
-
       background: #fff;
     }
 
-
-    /* =====================================================
+    /* =========================
        SIDE TEXT
-    ===================================================== */
-
+    ========================== */
     .side-controls {
       flex-shrink: 0;
-
       min-width: 75px;
-
       text-align: right;
     }
 
     .volume {
       font-size: 12px;
-
-      opacity: .75;
-
+      opacity: 0.75;
       white-space: nowrap;
     }
 
-
-    /* =====================================================
-       MOBILE
-       SAME HORIZONTAL PLAYER
-    ===================================================== */
-
-    @media (max-width: 700px) {
-
-      body {
-        min-height: 100svh;
+    /* =========================
+       TABLET
+    ========================== */
+    @media (max-width: 800px) {
+      main {
+        width: calc(100% - 32px);
       }
 
-      .scene img {
-        object-fit: cover;
+      nav {
+        min-height: 76px;
+      }
 
-        object-position:
-          center center;
+      .nav-note {
+        display: none;
+      }
+
+      .hero {
+        min-height: calc(100vh - 76px);
+        padding-top: 45px;
+      }
+
+      h1 {
+        font-size: clamp(48px, 11vw, 76px);
+      }
+
+      .offer {
+        width: calc(100% - 24px);
+      }
+
+      .play-state {
+        display: none;
+      }
+    }
+
+    /* =========================
+   MOBILE
+   COMPLETE BACKGROUND IMAGE
+========================= */
+
+@media (max-width: 500px) {
+
+  body {
+    min-height: 100svh;
+  }
+
+  .scene img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+    object-position: center center;
+   background: #e8dccb;
+  }
+
+}
+
+      .overlay {
+        background: linear-gradient(
+          rgba(0, 0, 0, 0.10),
+          rgba(0, 0, 0, 0.38)
+        );
       }
 
       main {
-        width:
-          calc(100% - 28px);
+        width: calc(100% - 28px);
       }
 
-
-      /* NAV */
-
       nav {
-        min-height: 70px;
-
+        min-height: 68px;
         gap: 8px;
       }
 
       .brand {
         font-size: 17px;
-      }
-
-      .nav-note {
-        display: none;
       }
 
       .live-users {
@@ -721,80 +524,54 @@
         height: 8px;
       }
 
-
-      /* HERO */
-
       .hero {
-        min-height:
-          calc(100svh - 70px);
-
+        min-height: calc(100svh - 68px);
         align-items: flex-start;
-
-        padding:
-          65px 0 145px;
+        padding: 48px 0 145px;
       }
 
       .eyebrow {
         font-size: 13px;
-
         margin-bottom: 13px;
       }
 
       h1 {
-        font-size:
-          clamp(43px, 13vw, 64px);
-
-        line-height: .98;
+        max-width: 100%;
+        font-size: clamp(42px, 14vw, 64px);
+        line-height: 0.98;
       }
 
       .intro {
         max-width: 100%;
-
-        margin:
-          20px 0;
-
+        margin: 20px 0;
         font-size: 15px;
-
         line-height: 1.6;
       }
 
-
-      /* TAGS */
-
       .metadata {
         gap: 7px;
-
         margin-bottom: 20px;
       }
 
       .tag {
-        padding:
-          8px 12px;
-
+        padding: 8px 11px;
         font-size: 11px;
       }
 
-
-      /* DROPDOWN */
-
       .playlist-option {
-        width: 145px;
-
+        width: min(220px, calc(100vw - 28px));
         min-height: 43px;
-
         font-size: 13px;
       }
 
-
-      /* QUOTE */
+      .playlist-menu {
+        width: min(220px, calc(100vw - 28px));
+      }
 
       .quote-box {
         max-width: 100%;
-
         margin-top: 30px;
-
-        padding:
-          16px;
+        padding: 16px;
       }
 
       .quote {
@@ -805,58 +582,35 @@
         font-size: 12px;
       }
 
-
-      /* =================================================
-         PLAYER
-         STILL HORIZONTAL
-      ================================================= */
-
+      /* Mobile player remains horizontal,
+         but every part can shrink safely. */
       .offer {
-        width:
-          calc(100% - 20px);
-
-        bottom: 10px;
-
-        min-height: 64px;
-
-        padding:
-          8px 10px;
-
-        gap: 8px;
-
-        border-radius: 18px;
+        width: calc(100% - 16px);
+        bottom: max(8px, env(safe-area-inset-bottom));
+        min-height: 62px;
+        padding: 7px 8px;
+        gap: 7px;
+        border-radius: 17px;
       }
 
-
-      /* CONTROLS */
-
       .transport {
-        gap: 5px;
+        gap: 4px;
       }
 
       .control {
         width: 34px;
         height: 34px;
-
         font-size: 14px;
       }
 
       .main-control {
         width: 42px;
         height: 42px;
-
         font-size: 18px;
       }
 
-
-      /* SONG */
-
-      .song {
-        min-width: 0;
-      }
-
       .song-line {
-        gap: 6px;
+        gap: 5px;
       }
 
       #track {
@@ -864,67 +618,63 @@
       }
 
       #time {
-        min-width: 36px;
-
+        min-width: 35px;
         font-size: 11px;
       }
-
-
-      /* STATUS */
 
       .play-state {
         display: none;
       }
 
-
-      /* PROGRESS */
-
       .progress-wrap {
         height: 5px;
-
         margin-top: 6px;
       }
-
-
-      /* OLD SURS */
 
       .side-controls {
         min-width: auto;
       }
 
       .volume {
-        font-size: 10px;
+        display: none;
       }
     }
 
-
-    /* =====================================================
+    /* =========================
        VERY SMALL PHONES
-    ===================================================== */
-
+    ========================== */
     @media (max-width: 380px) {
+      main {
+        width: calc(100% - 22px);
+      }
+
+      .brand {
+        font-size: 15px;
+      }
+
+      .live-users {
+        font-size: 10px;
+      }
+
+      .hero {
+        padding-top: 38px;
+      }
 
       .offer {
-        width:
-          calc(100% - 12px);
-
-        padding:
-          7px 8px;
-
-        gap: 6px;
+        width: calc(100% - 10px);
+        padding: 6px;
+        gap: 5px;
       }
 
       .control {
         width: 31px;
         height: 31px;
-
         font-size: 13px;
       }
 
       .main-control {
         width: 38px;
         height: 38px;
-
         font-size: 17px;
       }
 
@@ -934,48 +684,32 @@
 
       #time {
         font-size: 10px;
-
-        min-width: 33px;
-      }
-
-      .volume {
-        display: none;
+        min-width: 32px;
       }
     }
-
   </style>
 </head>
 
-
 <body>
 
-
-  <!-- ===================================================
+  <!-- =========================
        BACKGROUND IMAGE
-  ==================================================== -->
-
+  ========================== -->
   <div class="scene">
-
     <img
-      src="papa-chai.png"
+      src="./papa-chai.png"
       alt="पापा के ज़माने की यादें"
     >
-
     <div class="overlay"></div>
-
   </div>
 
-
-  <!-- ===================================================
+  <!-- =========================
        MAIN CONTENT
-  ==================================================== -->
-
+  ========================== -->
   <main>
 
     <!-- NAV -->
-
     <nav>
-
       <div class="brand">
         पुराने गीत / 2026
       </div>
@@ -987,136 +721,113 @@
       <div
         class="live-users"
         id="liveUsersBox"
-        aria-live="polite">
-
+        aria-live="polite"
+      >
         <i></i>
-
-        <span id="liveUsers">
-          0 live
-        </span>
-
+        <span id="liveUsers">0 live</span>
       </div>
-
     </nav>
 
-
     <!-- HERO -->
-
     <section class="hero">
-
       <div class="hero-content">
 
         <div class="eyebrow">
           पापा के ज़माने के गीत
         </div>
 
-
         <h1>
           वो पुराने <em>सुर</em>
         </h1>
-
 
         <p class="intro">
           वो गीत जो पापा के ज़माने की याद दिला दें —
           चाय की चुस्की, पुराना रेडियो और वो सुनहरे दिन।
         </p>
 
-
         <!-- TAGS -->
-
         <div class="metadata">
-
-          <span class="tag">
-            पुराने नगमे
-          </span>
-
-          <span class="tag">
-            यादें · संगीत · सफर
-          </span>
-
-          <span class="tag">
-            दिल से सुनिए
-          </span>
-
+          <span class="tag">पुराने नगमे</span>
+          <span class="tag">यादें · संगीत · सफर</span>
+          <span class="tag">दिल से सुनिए</span>
         </div>
 
-
         <!-- DROPDOWN -->
-
-        <div class="playlist-switcher">
+        <div class="playlist-switcher" id="playlistSwitcher">
 
           <button
             class="playlist-option"
             id="playlistSelect"
             type="button"
-            aria-expanded="false">
-
+            aria-expanded="false"
+            aria-haspopup="true"
+          >
             🎵 पापा के ज़माने के गीत ▾
-
           </button>
-
 
           <div
             class="playlist-menu"
-            id="playlistMenu">
-
+            id="playlistMenu"
+            role="menu"
+          >
             <button
               class="playlist-choice is-active"
-              data-playlist="papa">
-
+              data-playlist="papa"
+              type="button"
+              role="menuitem"
+            >
               📻 पापा के ज़माने के गाने
-
             </button>
 
             <button
               class="playlist-choice"
-              data-playlist="purane">
-
+              data-playlist="purane"
+              type="button"
+              role="menuitem"
+            >
               पुराने गीत
-
             </button>
 
             <button
               class="playlist-choice"
-              data-playlist="chhath">
-
+              data-playlist="chhath"
+              type="button"
+              role="menuitem"
+            >
               छठ पूजा
-
             </button>
 
             <button
               class="playlist-choice"
-              data-playlist="navratri">
-
+              data-playlist="navratri"
+              type="button"
+              role="menuitem"
+            >
               नवरात्रि
-
             </button>
 
             <button
               class="playlist-choice"
-              data-playlist="bhojpuri">
-
+              data-playlist="bhojpuri"
+              type="button"
+              role="menuitem"
+            >
               भोजपुरी
-
             </button>
 
             <button
               class="playlist-choice"
-              data-playlist="jhadu-pocha">
-
+              data-playlist="jhadu-pocha"
+              type="button"
+              role="menuitem"
+            >
               झाड़ू-पोछा 🧹
-
             </button>
-
           </div>
-
         </div>
 
-
         <!-- QUOTE -->
-
         <div class="quote-box">
-
           <p class="quote">
             “पुराने गीतों में आज भी पुरानी यादें जिंदा हैं।”
           </p>
@@ -1124,780 +835,574 @@
           <p class="quote-author">
             — एक पुरानी याद
           </p>
-
         </div>
 
       </div>
-
     </section>
-
   </main>
 
-
-  <!-- ===================================================
+  <!-- =========================
        PLAYER
-  ==================================================== -->
-
-  <section class="offer">
-
-
-    <!-- PREV / PLAY / NEXT -->
+  ========================== -->
+  <section class="offer" aria-label="Music player">
 
     <div class="transport">
-
       <button
         class="control"
         id="prev"
         type="button"
-        aria-label="पिछला गीत">
-
+        aria-label="पिछला गीत"
+      >
         ⏮
-
       </button>
-
 
       <button
         class="control main-control"
         id="play"
         type="button"
         aria-label="गीत चलाएँ"
-        aria-pressed="false">
-
+        aria-pressed="false"
+      >
         ▶
-
       </button>
-
 
       <button
         class="control"
         id="next"
         type="button"
-        aria-label="अगला गीत">
-
+        aria-label="अगला गीत"
+      >
         ⏭
-
       </button>
-
     </div>
 
-
-    <!-- SONG -->
-
     <div class="song">
-
       <div class="song-line">
+        <span id="track">गीत लोड हो रहा है...</span>
 
-        <span
-          id="track">
-
-          papa-song
-
-        </span>
-
-
-        <div
-          class="play-state"
-          id="playState">
-
-          <span
-            class="play-state-dot"
-            id="playStateDot">
-          </span>
-
-          <span id="playStateText">
-            रुका हुआ
-          </span>
-
+        <div class="play-state" id="playState">
+          <span class="play-state-dot" id="playStateDot"></span>
+          <span id="playStateText">रुका हुआ</span>
         </div>
 
-
-        <span id="time">
-          00:00
-        </span>
-
+        <span id="time">00:00</span>
       </div>
-
-
-      <!-- PROGRESS -->
 
       <div
         class="progress-wrap"
-        id="progressWrap">
-
+        id="progressWrap"
+        role="slider"
+        aria-label="गीत की प्रगति"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        aria-valuenow="0"
+        tabindex="0"
+      >
         <div class="progress">
-
           <i id="bar"></i>
-
         </div>
-
       </div>
-
     </div>
-
-
-    <!-- OLD SURS -->
 
     <div class="side-controls">
-
-      <span class="volume">
-        पुराने सुर
-      </span>
-
+      <span class="volume">पुराने सुर</span>
     </div>
-
   </section>
 
-
   <!-- AUDIO -->
+<audio id="audio" preload="metadata" playsinline></audio>
 
-  <audio
-    id="audio"
-    preload="metadata">
-  </audio>
-
-
-  <!-- ===================================================
-       PAPA SONG LIST
-  ==================================================== -->
-<script src="./tracks/papa-tracks.js"></script>
-
-
-  <!-- ===================================================
-       PLAYER JAVASCRIPT
-  ==================================================== -->
+  <!-- SONG LIST -->
+  <script src="./papa-tracks.js"></script>
 
   <script>
+    "use strict";
 
-    const audio =
-      document.getElementById("audio");
+    /* =========================
+       ELEMENTS
+    ========================== */
+    const audio = document.getElementById("audio");
+    const play = document.getElementById("play");
+    const prev = document.getElementById("prev");
+    const next = document.getElementById("next");
+    const bar = document.getElementById("bar");
+    const time = document.getElementById("time");
+    const track = document.getElementById("track");
+    const playState = document.getElementById("playState");
+    const playStateText = document.getElementById("playStateText");
+    const progressWrap = document.getElementById("progressWrap");
 
-    const play =
-      document.getElementById("play");
+    const playlistSelect = document.getElementById("playlistSelect");
+    const playlistSwitcher = document.getElementById("playlistSwitcher");
 
-    const prev =
-      document.getElementById("prev");
-
-    const next =
-      document.getElementById("next");
-
-    const bar =
-      document.getElementById("bar");
-
-    const time =
-      document.getElementById("time");
-
-    const track =
-      document.getElementById("track");
-
-    const playState =
-      document.getElementById("playState");
-
-    const playStateText =
-      document.getElementById("playStateText");
-
-    const progressWrap =
-      document.getElementById("progressWrap");
-
-
-    /* ===================================================
+    /* =========================
        SONG FILES
-    ==================================================== */
+       papa-tracks.js must contain:
+       window.papaTrackFiles = [
+         "song1.mp3",
+         "song2.mp3"
+       ];
+    ========================== */
+    const files = Array.isArray(window.papaTrackFiles)
+      ? window.papaTrackFiles
+      : [];
 
-    const files =
-      window.papaTrackFiles || [];
-
+    const mediaBase = "./tracks/papa/";
     let current = 0;
-const mediaBase = "./tracks/papa/";
 
-    console.log(
-      "Papa songs:",
-      files
-    );
+    console.log("Papa songs:", files);
 
+    /* =========================
+       STORAGE KEYS
+    ========================== */
+    const INDEX_KEY = "papaSongIndex";
+    const TIME_KEY = "papaSongTime";
 
-    /* ===================================================
-       LOAD SONG
-    ==================================================== */
-
-    function loadTrack(
-      index,
-      shouldPlay = false
-    ) {
-
+    /* =========================
+       LOAD TRACK
+    ========================== */
+    function loadTrack(index, shouldPlay = false) {
       if (!files.length) {
-
-        track.textContent =
-          "Papa songs nahi mile";
-
-        console.log(
-          "Papa songs nahi mile"
+        track.textContent = "Papa songs nahi mile";
+        play.disabled = true;
+        prev.disabled = true;
+        next.disabled = true;
+        console.warn(
+          "No songs found. Check ./tracks/papa-tracks.js"
         );
-
         return;
       }
 
+      play.disabled = false;
+      prev.disabled = false;
+      next.disabled = false;
+
       current =
-        (index + files.length)
-        % files.length;
+        (Number(index) + files.length) % files.length;
 
-      const filename =
-        files[current];
+      const filename = String(files[current]);
 
-      audio.src =
-        mediaBase +
-        encodeURIComponent(filename);
+      audio.src = encodeURI(mediaBase + filename);
 
       track.textContent =
-        filename.replace(
-          /\.mp3$/i,
-          ""
-        );
+        filename.replace(/\.(mp3|wav|ogg|m4a)$/i, "");
+
+      localStorage.setItem(
+        INDEX_KEY,
+        String(current)
+      );
+
+      /* Restore saved position only for the
+         same current song. */
+      const savedIndex =
+        Number(localStorage.getItem(INDEX_KEY));
+
+      const savedTime =
+        Number(localStorage.getItem(TIME_KEY));
+
+      audio.onloadedmetadata = () => {
+        if (
+          savedIndex === current &&
+          Number.isFinite(savedTime) &&
+          savedTime > 0 &&
+          savedTime < audio.duration
+        ) {
+          audio.currentTime = savedTime;
+        }
+
+        updateProgress();
+      };
 
       audio.load();
 
       if (shouldPlay) {
-
-        audio.play()
-          .catch(error => {
-
-            console.log(
-              "Play error:",
-              error
-            );
-
-          });
-
+        playAudio();
       }
     }
 
+    /* =========================
+       PLAY
+    ========================== */
+    async function playAudio() {
+      if (!files.length) return;
 
-    /* ===================================================
-       PLAY BUTTON
-    ==================================================== */
-
-    play.addEventListener(
-      "click",
-      () => {
-
-        if (!files.length) {
-
-          console.log(
-            "No songs available"
-          );
-
-          return;
-        }
-
-        if (audio.paused) {
-
-          audio.play()
-            .catch(error => {
-
-              console.log(
-                "Play error:",
-                error
-              );
-
-            });
-
-        } else {
-
-          audio.pause();
-
-        }
-
+      try {
+        await audio.play();
+      } catch (error) {
+        console.error("Play error:", error);
+        track.textContent =
+          "Play nahi hua — audio file check karein";
       }
-    );
+    }
 
+    play.addEventListener("click", () => {
+      if (!files.length) return;
 
-    /* ===================================================
-       INITIAL SONG
-    ==================================================== */
+      if (audio.paused) {
+        playAudio();
+      } else {
+        audio.pause();
+      }
+    });
 
-    loadTrack(0);
-
-
-    /* ===================================================
+    /* =========================
        PLAY EVENT
-    ==================================================== */
+    ========================== */
+    audio.addEventListener("play", () => {
+      play.textContent = "⏸";
 
-    audio.addEventListener(
-      "play",
-      () => {
+      play.setAttribute(
+        "aria-label",
+        "गीत रोकें"
+      );
 
-        play.textContent =
-          "⏸";
+      play.setAttribute(
+        "aria-pressed",
+        "true"
+      );
 
+      playState.classList.add("is-playing");
+      playStateText.textContent = "चल रहा है";
+    });
 
-        play.setAttribute(
-          "aria-label",
-          "गीत रोकें"
-        );
-
-
-        play.setAttribute(
-          "aria-pressed",
-          "true"
-        );
-
-
-        playState.classList.add(
-          "is-playing"
-        );
-
-
-        playStateText.textContent =
-          "चल रहा है";
-
-      }
-    );
-
-
-    /* ===================================================
+    /* =========================
        PAUSE EVENT
-    ==================================================== */
+    ========================== */
+    audio.addEventListener("pause", () => {
+      play.textContent = "▶";
 
-    audio.addEventListener(
-      "pause",
-      () => {
+      play.setAttribute(
+        "aria-label",
+        "गीत चलाएँ"
+      );
 
-        play.textContent =
-          "▶";
+      play.setAttribute(
+        "aria-pressed",
+        "false"
+      );
 
+      playState.classList.remove("is-playing");
+      playStateText.textContent = "रुका हुआ";
+    });
 
-        play.setAttribute(
-          "aria-label",
-          "गीत चलाएँ"
-        );
-
-
-        play.setAttribute(
-          "aria-pressed",
-          "false"
-        );
-
-
-        playState.classList.remove(
-          "is-playing"
-        );
-
-
-        playStateText.textContent =
-          "रुका हुआ";
-
-      }
-    );
-
-
-    /* ===================================================
+    /* =========================
        PREVIOUS
-    ==================================================== */
+    ========================== */
+    prev.addEventListener("click", () => {
+      loadTrack(current - 1, true);
+    });
 
-    prev.addEventListener(
-      "click",
-      () => {
-
-        loadTrack(
-          current - 1,
-          true
-        );
-
-      }
-    );
-
-
-    /* ===================================================
+    /* =========================
        NEXT
-    ==================================================== */
+    ========================== */
+    next.addEventListener("click", () => {
+      loadTrack(current + 1, true);
+    });
 
-    next.addEventListener(
-      "click",
-      () => {
-
-        loadTrack(
-          current + 1,
-          true
-        );
-
-      }
-    );
-
-
-    /* ===================================================
+    /* =========================
        SONG ENDED
-    ==================================================== */
+    ========================== */
+    audio.addEventListener("ended", () => {
+      localStorage.removeItem(TIME_KEY);
+      loadTrack(current + 1, true);
+    });
 
-    audio.addEventListener(
-      "ended",
-      () => {
+    /* =========================
+       ERROR
+    ========================== */
+    audio.addEventListener("error", () => {
+      console.error(
+        "Audio error:",
+        audio.error
+      );
 
-        loadTrack(
-          current + 1,
-          true
-        );
+      track.textContent =
+        "Audio file nahi mili — filename/path check karein";
+    });
 
-      }
-    );
-
-
-    /* ===================================================
+    /* =========================
        PROGRESS UPDATE
-    ==================================================== */
+    ========================== */
+    function updateProgress() {
+      const duration = audio.duration || 0;
+      const currentTime = audio.currentTime || 0;
+
+      if (duration > 0) {
+        const percent =
+          (currentTime / duration) * 100;
+
+        bar.style.width = percent + "%";
+
+        progressWrap.setAttribute(
+          "aria-valuenow",
+          String(Math.round(percent))
+        );
+      } else {
+        bar.style.width = "0%";
+
+        progressWrap.setAttribute(
+          "aria-valuenow",
+          "0"
+        );
+      }
+
+      time.textContent =
+        formatTime(currentTime);
+    }
 
     audio.addEventListener(
       "timeupdate",
       () => {
+        updateProgress();
 
-        const duration =
-          audio.duration || 0;
+        localStorage.setItem(
+          INDEX_KEY,
+          String(current)
+        );
 
-        const currentTime =
-          audio.currentTime || 0;
-
-
-        if (duration > 0) {
-
-          bar.style.width =
-            (
-              currentTime /
-              duration *
-              100
-            ) + "%";
-
-        } else {
-
-          bar.style.width =
-            "0%";
-
-        }
-
-
-        time.textContent =
-          formatTime(
-            currentTime
-          );
-
+        localStorage.setItem(
+          TIME_KEY,
+          String(audio.currentTime || 0)
+        );
       }
     );
 
+    audio.addEventListener(
+      "loadedmetadata",
+      updateProgress
+    );
 
-    /* ===================================================
+    /* =========================
        TIME FORMAT
-    ==================================================== */
-
+    ========================== */
     function formatTime(seconds) {
+      const safeSeconds =
+        Number.isFinite(seconds)
+          ? Math.max(0, seconds)
+          : 0;
 
       const mins =
-        Math.floor(
-          seconds / 60
-        );
+        Math.floor(safeSeconds / 60);
 
       const secs =
-        Math.floor(
-          seconds % 60
-        );
-
+        Math.floor(safeSeconds % 60);
 
       return (
-        String(mins)
-          .padStart(2, "0")
-        +
-        ":"
-        +
-        String(secs)
-          .padStart(2, "0")
+        String(mins).padStart(2, "0") +
+        ":" +
+        String(secs).padStart(2, "0")
       );
-
     }
 
-
-    /* ===================================================
+    /* =========================
        SEEK
-    ==================================================== */
-
+    ========================== */
     function seekSong(clientX) {
-
-      if (!audio.duration) {
-        return;
-      }
-
+      if (!audio.duration) return;
 
       const rect =
-        progressWrap
-          .getBoundingClientRect();
+        progressWrap.getBoundingClientRect();
 
+      if (!rect.width) return;
 
       let position =
-        (
-          clientX -
-          rect.left
-        )
-        /
-        rect.width;
+        (clientX - rect.left) / rect.width;
 
-
-      position =
-        Math.max(
-          0,
-          Math.min(
-            1,
-            position
-          )
-        );
-
+      position = Math.max(
+        0,
+        Math.min(1, position)
+      );
 
       audio.currentTime =
-        position *
-        audio.duration;
+        position * audio.duration;
 
+      updateProgress();
     }
-
-
-    /* ===================================================
-       CLICK PROGRESS
-    ==================================================== */
 
     progressWrap.addEventListener(
       "click",
       (event) => {
-
-        seekSong(
-          event.clientX
-        );
-
+        seekSong(event.clientX);
       }
     );
 
-
-    /* ===================================================
-       MOBILE TOUCH / DRAG
-    ==================================================== */
-
+    /* =========================
+       MOBILE / DESKTOP DRAG
+    ========================== */
     progressWrap.addEventListener(
       "pointerdown",
       (event) => {
-
-        if (!audio.duration) {
-          return;
-        }
-
+        if (!audio.duration) return;
 
         event.preventDefault();
 
+        try {
+          progressWrap.setPointerCapture(
+            event.pointerId
+          );
+        } catch (error) {
+          console.log(error);
+        }
 
-        progressWrap.setPointerCapture(
-          event.pointerId
-        );
-
-
-        seekSong(
-          event.clientX
-        );
-
+        seekSong(event.clientX);
       }
     );
-
 
     progressWrap.addEventListener(
       "pointermove",
       (event) => {
-
         if (
+          audio.duration &&
           event.buttons === 1
         ) {
-
-          seekSong(
-            event.clientX
-          );
-
+          seekSong(event.clientX);
         }
-
       }
     );
-
 
     progressWrap.addEventListener(
       "pointerup",
       (event) => {
-
-        if (
-          progressWrap.hasPointerCapture(
-            event.pointerId
-          )
-        ) {
-
-          progressWrap.releasePointerCapture(
-            event.pointerId
-          );
-
+        try {
+          if (
+            progressWrap.hasPointerCapture(
+              event.pointerId
+            )
+          ) {
+            progressWrap.releasePointerCapture(
+              event.pointerId
+            );
+          }
+        } catch (error) {
+          console.log(error);
         }
-
       }
     );
 
+    /* =========================
+       KEYBOARD SEEK
+    ========================== */
+    progressWrap.addEventListener(
+      "keydown",
+      (event) => {
+        if (!audio.duration) return;
 
-    /* ===================================================
+        if (event.key === "ArrowRight") {
+          event.preventDefault();
+          audio.currentTime =
+            Math.min(
+              audio.duration,
+              audio.currentTime + 5
+            );
+        }
+
+        if (event.key === "ArrowLeft") {
+          event.preventDefault();
+          audio.currentTime =
+            Math.max(
+              0,
+              audio.currentTime - 5
+            );
+        }
+      }
+    );
+
+    /* =========================
        DROPDOWN
-    ==================================================== */
-
-    const playlistSelect =
-      document.getElementById(
-        "playlistSelect"
-      );
-
-    const playlistSwitcher =
-      document.querySelector(
-        ".playlist-switcher"
-      );
-
-
+    ========================== */
     playlistSelect.addEventListener(
       "click",
       (event) => {
-
         event.stopPropagation();
 
-
         const isOpen =
-          playlistSwitcher
-            .classList
-            .toggle(
-              "is-open"
-            );
-
-
-        playlistSelect.setAttribute(
-          "aria-expanded",
-          isOpen
-        );
-
-      }
-    );
-
-
-    /* ===================================================
-       PLAYLIST NAVIGATION
-    ==================================================== */
-
-    document
-      .querySelectorAll(
-        ".playlist-choice"
-      )
-      .forEach(
-        option => {
-
-          option.addEventListener(
-            "click",
-            (event) => {
-
-              event.stopPropagation();
-
-
-              const playlist =
-                option.dataset.playlist;
-
-
-              if (
-                playlist === "papa"
-              ) {
-
-                window.location.href =
-                  "papa.html";
-
-              }
-
-
-              if (
-                playlist === "purane"
-              ) {
-
-                window.location.href =
-                  "../purane.html";
-
-              }
-
-
-              if (
-                playlist === "chhath"
-              ) {
-
-                window.location.href =
-                  "../index.html";
-
-              }
-
-
-              if (
-                playlist === "navratri"
-              ) {
-
-                window.location.href =
-                  "../index.html?playlist=navratri";
-
-              }
-
-
-              if (
-                playlist === "bhojpuri"
-              ) {
-
-                window.location.href =
-                  "../bhojpuri.html";
-
-              }
-
-
-              if (
-                playlist === "jhadu-pocha"
-              ) {
-
-                window.location.href =
-                  "../jhadu-pocha.html";
-
-              }
-
-            }
-          );
-
-        }
-      );
-
-
-    /* ===================================================
-       CLOSE DROPDOWN
-    ==================================================== */
-
-    document.addEventListener(
-      "click",
-      () => {
-
-        playlistSwitcher
-          .classList
-          .remove(
+          playlistSwitcher.classList.toggle(
             "is-open"
           );
 
+        playlistSelect.setAttribute(
+          "aria-expanded",
+          String(isOpen)
+        );
+      }
+    );
+
+    /* =========================
+       PLAYLIST NAVIGATION
+    ========================== */
+    document
+      .querySelectorAll(".playlist-choice")
+      .forEach((option) => {
+        option.addEventListener(
+          "click",
+          (event) => {
+            event.stopPropagation();
+
+            const playlist =
+              option.dataset.playlist;
+
+            /*
+              Keep your original folder structure.
+              Change these paths only if your folders
+              are arranged differently.
+            */
+            const routes = {
+              papa: "papa.html",
+              purane: "../purane.html",
+              chhath: "../index.html",
+              navratri: "../index.html?playlist=navratri",
+              bhojpuri: "../bhojpuri.html",
+              "jhadu-pocha": "../jhadu-pocha.html"
+            };
+
+            if (routes[playlist]) {
+              window.location.href =
+                routes[playlist];
+            }
+          }
+        );
+      });
+
+    /* =========================
+       CLOSE DROPDOWN
+    ========================== */
+    document.addEventListener(
+      "click",
+      () => {
+        playlistSwitcher.classList.remove(
+          "is-open"
+        );
 
         playlistSelect.setAttribute(
           "aria-expanded",
           "false"
         );
-
       }
     );
 
+    /* =========================
+       INITIAL SONG
+    ========================== */
+    const savedIndex = Number(
+      localStorage.getItem(INDEX_KEY)
+    );
+
+    if (
+      Number.isInteger(savedIndex) &&
+      savedIndex >= 0 &&
+      savedIndex < files.length
+    ) {
+      loadTrack(savedIndex);
+    } else {
+      loadTrack(0);
+    }
   </script>
 
-
-  <!-- ===================================================
-       LIVE PRESENCE
-  ==================================================== -->
-
+  <!-- LIVE PRESENCE -->
   <script
     type="module"
-    src="../presence.js">
-  </script>
-
+    src="../presence.js"
+  ></script>
 
 </body>
 </html>
