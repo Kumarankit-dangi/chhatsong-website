@@ -1082,66 +1082,34 @@ document.addEventListener("click", function(event) {
       LOAD TRACK
       ==========================================
     */
+function loadTrack(index, shouldPlay = false) {
 
-    function loadTrack(
-      index,
-      shouldPlay = false
-    ) {
+    if (!files.length) return;
 
-      if (!files.length) {
-        return;
-      }
+    current = (index + files.length) % files.length;
 
-
-      current =
-        (index + files.length) %
-        files.length;
-
-
-      const filename =
-        encodeURIComponent(
-          files[current]
-        );
-
-
-      /*
-        GitHub Pages se song load hoga
-      */
-
-      audio.src =
+    audio.src =
         mediaBase +
         encodeURIComponent(files[current]);
 
+    track.textContent =
+        files[current].replace(/\.mp3$/i, "");
 
-      track.textContent =
-        files[current]
-          .replace(/\.mp3$/i, "");
+    audio.load();
 
+    if (shouldPlay) {
 
-      audio.load();
+        audio.play().catch(error => {
 
+            console.log("Audio play error:", error);
 
-      if (shouldPlay) {
+            track.textContent =
+                "Song play nahi hua";
 
-        const promise =
-          audio.play();
-
-        if (promise !== undefined) {
-
-          promise.catch(error => {
-
-            console.log(
-              "Audio play error:",
-              error
-            );
-
-          });
-
-        }
-
-      }
+        });
 
     }
+}
 
 
     /*
