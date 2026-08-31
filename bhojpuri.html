@@ -168,8 +168,8 @@
     const audio=document.getElementById('audio'), play=document.getElementById('play'), bar=document.getElementById('bar'), time=document.getElementById('time'), track=document.getElementById('track'), playState=document.getElementById('playState');
     let current=0;
 
-   function loadTrack(index, shouldPlay=false){ if(!files.length) return; current=(index+files.length)%files.length; const filename=encodeURIComponent(files[current]); audio.src = mediaBase + filename; track.textContent=files[current].replace(/\.mp3$/i,''); audio.load(); if(shouldPlay) audio.play(); }
-    if(!files.length){ track.textContent='भोजपुरी गाने जल्द जुड़ेंगे'; } else { loadTrack(0); }
+
+    if(!files.length){ track.textContent='भोजपुरी गाने जल्द जुड़ेंगे'; } else { loadTrack(0); }   function loadTrack(index, shouldPlay=false){ if(!files.length) return; current=(index+files.length)%files.length; const filename=encodeURIComponent(files[current]); audio.src = "tracks/bhojpuri/" + filename; track.textContent=files[current].replace(/\.mp3$/i,''); audio.load(); if(shouldPlay) audio.play(); }
     play.onclick=()=>{ if(!files.length) return; if(audio.paused) audio.play(); else audio.pause(); };
     audio.addEventListener('play',()=>{play.textContent='⏸';play.setAttribute('aria-label','गीत रोकें');play.setAttribute('title','गीत रोकें');play.setAttribute('aria-pressed','true');playState.classList.add('is-playing');playState.lastElementChild.textContent='चल रहा है';});
     audio.addEventListener('pause',()=>{play.textContent='▶';play.setAttribute('aria-label','गीत चलाएँ');play.setAttribute('title','गीत चलाएँ');play.setAttribute('aria-pressed','false');playState.classList.remove('is-playing');playState.lastElementChild.textContent='रुका हुआ';});

@@ -874,8 +874,36 @@
       ==================================================
     */
 
-    const files = [];
+  
+let files = [];
 
+fetch("https://api.github.com/repos/Kumarankit-dangi/chhatsong-website/contents/tracks/jhadu-pocha")
+  .then(response => {
+    if (!response.ok) {
+      throw new Error("Songs folder load nahi hua");
+    }
+    return response.json();
+  })
+  .then(data => {
+    files = data
+      .filter(file =>
+        file.type === "file" &&
+        file.name.toLowerCase().endsWith(".mp3")
+      )
+      .map(file => file.name);
+
+    console.log("Jhaadu-Pocha songs:", files);
+
+    if (files.length > 0) {
+      loadTrack(0, false);
+    } else {
+      track.textContent = "Songs nahi mile";
+    }
+  })
+  .catch(error => {
+    console.error("Songs loading error:", error);
+    track.textContent = "Songs load nahi hue";
+  });
 
     const audio =
       document.getElementById("audio");
@@ -925,10 +953,9 @@
         (index + files.length) %
         files.length;
 
-
-      audio.src =
-        "https://raw.githubusercontent.com/Kumarankit-dangi/chhatsong-website/main/tracks/jhadu-pocha/" +
-        encodeURIComponent(files[current]);
+audio.src =
+  "tracks/jhadu-pocha/" +
+  encodeURIComponent(files[current]);
 
 
       track.textContent =
