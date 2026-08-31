@@ -1109,7 +1109,8 @@ document.addEventListener("click", function(event) {
       */
 
       audio.src =
-        mediaBase + filename;
+        mediaBase +
+        encodeURIComponent(files[current]);
 
 
       track.textContent =
