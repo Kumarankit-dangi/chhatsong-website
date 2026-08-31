@@ -1175,10 +1175,6 @@ play.onclick = async () => {
 
         if (audio.paused) {
 
-            if (!audio.src) {
-                loadTrack(current);
-            }
-
             await audio.play();
 
         } else {
@@ -1189,12 +1185,12 @@ play.onclick = async () => {
 
     } catch (error) {
 
-        console.error("Mobile audio error:", error);
+        console.error("AUDIO ERROR:", error);
 
-        track.textContent = "Song play nahi hua";
+        track.textContent =
+            error.name + " : " + error.message;
 
     }
-
 };
     /*
       ==========================================
