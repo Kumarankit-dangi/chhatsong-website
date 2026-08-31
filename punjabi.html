@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Oye Punjabi Aa Gye</title>
+
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#090706;color:#fff3d6;font-family:Arial,sans-serif}
+.page{
+  width:100%;
+  max-width:none;
+  min-height:100vh;
+  margin:0;
+  background:#120c09;
+}
+.hero{
+  min-height:100vh;
+  padding:30px 5%;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  background:linear-gradient(#0003,#000b),url("punjabi-poster.png") center center/cover no-repeat;
+}
+
+.top{display:flex;justify-content:space-between;font-weight:bold}
+.live{color:#a8ff63}
+
+.intro{margin-top:70px}
+.tag{color:#ffd044;letter-spacing:3px;font-size:13px}
+h1{font-size:clamp(55px,15vw,88px);line-height:.9;margin:16px 0;font-weight:900}
+.yellow{color:#ffc51b}
+.desc{font-size:18px;line-height:1.5;max-width:500px}
+
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{padding:10px 14px;border:1px solid #c89b48;border-radius:30px;background:#160e09b8}
+
+.quote{margin-top:25px;border-left:2px solid #ffc51b;padding:10px 15px}
+.quote small{display:block;margin-top:8px;color:#d9b86d}
+
+/* ================= CATEGORY MENU ================= */
+.category-menu{
+  position:relative;
+  width:205px;
+  margin-top:25px;
+  z-index:20;
+}
+
+.category-button{
+  width:205px;
+  height:52px;
+  padding:0 20px;
+  border:1px solid #9d7436;
+  border-radius:28px;
+  background:#160e09e8;
+  color:#fff3d6;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  font-size:16px;
+  cursor:pointer;
+}
+
+.category-button span{
+  font-size:13px;
+}
+
+.category-list{
+  display:none;
+  position:absolute;
+  left:0;
+  top:59px;
+  width:205px;
+  padding:7px;
+  border:1px solid #6d5231;
+  border-radius:18px;
+  background:#160e0bf5;
+  box-shadow:0 15px 35px #000b;
+  backdrop-filter:blur(10px);
+}
+
+.category-list.show{
+  display:block;
+}
+
+.category-list a{
+  display:block;
+  padding:12px 13px;
+  border-radius:12px;
+  color:#fff3d6;
+  text-decoration:none;
+  font-size:14px;
+}
+
+.category-list a:hover{
+  background:#ffc44a18;
+  color:#ffd45e;
+}
+
+/* ================= PLAYER ================= */
+.player{
+  margin:0 0 0;
+  padding:14px;
+  border:1px solid #9d7436;
+  border-radius:25px;
+  background:#160e0be8;
+}
+
+.controls{display:flex;align-items:center;gap:9px}
+button{width:42px;height:42px;border:0;border-radius:50%;background:#30231a;color:white;font-size:18px}
+
+#play{
+  width:58px;
+  height:58px;
+  background:#ffc44a;
+  color:#211508;
+  font-size:23px;
+}
+
+.info{flex:1;min-width:0}
+#track{
+  display:block;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  font-size:14px;
+  font-weight:bold
+}
+#time{font-size:12px;color:#f0c86d}
+
+.progress{
+  height:6px;
+  background:#4a3c31;
+  border-radius:10px;
+  margin:9px 0 0 102px
+}
+.bar{height:100%;width:0;background:#ffc44a}
+
+.songs{padding:25px 20px 70px}
+.empty{
+  margin-top:15px;
+  padding:17px;
+  border:1px dashed #68513a;
+  border-radius:15px;
+  color:#d8c6ad
+}
+
+@media(max-width:500px){
+  .hero{min-height:780px;padding:22px 16px 15px}
+  .intro{margin-top:50px}
+  h1{font-size:58px}
+  .desc{font-size:17px}
+}
+</style>
+</head>
+
+<body>
+<div class="page">
+
+<section class="hero">
+
+<div class="top">
+  <span>पंजाबी / 2026</span>
+  <span class="live">● Punjabi Vibes</span>
+</div>
+
+<div class="intro">
+
+<div class="tag">DESI • BEAT • VIBE</div>
+
+<h1>
+  OYE<br>
+  <span class="yellow">PUNJABI</span><br>
+  AA GYE!
+</h1>
+
+<p class="desc">
+  Desi beat, full vibe aur Punjabi tadka — favourite gaane chalao aur mood ko Punjabi bana do.
+</p>
+
+<div class="chips">
+  <span class="chip">🎵 Desi Beat</span>
+  <span class="chip">🔥 Full Vibe</span>
+  <span class="chip">🕺 Punjabi Tadka</span>
+</div>
+
+<!-- Same category option style as previous page -->
+<div class="category-menu">
+  <button class="category-button" id="categoryButton" type="button">
+    🎵&nbsp; पंजाबी <span>⌄</span>
+  </button>
+
+  <div class="category-list" id="categoryList">
+    <a href="punjabi.html">🎵&nbsp; पंजाबी</a>
+    <a href="jhadu-pocha.html">🧹&nbsp; झाड़ू-पोछा</a>
+    <a href="index.html">🪔&nbsp; छठ पूजा</a>
+    <a href="navratri.html">🔱&nbsp; नवरात्रि</a>
+    <a href="bhojpuri.html">🎶&nbsp; भोजपुरी</a>
+    <a href="purane.html">📼&nbsp; पुराने गीत</a>
+    <a href="papa.html">📺&nbsp; पापा के ज़माने के गाने</a>
+  </div>
+</div>
+
+<div class="quote">
+  <b>“Oye hoye! Punjabi mood ON!”</b>
+  <small>— PUNJABI TADKA</small>
+</div>
+
+</div>
+
+<div class="player">
+
+<div class="controls">
+  <button id="prev" type="button">⏮</button>
+  <button id="play" type="button">▶</button>
+  <button id="next" type="button">⏭</button>
+
+  <div class="info">
+    <span id="track">Punjabi songs add karne hain</span>
+    <span id="time">00:00</span>
+  </div>
+</div>
+
+<div class="progress">
+  <div class="bar" id="bar"></div>
+</div>
+
+</div>
+
+</section>
+
+
+
+</div>
+
+<audio id="audio" preload="metadata"></audio>
+
+<script>
+const files=[];
+
+const audio=document.getElementById("audio");
+const play=document.getElementById("play");
+const prev=document.getElementById("prev");
+const next=document.getElementById("next");
+const track=document.getElementById("track");
+const time=document.getElementById("time");
+const bar=document.getElementById("bar");
+
+let current=0;
+
+function loadTrack(i,shouldPlay=false){
+  if(!files.length)return;
+
+  current=(i+files.length)%files.length;
+
+  audio.src="tracks/punjabi/"+encodeURIComponent(files[current]);
+  track.textContent=files[current].replace(/\.mp3$/i,"");
+
+  audio.load();
+
+  if(shouldPlay){
+    audio.play().catch(console.log);
+  }
+}
+
+play.onclick=()=>{
+  if(!files.length)return;
+  audio.paused
+    ? audio.play().catch(console.log)
+    : audio.pause();
+};
+
+prev.onclick=()=>loadTrack(current-1,true);
+next.onclick=()=>loadTrack(current+1,true);
+
+audio.onplay=()=>play.textContent="⏸";
+audio.onpause=()=>play.textContent="▶";
+audio.onended=()=>loadTrack(current+1,true);
+
+audio.ontimeupdate=()=>{
+  let d=audio.duration||0;
+  let c=audio.currentTime||0;
+
+  bar.style.width=d?(c/d*100)+"%":"0%";
+
+  time.textContent=
+    String(Math.floor(c/60)).padStart(2,"0")+":"+
+    String(Math.floor(c%60)).padStart(2,"0");
+};
+
+/* Category menu */
+const categoryButton=document.getElementById("categoryButton");
+const categoryList=document.getElementById("categoryList");
+
+categoryButton.onclick=()=>{
+  categoryList.classList.toggle("show");
+};
+
+document.addEventListener("click",(e)=>{
+  if(!e.target.closest(".category-menu")){
+    categoryList.classList.remove("show");
+  }
+});
+</script>
+
+</body>
+</html>

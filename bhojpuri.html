@@ -164,7 +164,7 @@
     const quotes=['“का हाल बा? देसी स्वैग ओन फुल।”','“भोजपुरिया अंदाज़, अपना अपना स्टाइल।”','“गाँव की मट्टी, खेत की हवा।”','“भइया-भाभी का देसी डांस।”','“भोजपुरी में धमाका, हर दिल में बाजा।”']; let quoteIndex=0;
     setInterval(()=>{ const q=document.getElementById('quote'); q.style.opacity=0; setTimeout(()=>{ quoteIndex=(quoteIndex+1)%quotes.length; q.textContent=quotes[quoteIndex]; q.style.opacity=1; },300); },4200);
     const files=window.bhojpuriTrackFiles||[];
-    const mediaBase='https://raw.githubusercontent.com/Kumarankit-dangi/chhatsong-website/main/tracks/bhojpuri/';
+    const mediaBase = "tracks/bhojpuri/";
     const audio=document.getElementById('audio'), play=document.getElementById('play'), bar=document.getElementById('bar'), time=document.getElementById('time'), track=document.getElementById('track'), playState=document.getElementById('playState');
     let current=0;
 

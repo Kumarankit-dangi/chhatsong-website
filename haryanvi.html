@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Oye Haryanvi Aa Gye</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100%;
+        }
+
+        body {
+            background: #090706;
+            color: #fff3d6;
+            font-family: Arial, sans-serif;
+        }
+
+        /* MAIN PAGE */
+
+        .page {
+            width: 100%;
+            min-height: 100vh;
+            margin: 0;
+            background: #120c09;
+        }
+
+        /* HERO */
+
+        .hero {
+            min-height: 100vh;
+
+            padding: 28px 5% 20px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            background:
+                linear-gradient(#0004, #000b),
+                url("haryanvi-poster.png") center center / cover no-repeat;
+        }
+
+        /* TOP */
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .live {
+            color: #a8ff63;
+        }
+
+        /* INTRO */
+
+        .intro {
+            margin-top: 50px;
+        }
+
+        .tag {
+            color: #ffd044;
+            letter-spacing: 4px;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: clamp(55px, 9vw, 110px);
+            line-height: 0.9;
+            margin: 10px 0 25px;
+            font-weight: 900;
+        }
+
+        .yellow {
+            color: #ffc51b;
+        }
+
+        .desc {
+            font-size: clamp(17px, 2vw, 22px);
+            line-height: 1.5;
+            max-width: 850px;
+            margin-bottom: 25px;
+        }
+
+        /* CHIPS */
+
+        .chips {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .chip {
+            padding: 11px 16px;
+
+            border: 1px solid #c89b48;
+            border-radius: 30px;
+
+            background: #160e09b8;
+
+            font-size: 15px;
+        }
+
+        /* MUSIC MENU */
+
+        .music-menu {
+            position: relative;
+            width: 260px;
+            margin-top: 25px;
+        }
+
+        .menu-btn {
+            width: 100%;
+
+            padding: 15px 20px;
+
+            border: 1px solid #a97932;
+            border-radius: 30px;
+
+            background: #1b100b;
+
+            color: #fff3d6;
+
+            font-size: 16px;
+            text-align: left;
+
+            cursor: pointer;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .menu-btn span {
+            font-size: 18px;
+        }
+
+        .menu-list {
+            display: none;
+
+            position: absolute;
+
+            top: calc(100% + 7px);
+            left: 0;
+
+            width: 100%;
+
+            padding: 7px;
+
+            background: #160d09;
+
+            border: 1px solid #65492d;
+            border-radius: 16px;
+
+            z-index: 9999;
+
+            box-shadow: 0 15px 35px #0009;
+        }
+
+        .menu-list a {
+            display: block;
+
+            padding: 12px 14px;
+
+            color: #fff3d6;
+
+            text-decoration: none;
+
+            border-radius: 10px;
+
+            font-size: 15px;
+        }
+
+        .menu-list a:hover {
+            background: #2a1a12;
+        }
+
+        .music-menu.open .menu-list {
+            display: block;
+        }
+
+        /* QUOTE */
+
+        .quote {
+            margin-top: 25px;
+
+            border-left: 2px solid #ffc51b;
+
+            padding: 10px 15px;
+
+            font-size: 18px;
+        }
+
+        .quote small {
+            display: block;
+
+            margin-top: 8px;
+
+            color: #d9b86d;
+        }
+
+        /* PLAYER */
+
+        .player {
+            width: 100%;
+
+            padding: 14px;
+
+            border: 1px solid #9d7436;
+
+            border-radius: 25px;
+
+            background: #160e0be8;
+
+            backdrop-filter: blur(8px);
+        }
+
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        button {
+            width: 48px;
+            height: 48px;
+
+            border: 0;
+            border-radius: 50%;
+
+            background: #30231a;
+
+            color: white;
+
+            font-size: 18px;
+
+            cursor: pointer;
+        }
+
+        #play {
+            width: 60px;
+            height: 60px;
+
+            background: #ffc44a;
+
+            color: #211508;
+
+            font-size: 23px;
+        }
+
+        .info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        #track {
+            display: block;
+
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        #time {
+            display: block;
+
+            margin-top: 4px;
+
+            font-size: 12px;
+
+            color: #f0c86d;
+        }
+
+        .progress {
+            height: 6px;
+
+            background: #4a3c31;
+
+            border-radius: 10px;
+
+            margin: 10px 0 0 105px;
+
+            overflow: hidden;
+
+            cursor: pointer;
+        }
+
+        .bar {
+            height: 100%;
+
+            width: 0%;
+
+            background: #ffc44a;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 600px) {
+
+            .hero {
+                min-height: 100vh;
+
+                padding: 22px 16px 15px;
+
+                background-position: center center;
+            }
+
+            .top {
+                font-size: 15px;
+            }
+
+            .intro {
+                margin-top: 35px;
+            }
+
+            .tag {
+                font-size: 12px;
+                letter-spacing: 3px;
+            }
+
+            h1 {
+                font-size: 58px;
+                line-height: 0.9;
+                margin: 12px 0 22px;
+            }
+
+            .desc {
+                font-size: 17px;
+            }
+
+            .chip {
+                font-size: 14px;
+                padding: 9px 13px;
+            }
+
+            .music-menu {
+                width: 240px;
+            }
+
+            .quote {
+                font-size: 16px;
+            }
+
+            .player {
+                padding: 12px;
+            }
+
+            button {
+                width: 43px;
+                height: 43px;
+            }
+
+            #play {
+                width: 58px;
+                height: 58px;
+            }
+
+            #track {
+                font-size: 13px;
+            }
+
+            .progress {
+                margin-left: 95px;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+    <div class="page">
+
+        <section class="hero">
+
+            <!-- TOP -->
+
+            <div class="top">
+
+                <span>हरियाणवी / 2026</span>
+
+                <span class="live">
+                    ● Haryanvi Vibes
+                </span>
+
+            </div>
+
+
+            <!-- MAIN CONTENT -->
+
+            <div class="intro">
+
+                <div class="tag">
+                    DESI • BEAT • VIBE
+                </div>
+
+
+                <h1>
+                    OYE
+                    <br>
+
+                    <span class="yellow">
+                        HARYANVI
+                    </span>
+
+                    <br>
+
+                    AA GYE!
+                </h1>
+
+
+                <p class="desc">
+                    Desi beat, full vibe aur Haryanvi tadka —
+                    favourite gaane chalao aur mood ko Haryanvi bana do.
+                </p>
+
+
+                <!-- CHIPS -->
+
+                <div class="chips">
+
+                    <span class="chip">
+                        🎵 Desi Beat
+                    </span>
+
+                    <span class="chip">
+                        🔥 Full Vibe
+                    </span>
+
+                    <span class="chip">
+                        🕺 Haryanvi Tadka
+                    </span>
+
+                </div>
+
+
+                <!-- MUSIC CATEGORY DROPDOWN -->
+
+                <div class="music-menu">
+
+                    <button
+                        class="menu-btn"
+                        onclick="toggleMenu()">
+
+                        <span>
+                            🎵 हरियाणवी
+                        </span>
+
+                        <span>
+                            ⌄
+                        </span>
+
+                    </button>
+
+
+                    <div
+                        class="menu-list"
+                        id="musicMenu">
+
+
+                        <a href="haryanvi.html">
+                            🎵 हरियाणवी
+                        </a>
+
+
+                        <a href="jhadu-pocha.html">
+                            🧹 झाड़ू-पोछा
+                        </a>
+
+
+                        <a href="chhath.html">
+                            🪔 छठ पूजा
+                        </a>
+
+
+                        <a href="navratri.html">
+                            🔱 नवरात्रि
+                        </a>
+
+
+                        <a href="bhojpuri.html">
+                            🎶 भोजपुरी
+                        </a>
+
+
+                        <a href="purane.html">
+                            📼 पुराने गीत
+                        </a>
+
+
+                        <a href="papa.html">
+                            📺 पापा के ज़माने के गाने
+                        </a>
+
+
+                        <a href="punjabi.html">
+                            🎵 पंजाबी
+                        </a>
+
+
+                    </div>
+
+                </div>
+
+
+                <!-- QUOTE -->
+
+                <div class="quote">
+
+                    <b>
+                        “Oye hoye! Haryanvi mood ON!”
+                    </b>
+
+                    <small>
+                        — HARYANVI TADKA
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <!-- MUSIC PLAYER -->
+
+            <div class="player">
+
+                <div class="controls">
+
+                    <button id="prev">
+                        ⏮
+                    </button>
+
+
+                    <button id="play">
+                        ▶
+                    </button>
+
+
+                    <button id="next">
+                        ⏭
+                    </button>
+
+
+                    <div class="info">
+
+                        <span id="track">
+                            Haryanvi songs
+                        </span>
+
+                        <span id="time">
+                            00:00
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="progress"
+                    id="progress">
+
+                    <div
+                        class="bar"
+                        id="bar">
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+
+    <!-- AUDIO -->
+
+    <audio
+        id="audio"
+        preload="metadata">
+    </audio>
+
+
+    <script>
+
+        /* =========================
+           HARYANVI SONGS
+           ========================= */
+
+        const files = [
+            // Baad mein yahan songs add karna
+            // "song1.mp3",
+            // "song2.mp3"
+        ];
+
+
+        const audio =
+            document.getElementById("audio");
+
+        const play =
+            document.getElementById("play");
+
+        const prev =
+            document.getElementById("prev");
+
+        const next =
+            document.getElementById("next");
+
+        const track =
+            document.getElementById("track");
+
+        const time =
+            document.getElementById("time");
+
+        const bar =
+            document.getElementById("bar");
+
+        const progress =
+            document.getElementById("progress");
+
+
+        let current = 0;
+
+
+        /* =========================
+           LOAD SONG
+           ========================= */
+
+        function loadTrack(index, shouldPlay = false) {
+
+            if (!files.length) {
+
+                track.textContent =
+                    "Haryanvi songs";
+
+                return;
+            }
+
+
+            current =
+                (index + files.length) %
+                files.length;
+
+
+            audio.src =
+                "tracks/haryanvi/" +
+                encodeURIComponent(files[current]);
+
+
+            track.textContent =
+                files[current]
+                    .replace(/\.mp3$/i, "");
+
+
+            audio.load();
+
+
+            if (shouldPlay) {
+
+                audio.play()
+                    .catch(error =>
+                        console.log(error)
+                    );
+
+            }
+
+        }
+
+
+        /* =========================
+           PLAY / PAUSE
+           ========================= */
+
+        play.onclick = function () {
+
+            if (!files.length) {
+
+                return;
+            }
+
+
+            if (audio.paused) {
+
+                audio.play()
+                    .catch(error =>
+                        console.log(error)
+                    );
+
+            } else {
+
+                audio.pause();
+
+            }
+
+        };
+
+
+        /* =========================
+           PREVIOUS
+           ========================= */
+
+        prev.onclick = function () {
+
+            if (!files.length) return;
+
+            loadTrack(current - 1, true);
+
+        };
+
+
+        /* =========================
+           NEXT
+           ========================= */
+
+        next.onclick = function () {
+
+            if (!files.length) return;
+
+            loadTrack(current + 1, true);
+
+        };
+
+
+        /* =========================
+           PLAY STATE
+           ========================= */
+
+        audio.onplay = function () {
+
+            play.textContent = "⏸";
+
+        };
+
+
+        audio.onpause = function () {
+
+            play.textContent = "▶";
+
+        };
+
+
+        /* =========================
+           AUTO NEXT
+           ========================= */
+
+        audio.onended = function () {
+
+            loadTrack(current + 1, true);
+
+        };
+
+
+        /* =========================
+           TIME + PROGRESS
+           ========================= */
+
+        audio.ontimeupdate = function () {
+
+            const duration =
+                audio.duration || 0;
+
+            const currentTime =
+                audio.currentTime || 0;
+
+
+            if (duration) {
+
+                bar.style.width =
+                    (currentTime / duration * 100) +
+                    "%";
+
+            } else {
+
+                bar.style.width = "0%";
+
+            }
+
+
+            time.textContent =
+
+                String(
+                    Math.floor(currentTime / 60)
+                ).padStart(2, "0")
+
+                +
+
+                ":" +
+
+                String(
+                    Math.floor(currentTime % 60)
+                ).padStart(2, "0");
+
+        };
+
+
+        /* =========================
+           PROGRESS CLICK
+           ========================= */
+
+        progress.onclick = function (e) {
+
+            if (!audio.duration) return;
+
+
+            const rect =
+                progress.getBoundingClientRect();
+
+
+            const percent =
+                (e.clientX - rect.left) /
+                rect.width;
+
+
+            audio.currentTime =
+                percent * audio.duration;
+
+        };
+
+
+        /* =========================
+           DROPDOWN
+           ========================= */
+
+        function toggleMenu() {
+
+            document
+                .querySelector(".music-menu")
+                .classList
+                .toggle("open");
+
+        }
+
+
+        /* =========================
+           CLOSE DROPDOWN
+           OUTSIDE CLICK
+           ========================= */
+
+        document.addEventListener(
+            "click",
+            function (event) {
+
+                const menu =
+                    document.querySelector(
+                        ".music-menu"
+                    );
+
+
+                if (!menu.contains(event.target)) {
+
+                    menu.classList.remove("open");
+
+                }
+
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>
