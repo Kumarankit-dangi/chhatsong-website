@@ -164,6 +164,7 @@ button{
   .category-menu,.category-button,.category-list{width:205px}
   .player{padding:12px}
 }
+
 </style>
 </head>
 
@@ -226,16 +227,16 @@ button{
       <button id="prev" type="button">⏮</button>
       <button id="play" type="button">▶</button>
       <button id="next" type="button">⏭</button>
+      
 
       <div class="info">
         <span id="track">Dil Ka Lafda — Songs Add Karne Hain</span>
         <span id="time">00:00</span>
       </div>
     </div>
-
-    <div class="progress">
-      <div class="bar" id="bar"></div>
-    </div>
+<div class="progress" id="progressWrap">
+  <div class="bar" id="bar"></div>
+</div>
   </div>
 
 </section>
@@ -243,8 +244,12 @@ button{
 
 <audio id="audio" preload="metadata"></audio>
 
+
 <script>
-const files=[];
+const files = Array.from(
+  { length: 85 },
+  (_, i) => `dil-lafda-${String(i + 1).padStart(3, "0")}.mp3`
+);
 
 const audio=document.getElementById("audio");
 const play=document.getElementById("play");
@@ -255,7 +260,7 @@ const time=document.getElementById("time");
 const bar=document.getElementById("bar");
 
 let current=0;
-
+loadTrack(0);
 function loadTrack(index,shouldPlay=false){
   if(!files.length)return;
 
@@ -303,17 +308,54 @@ audio.ontimeupdate=()=>{
 };
 
 /* Category menu */
-const categoryButton=document.getElementById("categoryButton");
-const categoryList=document.getElementById("categoryList");
+const categoryButton = document.getElementById("categoryButton");
+const categoryList = document.getElementById("categoryList");
 
-categoryButton.onclick=()=>{
+categoryButton.onclick = () => {
   categoryList.classList.toggle("show");
 };
 
-document.addEventListener("click",(e)=>{
-  if(!e.target.closest(".category-menu")){
+document.addEventListener("click", (e) => {
+  if (!e.target.closest(".category-menu")) {
     categoryList.classList.remove("show");
   }
+});
+
+
+const progressWrap = document.getElementById("progressWrap");
+
+let isSeeking = false;
+
+function seekSong(e) {
+  if (!audio.duration) return;
+
+  const rect = progressWrap.getBoundingClientRect();
+
+  let percent =
+    (e.clientX - rect.left) / rect.width;
+
+  percent = Math.max(0, Math.min(1, percent));
+
+  audio.currentTime = percent * audio.duration;
+}
+
+progressWrap.addEventListener("pointerdown", (e) => {
+  isSeeking = true;
+  progressWrap.setPointerCapture(e.pointerId);
+  seekSong(e);
+});
+
+progressWrap.addEventListener("pointermove", (e) => {
+  if (!isSeeking) return;
+  seekSong(e);
+});
+
+progressWrap.addEventListener("pointerup", () => {
+  isSeeking = false;
+});
+
+progressWrap.addEventListener("pointercancel", () => {
+  isSeeking = false;
 });
 </script>
 
