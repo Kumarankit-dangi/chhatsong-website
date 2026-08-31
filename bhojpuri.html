@@ -1166,41 +1166,35 @@ document.addEventListener("click", function(event) {
       PLAY / PAUSE
       ==========================================
     */
+play.onclick = async () => {
 
-    play.onclick = () => {
+    if (!files.length) return;
 
-      if (!files.length) {
-        return;
-      }
+    try {
 
+        if (audio.paused) {
 
-      if (audio.paused) {
+            if (!audio.src) {
+                loadTrack(current);
+            }
 
-        const promise =
-          audio.play();
+            await audio.play();
 
-        if (promise !== undefined) {
+        } else {
 
-          promise.catch(error => {
-
-            console.log(
-              "Play error:",
-              error
-            );
-
-          });
+            audio.pause();
 
         }
 
-      } else {
+    } catch (error) {
 
-        audio.pause();
+        console.error("Mobile audio error:", error);
 
-      }
+        track.textContent = "Song play nahi hua";
 
-    };
+    }
 
-
+};
     /*
       ==========================================
       PLAY STATE
