@@ -235,9 +235,11 @@ button{width:42px;height:42px;border:0;border-radius:50%;background:#30231a;colo
 </div>
 
 <audio id="audio" preload="metadata"></audio>
-
 <script>
-const files=[];
+const files = Array.from(
+  { length: 85 },
+  (_, i) => `punjabi-${String(i + 1).padStart(3, "0")}.mp3`
+);
 
 const audio=document.getElementById("audio");
 const play=document.getElementById("play");
