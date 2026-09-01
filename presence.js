@@ -12,14 +12,27 @@ const firebaseConfig = {
 
 const liveUsers = document.getElementById('liveUsers');
 const pageKey = document.body.dataset.pageKey || location.pathname.replace(/\//g, '').replace(/\.html$/, '') || 'home';
-const liveStorageKey = `chhatsong-live-count-${pageKey}`;
-const liveChannelName = `chhatsong-live-channel-${pageKey}`;
+const isSiteTotalPage = pageKey === 'chhath';
+const liveStorageKey = `chhatsong-live-count-${isSiteTotalPage ? 'site-total' : pageKey}`;
+const liveChannelName = `chhatsong-live-channel-${isSiteTotalPage ? 'site-total' : pageKey}`;
 const sessionId = (crypto && crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(16).slice(2)}`);
 
 function renderCount(count) {
   const safeCount = Number.isFinite(Number(count)) ? Math.max(1, Number(count)) : 1;
   if (!liveUsers) return;
   liveUsers.textContent = `${safeCount} live`;
+}
+
+function countLiveSessions(data) {
+  if (!data || typeof data !== 'object') return 0;
+
+  let total = 0;
+  Object.values(data).forEach((pageData) => {
+    if (!pageData || typeof pageData !== 'object') return;
+    total += Object.keys(pageData).length;
+  });
+
+  return total || 1;
 }
 
 function setFallbackCount(count) {
@@ -50,9 +63,17 @@ try {
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const database = getDatabase(app);
-  const presenceRef = ref(database, `presence/${pageKey}`);
+  const presenceRef = ref(database, isSiteTotalPage ? 'presence' : `presence/${pageKey}`);
 
   onValue(presenceRef, (snapshot) => {
+    if (isSiteTotalPage) {
+      const data = snapshot.val() || {};
+      const total = countLiveSessions(data);
+      renderCount(total);
+      setFallbackCount(total);
+      return;
+    }
+
     const data = snapshot.val() || {};
     const count = snapshot.exists() ? Object.keys(data).length || 1 : 1;
     renderCount(count);
