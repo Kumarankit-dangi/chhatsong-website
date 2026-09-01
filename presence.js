@@ -12,7 +12,8 @@ const firebaseConfig = {
 
 const liveUsers = document.getElementById('liveUsers');
 const pageKey = document.body.dataset.pageKey || location.pathname.replace(/\//g, '').replace(/\.html$/, '') || 'home';
-const isSiteTotalPage = pageKey === 'chhath';
+const isRootPage = ['/', '/index.html', '/chhatsong-website/', '/chhatsong-website/index.html'].includes(location.pathname);
+const isSiteTotalPage = isRootPage || pageKey === 'chhath';
 const liveStorageKey = `chhatsong-live-count-${isSiteTotalPage ? 'site-total' : pageKey}`;
 const liveChannelName = `chhatsong-live-channel-${isSiteTotalPage ? 'site-total' : pageKey}`;
 const sessionId = (crypto && crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(16).slice(2)}`);
