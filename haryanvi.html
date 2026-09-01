@@ -69,6 +69,15 @@
             color: #a8ff63;
         }
 
+        .live-users {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #b9ff8a;
+            font-size: 15px;
+            font-weight: 700;
+        }
+
         /* INTRO */
 
         .intro {
@@ -189,8 +198,12 @@
             font-size: 15px;
         }
 
-        .menu-list a:hover {
-            background: #2a1a12;
+        .menu-list a:hover,
+        .menu-list a.active,
+        .menu-list a.is-active {
+            background: linear-gradient(180deg, #4aa3ff, #1f6fe5);
+            color: #edf8ff;
+            box-shadow: 0 0 0 1px rgba(127,180,255,.45), 0 8px 18px rgba(31,111,229,.38);
         }
 
         .music-menu.open .menu-list {
@@ -219,111 +232,155 @@
 
         /* PLAYER */
 
-        .player {
-            width: 100%;
-
-            padding: 14px;
-
-            border: 1px solid #9d7436;
-
-            border-radius: 25px;
-
-            background: #160e0be8;
-
-            backdrop-filter: blur(8px);
+        .player,
+        .offer {
+            position: fixed;
+            z-index: 100;
+            left: 50%;
+            bottom: 20px;
+            transform: translateX(-50%);
+            width: min(760px, calc(100% - 26px));
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            gap: 14px;
+            padding: 13px 16px;
+            border: 1px solid rgba(255, 218, 150, 0.38);
+            border-radius: 20px;
+            background: linear-gradient(105deg, rgba(47, 29, 20, 0.91), rgba(17, 12, 9, 0.90));
+            box-shadow: 0 15px 50px #000d, inset 0 1px rgba(255, 238, 195, 0.08);
+            backdrop-filter: blur(18px);
         }
 
-        .controls {
+        .controls,
+        .transport {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 2px;
         }
 
-        button {
-            width: 48px;
-            height: 48px;
-
+        button,
+        .control {
+            width: 31px;
+            height: 31px;
             border: 0;
             border-radius: 50%;
-
-            background: #30231a;
-
-            color: white;
-
-            font-size: 18px;
-
+            background: transparent;
+            color: #fff0d0;
+            font-size: 17px;
             cursor: pointer;
+            transition: transform 0.2s, color 0.2s;
         }
 
-        #play {
-            width: 60px;
-            height: 60px;
+        button:hover,
+        .control:hover {
+            color: #ffd071;
+            transform: scale(1.1);
+        }
 
+        #play,
+        .main-control {
+            width: 44px;
+            height: 44px;
+            display: grid;
+            place-items: center;
             background: #ffc44a;
-
             color: #211508;
-
-            font-size: 23px;
+            font-size: 15px;
+            box-shadow: 0 3px 18px #e9b95745;
         }
 
-        .info {
+        .info,
+        .song,
+        .song-info {
             flex: 1;
             min-width: 0;
         }
 
-        #track {
-            display: block;
+        .song-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-width: 0;
+            width: 100%;
+        }
 
+        .song-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #fff1d0;
+            min-width: 0;
+        }
+
+        #track,
+        .song-top span:first-child {
+            display: block;
+            min-width: 0;
+            flex: 1 1 auto;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-
             font-size: 15px;
             font-weight: bold;
+            color: #fff2cf;
+            text-align: left;
         }
 
-        #time {
+        #time,
+        .song-top span:last-child {
             display: block;
+            font: 10px 'DM Mono';
+            color: #ffc866;
+            white-space: nowrap;
+            text-align: right;
+            flex-shrink: 0;
+        }
 
-            margin-top: 4px;
-
-            font-size: 12px;
-
-            color: #f0c86d;
+        .progress,
+        .progress-wrap {
+            width: 100%;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            touch-action: none;
+            overflow: hidden;
         }
 
         .progress {
-            height: 6px;
-
-            background: #4a3c31;
-
+            width: 100%;
+            height: 3px;
+            background: rgba(255, 201, 112, 0.28);
             border-radius: 10px;
-
-            margin: 10px 0 0 105px;
-
+            margin: 10px 0 0 0;
             overflow: hidden;
-
-            cursor: pointer;
         }
 
-        .bar {
+        .bar,
+        .progress i {
             height: 100%;
-
             width: 0%;
-
             background: #ffc44a;
+            box-shadow: 0 0 8px #ffd475;
         }
 
         /* MOBILE */
 
-        @media (max-width: 600px) {
+        @media (max-width: 760px) {
+
+            body {
+                overflow-x: hidden;
+            }
 
             .hero {
-                min-height: 100vh;
-
+                min-height: 100svh;
                 padding: 22px 16px 15px;
-
                 background-position: center center;
+                background-size: cover;
             }
 
             .top {
@@ -362,26 +419,38 @@
                 font-size: 16px;
             }
 
-            .player {
-                padding: 12px;
+            .player,
+            .offer {
+                bottom: 12px;
+                width: calc(100% - 20px);
+                padding: 9px 10px;
+                gap: 8px;
             }
 
-            button {
-                width: 43px;
-                height: 43px;
+            .controls,
+            .transport {
+                gap: 0;
             }
 
-            #play {
-                width: 58px;
-                height: 58px;
+            button,
+            .control {
+                width: 27px;
+                height: 27px;
+            }
+
+            #play,
+            .main-control {
+                width: 44px;
+                height: 44px;
             }
 
             #track {
                 font-size: 13px;
             }
 
-            .progress {
-                margin-left: 95px;
+            .progress,
+            .progress-wrap {
+                height: 14px;
             }
         }
 
@@ -389,7 +458,7 @@
 </head>
 
 
-<body>
+<body data-page-key="haryanvi">
 
     <div class="page">
 
@@ -401,8 +470,9 @@
 
                 <span>हरियाणवी / 2026</span>
 
-                <span class="live">
-                    ● Haryanvi Vibes
+                <span class="live-users">
+                    <span class="live">●</span>
+                    <span id="liveUsers">1 live</span>
                 </span>
 
             </div>
@@ -490,12 +560,12 @@
                         </a>
 
 
-                        <a href="chhath.html">
+                        <a href="index.html">
                             🪔 छठ पूजा
                         </a>
 
 
-                        <a href="navratri.html">
+                        <a href="index.html?playlist=navratri">
                             🔱 नवरात्रि
                         </a>
 
@@ -514,6 +584,9 @@
                             📺 पापा के ज़माने के गाने
                         </a>
 
+                        <a href="dil-ka-lafda.html">
+                            💔 Dil Ka Lafda
+                        </a>
 
                         <a href="punjabi.html">
                             🎵 पंजाबी
@@ -562,8 +635,12 @@
                         ⏭
                     </button>
 
+                </div>
 
-                    <div class="info">
+
+                <div class="song-info">
+
+                    <div class="song-top">
 
                         <span id="track">
                             Haryanvi songs
@@ -575,16 +652,16 @@
 
                     </div>
 
-                </div>
-
-
-                <div
-                    class="progress"
-                    id="progress">
 
                     <div
-                        class="bar"
-                        id="bar">
+                        class="progress"
+                        id="progress">
+
+                        <div
+                            class="bar"
+                            id="bar">
+                        </div>
+
                     </div>
 
                 </div>
@@ -604,17 +681,16 @@
     </audio>
 
 
+    <script src="haryanvi-tracks.js"></script>
     <script>
 
         /* =========================
            HARYANVI SONGS
            ========================= */
 
-        const files = [
-            // Baad mein yahan songs add karna
-            // "song1.mp3",
-            // "song2.mp3"
-        ];
+        const files = Array.isArray(window.haryanviTrackFiles)
+            ? window.haryanviTrackFiles
+            : [];
 
 
         const audio =
@@ -649,6 +725,45 @@
            LOAD SONG
            ========================= */
 
+        const trackBaseCandidates = [
+            "tracks/haryana/",
+            "tracks/haryanvi/"
+        ];
+
+        function resolveTrackSource(filename) {
+            for (const basePath of trackBaseCandidates) {
+                const candidate = basePath + encodeURIComponent(filename);
+                if (candidate.includes("/haryana/") || candidate.includes("/haryanvi/")) {
+                    return candidate;
+                }
+            }
+            return "tracks/haryana/" + encodeURIComponent(filename);
+        }
+
+        function safePlayAudio() {
+
+            if (!audio.src) return;
+
+            const tryPlay = () => {
+                audio.play()
+                    .catch(() => {
+                        setTimeout(() => {
+                            audio.play().catch(() => {});
+                        }, 250);
+                    });
+            };
+
+            if (audio.readyState >= 1) {
+                tryPlay();
+            } else {
+                const onReady = () => {
+                    tryPlay();
+                    audio.removeEventListener("loadedmetadata", onReady);
+                };
+                audio.addEventListener("loadedmetadata", onReady, { once: true });
+            }
+        }
+
         function loadTrack(index, shouldPlay = false) {
 
             if (!files.length) {
@@ -665,9 +780,9 @@
                 files.length;
 
 
-            audio.src =
-                "tracks/haryanvi/" +
-                encodeURIComponent(files[current]);
+            audio.pause();
+            audio.currentTime = 0;
+            audio.src = resolveTrackSource(files[current]);
 
 
             track.textContent =
@@ -680,13 +795,19 @@
 
             if (shouldPlay) {
 
-                audio.play()
-                    .catch(error =>
-                        console.log(error)
-                    );
+                safePlayAudio();
 
             }
 
+        }
+
+
+        /* =========================
+           INITIAL TRACK
+           ========================= */
+
+        if (files.length) {
+            loadTrack(Math.floor(Math.random() * files.length), true);
         }
 
 
@@ -704,10 +825,11 @@
 
             if (audio.paused) {
 
-                audio.play()
-                    .catch(error =>
-                        console.log(error)
-                    );
+                if (audio.src) {
+                    safePlayAudio();
+                } else {
+                    loadTrack(current, true);
+                }
 
             } else {
 

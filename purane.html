@@ -186,7 +186,9 @@
 
     .playlist-choice:hover,
     .playlist-choice.is-active {
-      background: rgba(255,255,255,.14);
+      background: linear-gradient(180deg, #4aa3ff, #1f6fe5);
+      color: #edf8ff;
+      box-shadow: 0 0 0 1px rgba(127,180,255,.45), 0 8px 18px rgba(31,111,229,.38);
     }
 
     .quote-box {
@@ -293,6 +295,10 @@
     }
 
     @media (max-width: 700px) {
+      body {
+        overflow-x: hidden;
+      }
+
       nav {
         flex-wrap: wrap;
         padding: 15px 0;
@@ -303,7 +309,10 @@
       }
 
       .hero {
+        min-height: 100svh;
         padding-top: 40px;
+        background-position: center center;
+        background-size: cover;
       }
 
       .offer {
@@ -320,7 +329,7 @@
 </head>
 
 
-<body>
+<body data-page-key="purane">
 
   <!-- Papa ke zamane wali image -->
   <div class="scene">
@@ -405,6 +414,11 @@
             </button>
             <button
               class="playlist-choice"
+              data-playlist="haryanvi">
+              🎵हरियाणवी
+            </button>
+            <button
+              class="playlist-choice"
               data-playlist="jhadu-pocha">
               🧹झाड़ू-पोछा
       
@@ -414,8 +428,13 @@
               data-playlist="papa">
               📻पापा के ज़माने के गाने 
             </button>
-             <button 
-  class="playlist-choice" 
+             <button               class="playlist-choice"
+              data-playlist="punjabi"
+              type="button"
+            >
+              🎵 पंजाबी
+            </button>
+            <button  class="playlist-choice" 
   data-playlist="dil-ka-lafda" 
 >
   💔 Dil Ka Lafda
@@ -489,6 +508,7 @@
   const time = document.getElementById("time");
   const track = document.getElementById("track");
 const puraneFiles = window.remainingPuraneTrackFiles || window.puraneTrackFiles || [];
+let current = 0;
 
 const tracksurls = puraneFiles.map(file =>
   "tracks/purane/" + encodeURIComponent(file)
@@ -720,6 +740,12 @@ document.querySelectorAll(".playlist-choice")
 
       }
 
+      if (playlist === "haryanvi") {
+
+        window.location.href = "haryanvi.html";
+
+      }
+
 
       if (playlist === "jhadu-pocha") {
 
@@ -732,6 +758,12 @@ document.querySelectorAll(".playlist-choice")
       if (playlist === "papa") {
 
        window.location.href = "./papa.html";
+
+      }
+
+      if (playlist === "punjabi") {
+
+        window.location.href = "punjabi.html";
 
       }
 
@@ -754,7 +786,9 @@ document.addEventListener("click", () => {
 
 // SONGS START LOAD
 
-loadTrack(0);
+if (puraneFiles.length) {
+  loadTrack(Math.floor(Math.random() * puraneFiles.length));
+}
 
 </script>
 

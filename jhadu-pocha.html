@@ -343,9 +343,11 @@
     }
 
     .playlist-choice:hover,
-    .playlist-choice.active {
-      background: rgba(255, 215, 140, 0.12);
-      color: white;
+    .playlist-choice.active,
+    .playlist-choice.is-active {
+      background: linear-gradient(180deg, #4aa3ff, #1f6fe5);
+      color: #edf8ff;
+      box-shadow: 0 0 0 1px rgba(127,180,255,.45), 0 8px 18px rgba(31,111,229,.38);
     }
 
     /* ================= QUOTE ================= */
@@ -381,45 +383,28 @@
 
     /* ================= PLAYER ================= */
 
-    .player {
+    .player,
+    .offer {
       position: fixed;
-
       z-index: 100;
-
       left: 50%;
       bottom: 20px;
-
       transform: translateX(-50%);
-
       width: min(760px, calc(100% - 26px));
-
       display: grid;
       grid-template-columns: auto 1fr auto;
-
       align-items: center;
-
       gap: 14px;
-
       padding: 13px 16px;
-
       border: 1px solid rgba(255, 218, 150, 0.38);
       border-radius: 20px;
-
-      background:
-        linear-gradient(
-          105deg,
-          rgba(47, 29, 20, 0.91),
-          rgba(17, 12, 9, 0.90)
-        );
-
-      box-shadow:
-        0 15px 50px #000d,
-        inset 0 1px rgba(255, 238, 195, 0.08);
-
+      background: linear-gradient(105deg, rgba(47, 29, 20, 0.91), rgba(17, 12, 9, 0.90));
+      box-shadow: 0 15px 50px #000d, inset 0 1px rgba(255, 238, 195, 0.08);
       backdrop-filter: blur(18px);
     }
 
-    .controls {
+    .controls,
+    .transport {
       display: flex;
       align-items: center;
       gap: 2px;
@@ -428,17 +413,11 @@
     .control {
       width: 31px;
       height: 31px;
-
       border: 0;
-
       background: transparent;
-
       color: #fff0d0;
-
       cursor: pointer;
-
       font-size: 17px;
-
       transition: 0.2s;
     }
 
@@ -447,25 +426,21 @@
       transform: scale(1.1);
     }
 
-    .play {
+    .play,
+    .main-control {
       width: 44px;
       height: 44px;
-
       display: grid;
       place-items: center;
-
       border-radius: 50%;
-
       background: #e9b957;
-
       color: #32180e;
-
       font-size: 15px;
-
       box-shadow: 0 3px 18px #e9b95745;
     }
 
-    .song-info {
+    .song-info,
+    .song {
       min-width: 0;
     }
 
@@ -473,59 +448,48 @@
       display: flex;
       justify-content: space-between;
       gap: 10px;
-
       color: #fff0d0;
-
       font-size: 11px;
       font-weight: 600;
     }
 
-    #track {
+    #track,
+    .song-top span:first-child {
       overflow: hidden;
-
       text-overflow: ellipsis;
       white-space: nowrap;
     }
 
-    #time {
+    #time,
+    .song-top span:last-child {
       color: #e7bb67;
-
       font-family: "DM Mono", monospace;
       font-size: 9px;
-
       white-space: nowrap;
     }
 
     .progress-wrap {
       height: 17px;
-
       display: flex;
       align-items: center;
-
       cursor: pointer;
-
       touch-action: none;
     }
 
     .progress {
       width: 100%;
       height: 3px;
-
       overflow: hidden;
-
       border-radius: 10px;
-
       background: #e7bd7240;
     }
 
-    #bar {
+    #bar,
+    .progress i {
       display: block;
-
       width: 0%;
       height: 100%;
-
       background: #edc465;
-
       box-shadow: 0 0 8px #edc465;
     }
 
@@ -542,6 +506,10 @@
 
     @media (max-width: 700px) {
 
+      body {
+        overflow-x: hidden;
+      }
+
       main {
         padding: 20px 15px 145px;
       }
@@ -555,7 +523,10 @@
       }
 
       .hero {
+        min-height: 100svh;
         padding-top: 45px;
+        background-position: center center;
+        background-size: cover;
       }
 
       h1 {
@@ -612,7 +583,7 @@
   </style>
 </head>
 
-<body>
+<body data-page-key="jhadu-pocha">
 
   <!-- ================= BACKGROUND ================= -->
 
@@ -733,6 +704,13 @@
 
             <button
               class="playlist-choice"
+              data-playlist="haryanvi"
+            >
+              🎵 हरियाणवी
+            </button>
+
+            <button
+              class="playlist-choice"
               data-playlist="purane"
             >
               📻 पुराने गीत
@@ -743,6 +721,12 @@
               data-playlist="papa"
             >
              📻पापा के ज़माने के गाने
+            </button>
+            <button
+              class="playlist-choice"
+              data-playlist="punjabi"
+            >
+             🎵 पंजाबी
             </button>
             <button 
   class="playlist-choice" 
@@ -901,7 +885,7 @@ fetch("https://api.github.com/repos/Kumarankit-dangi/chhatsong-website/contents/
     console.log("Jhaadu-Pocha songs:", files);
 
     if (files.length > 0) {
-      loadTrack(0, false);
+      loadTrack(Math.floor(Math.random() * files.length), false);
     } else {
       track.textContent = "Songs nahi mile";
     }
@@ -1290,14 +1274,54 @@ audio.src =
                 window.location.href =
                   "purane.html";
 
+                return;
+
               }
-            if (playlist === "papa") {
- window.location.href = "./papa.html";
-           }
-       if (playlist === "dil-ka-lafda") {
-  window.location.href = "dil-ka-lafda.html";
-  return;
-}
+
+              if (
+                playlist === "haryanvi"
+              ) {
+
+                window.location.href =
+                  "haryanvi.html";
+
+                return;
+
+              }
+
+              if (
+                playlist === "papa"
+              ) {
+
+                window.location.href =
+                  "./papa.html";
+
+                return;
+
+              }
+
+              if (
+                playlist === "punjabi"
+              ) {
+
+                window.location.href =
+                  "punjabi.html";
+
+                return;
+
+              }
+
+              if (
+                playlist === "dil-ka-lafda"
+              ) {
+
+                window.location.href =
+                  "dil-ka-lafda.html";
+
+                return;
+
+              }
+
               if (
                 playlist === "jhadu-pocha"
               ) {
@@ -1334,7 +1358,7 @@ audio.src =
 
     /* INITIAL */
 
-    loadTrack(0);
+    loadTrack(Math.floor(Math.random() * files.length));
 
   </script>
 

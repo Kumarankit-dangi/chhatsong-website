@@ -24,8 +24,9 @@ body{margin:0;background:#090706;color:#fff3d6;font-family:Arial,sans-serif}
   background:linear-gradient(#0003,#000b),url("punjabi-poster.png") center center/cover no-repeat;
 }
 
-.top{display:flex;justify-content:space-between;font-weight:bold}
+.top{display:flex;justify-content:space-between;align-items:center;gap:14px;font-weight:bold;flex-wrap:wrap}
 .live{color:#a8ff63}
+.live-users{display:inline-flex;align-items:center;gap:6px;font-size:12px}
 
 .intro{margin-top:70px}
 .tag{color:#ffd044;letter-spacing:3px;font-size:13px}
@@ -42,14 +43,14 @@ h1{font-size:clamp(55px,15vw,88px);line-height:.9;margin:16px 0;font-weight:900}
 /* ================= CATEGORY MENU ================= */
 .category-menu{
   position:relative;
-  width:205px;
+  width:min(100%,240px);
   margin-top:25px;
   z-index:20;
 }
 
 .category-button{
-  width:205px;
-  height:52px;
+  width:100%;
+  min-height:52px;
   padding:0 20px;
   border:1px solid #9d7436;
   border-radius:28px;
@@ -71,7 +72,8 @@ h1{font-size:clamp(55px,15vw,88px);line-height:.9;margin:16px 0;font-weight:900}
   position:absolute;
   left:0;
   top:59px;
-  width:205px;
+  width:100%;
+  min-width:0;
   padding:7px;
   border:1px solid #6d5231;
   border-radius:18px;
@@ -99,43 +101,107 @@ h1{font-size:clamp(55px,15vw,88px);line-height:.9;margin:16px 0;font-weight:900}
 }
 
 /* ================= PLAYER ================= */
-.player{
-  margin:0 0 0;
-  padding:14px;
-  border:1px solid #9d7436;
-  border-radius:25px;
-  background:#160e0be8;
+.player,
+.offer {
+  position: fixed;
+  z-index: 100;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+  width: min(760px, calc(100% - 26px));
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 14px;
+  padding: 13px 16px;
+  border: 1px solid rgba(255, 218, 150, 0.38);
+  border-radius: 20px;
+  background: linear-gradient(105deg, rgba(47, 29, 20, 0.91), rgba(17, 12, 9, 0.90));
+  box-shadow: 0 15px 50px #000d, inset 0 1px rgba(255, 238, 195, 0.08);
+  backdrop-filter: blur(18px);
 }
 
-.controls{display:flex;align-items:center;gap:9px}
-button{width:42px;height:42px;border:0;border-radius:50%;background:#30231a;color:white;font-size:18px}
-
-#play{
-  width:58px;
-  height:58px;
-  background:#ffc44a;
-  color:#211508;
-  font-size:23px;
+.controls,
+.transport {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+button,
+.control {
+  width: 31px;
+  height: 31px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #fff0d0;
+  font-size: 17px;
+  cursor: pointer;
+  transition: transform 0.2s, color 0.2s;
+}
+button:hover,
+.control:hover {
+  color: #ffd071;
+  transform: scale(1.1);
 }
 
-.info{flex:1;min-width:0}
-#track{
-  display:block;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  font-size:14px;
-  font-weight:bold
+#play,
+.main-control {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  background: #ffc44a;
+  color: #211508;
+  font-size: 15px;
+  box-shadow: 0 3px 18px #e9b95745;
 }
-#time{font-size:12px;color:#f0c86d}
 
-.progress{
-  height:6px;
-  background:#4a3c31;
-  border-radius:10px;
-  margin:9px 0 0 102px
+.info,
+.song,
+.song-info {
+  flex: 1;
+  min-width: 0;
 }
-.bar{height:100%;width:0;background:#ffc44a}
+#track,
+.song-top span:first-child {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 14px;
+  font-weight: bold;
+}
+#time,
+.song-top span:last-child {
+  font-size: 12px;
+  color: #f0c86d;
+  white-space: nowrap;
+}
+
+.progress,
+.progress-wrap {
+  width: 100%;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  touch-action: none;
+}
+.progress {
+  height: 3px;
+  background: rgba(255, 201, 112, 0.28);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 9px 0 0 0;
+}
+.bar,
+.progress i {
+  height: 100%;
+  width: 0;
+  background: #ffc44a;
+  box-shadow: 0 0 8px #ffd475;
+}
 
 .songs{padding:25px 20px 70px}
 .empty{
@@ -146,23 +212,40 @@ button{width:42px;height:42px;border:0;border-radius:50%;background:#30231a;colo
   color:#d8c6ad
 }
 
-@media(max-width:500px){
-  .hero{min-height:780px;padding:22px 16px 15px}
+@media(max-width:760px){
+  body{overflow-x:hidden}
+  .hero{min-height:100svh;padding:22px 16px 15px;background-position:center center;background-size:cover}
+  .top{font-size:13px}
   .intro{margin-top:50px}
   h1{font-size:58px}
   .desc{font-size:17px}
+  .category-menu,.category-button,.category-list{width:min(100%,220px)}
+  .player,
+  .offer { bottom: max(8px,env(safe-area-inset-bottom)); width: calc(100% - 18px); padding: 9px 10px; gap: 8px; }
+  .controls,
+  .transport { gap: 0; }
+  button,
+  .control { width: 27px; height: 27px; }
+  #play,
+  .main-control { width: 44px; height: 44px; }
+  .progress,
+  .progress-wrap { height: 14px; }
+  .progress { margin-left: 0; }
 }
 </style>
 </head>
 
-<body>
+<body data-page-key="punjabi">
 <div class="page">
 
 <section class="hero">
 
 <div class="top">
   <span>पंजाबी / 2026</span>
-  <span class="live">● Punjabi Vibes</span>
+  <span class="live-users">
+    <span class="live">●</span>
+    <span id="liveUsers">0 live</span>
+  </span>
 </div>
 
 <div class="intro">
@@ -195,8 +278,9 @@ button{width:42px;height:42px;border:0;border-radius:50%;background:#30231a;colo
     <a href="punjabi.html">🎵&nbsp; पंजाबी</a>
     <a href="jhadu-pocha.html">🧹&nbsp; झाड़ू-पोछा</a>
     <a href="index.html">🪔&nbsp; छठ पूजा</a>
-    <a href="navratri.html">🔱&nbsp; नवरात्रि</a>
+    <a href="index.html?playlist=navratri">🔱&nbsp; नवरात्रि</a>
     <a href="bhojpuri.html">🎶&nbsp; भोजपुरी</a>
+    <a href="haryanvi.html">🎵&nbsp; हरियाणवी</a>
     <a href="purane.html">📼&nbsp; पुराने गीत</a>
     <a href="papa.html">📺&nbsp; पापा के ज़माने के गाने</a>
   </div>
@@ -222,7 +306,7 @@ button{width:42px;height:42px;border:0;border-radius:50%;background:#30231a;colo
   </div>
 </div>
 
-<div class="progress">
+<div class="progress" id="progressWrap" aria-label="Song progress" tabindex="0">
   <div class="bar" id="bar"></div>
 </div>
 
@@ -248,8 +332,17 @@ const next=document.getElementById("next");
 const track=document.getElementById("track");
 const time=document.getElementById("time");
 const bar=document.getElementById("bar");
+const progressWrap=document.getElementById("progressWrap");
 
 let current=0;
+
+function seekSong(clientX){
+  if(!audio.duration) return;
+
+  const rect=progressWrap.getBoundingClientRect();
+  const ratio=Math.min(Math.max((clientX-rect.left)/rect.width,0),1);
+  audio.currentTime=ratio*audio.duration;
+}
 
 function loadTrack(i,shouldPlay=false){
   if(!files.length)return;
@@ -266,8 +359,17 @@ function loadTrack(i,shouldPlay=false){
   }
 }
 
+const randomStartIndex = () => Math.floor(Math.random() * files.length);
+loadTrack(randomStartIndex());
+
 play.onclick=()=>{
   if(!files.length)return;
+
+  if(!audio.src){
+    loadTrack(0,true);
+    return;
+  }
+
   audio.paused
     ? audio.play().catch(console.log)
     : audio.pause();
@@ -291,6 +393,33 @@ audio.ontimeupdate=()=>{
     String(Math.floor(c%60)).padStart(2,"0");
 };
 
+progressWrap.addEventListener("click", (event) => {
+  seekSong(event.clientX);
+});
+
+progressWrap.addEventListener("pointerdown", (event) => {
+  if (!audio.duration) return;
+  event.preventDefault();
+  if (progressWrap.setPointerCapture) {
+    progressWrap.setPointerCapture(event.pointerId);
+  }
+  seekSong(event.clientX);
+});
+
+progressWrap.addEventListener("pointermove", (event) => {
+  if (event.pressure > 0 && event.buttons === 1 && audio.duration) {
+    seekSong(event.clientX);
+  }
+});
+
+progressWrap.addEventListener("pointerup", (event) => {
+  if (progressWrap.releasePointerCapture) {
+    try {
+      progressWrap.releasePointerCapture(event.pointerId);
+    } catch (error) {}
+  }
+});
+
 /* Category menu */
 const categoryButton=document.getElementById("categoryButton");
 const categoryList=document.getElementById("categoryList");
@@ -305,6 +434,7 @@ document.addEventListener("click",(e)=>{
   }
 });
 </script>
+<script type="module" src="./presence.js"></script>
 
 </body>
 </html>

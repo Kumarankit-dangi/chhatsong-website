@@ -11,43 +11,89 @@ const firebaseConfig = {
 };
 
 const liveUsers = document.getElementById('liveUsers');
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const database = getDatabase(app);
-const presenceRef = ref(database, 'presence');
+const pageKey = document.body.dataset.pageKey || location.pathname.replace(/\//g, '').replace(/\.html$/, '') || 'home';
+const liveStorageKey = `chhatsong-live-count-${pageKey}`;
+const liveChannelName = `chhatsong-live-channel-${pageKey}`;
+const sessionId = (crypto && crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(16).slice(2)}`);
 
 function renderCount(count) {
+  const safeCount = Number.isFinite(Number(count)) ? Math.max(1, Number(count)) : 1;
   if (!liveUsers) return;
-  liveUsers.textContent = `${count} live`;
+  liveUsers.textContent = `${safeCount} live`;
 }
 
-onValue(presenceRef, (snapshot) => {
-  renderCount(snapshot.exists() ? snapshot.size : 0);
-}, () => {
-  if (liveUsers) liveUsers.textContent = 'offline';
-});
+function setFallbackCount(count) {
+  try {
+    const normalized = Math.max(1, Number(count) || 1);
+    localStorage.setItem(liveStorageKey, String(normalized));
+  } catch (error) {
+    console.warn('Unable to store live count fallback:', error);
+  }
 
-signInAnonymously(auth).then(({ user }) => {
-  const userRef = ref(database, `presence/${user.uid}`);
-  const connectionRef = push(userRef);
-  const connectedRef = ref(database, '.info/connected');
+  if ('BroadcastChannel' in window) {
+    const ch = new BroadcastChannel(liveChannelName);
+    ch.postMessage({ count: Math.max(1, Number(count) || 1) });
+    ch.close();
+  }
+}
 
-  onValue(connectedRef, (connectedSnap) => {
-    if (connectedSnap.val() !== true) return;
+function getFallbackCount() {
+  try {
+    const saved = Number(localStorage.getItem(liveStorageKey) || 1);
+    return Number.isFinite(saved) ? Math.max(1, saved) : 1;
+  } catch (error) {
+    return 1;
+  }
+}
 
-    onDisconnect(connectionRef).remove().then(() => {
-      return set(connectionRef, true);
-    }).catch((error) => {
-      console.error('Firebase presence error:', error);
-    });
+try {
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const database = getDatabase(app);
+  const presenceRef = ref(database, `presence/${pageKey}`);
+
+  onValue(presenceRef, (snapshot) => {
+    const data = snapshot.val() || {};
+    const count = snapshot.exists() ? Object.keys(data).length || 1 : 1;
+    renderCount(count);
+    setFallbackCount(count);
+  }, () => {
+    renderCount(getFallbackCount());
   });
 
-  const dropConnection = () => {
-    remove(connectionRef).catch(() => {});
-  };
+  signInAnonymously(auth).then(() => {
+    const sessionRef = ref(database, `presence/${pageKey}/${sessionId}`);
+    const connectedRef = ref(database, '.info/connected');
 
-  window.addEventListener('pagehide', dropConnection);
-}).catch((error) => {
-  console.error('Firebase presence error:', error);
-  if (liveUsers) liveUsers.textContent = 'offline';
-});
+    onValue(connectedRef, (connectedSnap) => {
+      if (connectedSnap.val() !== true) return;
+
+      set(sessionRef, { online: true, connectedAt: Date.now() }).then(() => {
+        onDisconnect(sessionRef).remove().catch(() => {});
+      }).catch((error) => {
+        console.error('Firebase presence error:', error);
+        renderCount(getFallbackCount());
+      });
+    });
+
+    const dropConnection = () => {
+      remove(sessionRef).catch(() => {});
+    };
+
+    window.addEventListener('pagehide', dropConnection);
+  }).catch((error) => {
+    console.error('Firebase presence error:', error);
+    renderCount(getFallbackCount());
+  });
+} catch (error) {
+  console.error('Firebase init error:', error);
+  renderCount(getFallbackCount());
+}
+
+if ('BroadcastChannel' in window) {
+  const channel = new BroadcastChannel(liveChannelName);
+  channel.onmessage = (event) => {
+    const count = Number(event.data?.count || getFallbackCount());
+    renderCount(count);
+  };
+}

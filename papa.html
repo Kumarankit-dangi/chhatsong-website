@@ -482,15 +482,22 @@
 
   body {
     min-height: 100svh;
+    overflow-x: hidden;
+  }
+
+  .scene {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
   }
 
   .scene img {
     width: 100%;
     height: 100%;
     display: block;
-    object-fit: contain;
+    object-fit: cover;
     object-position: center center;
-   background: #e8dccb;
+    background: #e8dccb;
   }
 
 }
@@ -690,7 +697,7 @@
   </style>
 </head>
 
-<body>
+<body data-page-key="papa">
 
   <!-- =========================
        BACKGROUND IMAGE
@@ -817,11 +824,28 @@
 
             <button
               class="playlist-choice"
+              data-playlist="haryanvi"
+              type="button"
+              role="menuitem"
+            >
+              🎵हरियाणवी
+            </button>
+
+            <button
+              class="playlist-choice"
               data-playlist="jhadu-pocha"
               type="button"
               role="menuitem"
             >
               🧹झाड़ू-पोछा 
+            </button>
+            <button
+              class="playlist-choice"
+              data-playlist="punjabi"
+              type="button"
+              role="menuitem"
+            >
+              🎵 पंजाबी
             </button>
              <button 
   class="playlist-choice" 
@@ -988,6 +1012,7 @@
 
       const filename = String(files[current]);
 
+      localStorage.removeItem(TIME_KEY);
       audio.src = encodeURI(mediaBase + filename);
 
       track.textContent =
@@ -998,24 +1023,10 @@
         String(current)
       );
 
-      /* Restore saved position only for the
-         same current song. */
-      const savedIndex =
-        Number(localStorage.getItem(INDEX_KEY));
-
-      const savedTime =
-        Number(localStorage.getItem(TIME_KEY));
+      audio.currentTime = 0;
 
       audio.onloadedmetadata = () => {
-        if (
-          savedIndex === current &&
-          Number.isFinite(savedTime) &&
-          savedTime > 0 &&
-          savedTime < audio.duration
-        ) {
-          audio.currentTime = savedTime;
-        }
-
+        audio.currentTime = 0;
         updateProgress();
       };
 
@@ -1204,7 +1215,7 @@
        SEEK
     ========================== */
     function seekSong(clientX) {
-      if (!audio.duration) return;
+      if (!audio.duration || !audio.src) return;
 
       const rect =
         progressWrap.getBoundingClientRect();
@@ -1221,6 +1232,11 @@
 
       audio.currentTime =
         position * audio.duration;
+
+      localStorage.setItem(
+        TIME_KEY,
+        String(audio.currentTime)
+      );
 
       updateProgress();
     }
@@ -1354,11 +1370,13 @@
             */
             const routes = {
               papa: "papa.html",
-              purane: "../purane.html",
-              chhath: "../index.html",
-              navratri: "../index.html?playlist=navratri",
-              bhojpuri: "../bhojpuri.html",
-              "jhadu-pocha": "../jhadu-pocha.html",
+              purane: "purane.html",
+              chhath: "index.html",
+              navratri: "index.html?playlist=navratri",
+              bhojpuri: "bhojpuri.html",
+              haryanvi: "haryanvi.html",
+              "jhadu-pocha": "jhadu-pocha.html",
+              punjabi: "punjabi.html",
               "dil-ka-lafda": "dil-ka-lafda.html"
             };
 
@@ -1397,11 +1415,12 @@
     if (
       Number.isInteger(savedIndex) &&
       savedIndex >= 0 &&
-      savedIndex < files.length
+      savedIndex < files.length &&
+      Math.random() > 0.95
     ) {
       loadTrack(savedIndex);
     } else {
-      loadTrack(0);
+      loadTrack(Math.floor(Math.random() * files.length));
     }
   </script>
 

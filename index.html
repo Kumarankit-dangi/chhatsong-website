@@ -50,7 +50,7 @@
     .playlist-menu { position:absolute; z-index:6; top:calc(100% + 6px); left:0; right:0; display:none; padding:4px; border:1px solid #ffd68d70; border-radius:14px; background:rgba(57,20,14,.96); box-shadow:0 12px 30px #120706a8; }
     .playlist-switcher.is-open .playlist-menu { display:grid; gap:3px; }
     .playlist-choice { cursor:pointer; border:0; border-radius:10px; padding:9px 10px; color:#ffe5b9; background:transparent; font:10px 'DM Mono'; text-align:left; }
-    .playlist-choice:hover, .playlist-choice.is-active { color:#fff0cb; background:rgba(255,214,141,.14); }
+    .playlist-choice:hover, .playlist-choice.is-active { color:#edf8ff; background:linear-gradient(180deg,#4aa3ff,#1f6fe5); box-shadow:0 0 0 1px rgba(127,180,255,.45), 0 8px 18px rgba(31,111,229,.38); }
     body.theme-navratri { --ink:#241019; --sun:#ffd36a; --orange:#d84d69; --red:#8f2348; --cream:#ffe8dc; --glass:rgba(61,18,39,.5); background:#241019; }
     .theme-navratri .scene { background:#241019; }
     .theme-navratri .video-bg { filter:saturate(1.12) contrast(1.06); }
@@ -74,11 +74,12 @@
     .progress-wrap { height:16px; display:flex; align-items:center; cursor:pointer; } .progress { width:100%; height:3px; border-radius:8px; background:#ffc97047; overflow:hidden; } .progress i { display:block; height:100%; width:0%; background:#ffcb5b; box-shadow:0 0 8px #ffd475; transition:width .2s linear; }
     .side-controls { display:flex; align-items:center; gap:2px; } .volume { color:#ffdc9e; font:10px 'DM Mono'; }
     @media(max-width:760px){
-      main{padding:20px 16px 142px}.nav-note{display:none}nav{font-size:9px}.hero{padding:38px 0 12px}.eyebrow{font-size:9px;letter-spacing:.1em}.eyebrow:before{width:22px}h1{font-size:clamp(4rem,20vw,6.2rem);margin:16px 0 20px}.intro{font-size:14px;line-height:1.6}.metadata{gap:7px;margin-top:24px}.tag{font-size:9px;padding:6px 8px}.playlist-option{min-width:140px;min-height:40px;font-size:11px}.quote-box{margin-top:24px}.offer{bottom:12px;padding:9px 10px;gap:8px}.transport{gap:0}.mobile-play-label{display:none}.play-state{font-size:8px;margin-left:3px}.side-controls .volume{display:none}.control{width:27px;padding:0}.main-control{width:44px;height:44px;padding:0;border-radius:50%;font-size:15px}.song-top{gap:7px;font-size:11px}.progress-wrap{height:14px}
+      body{overflow-x:hidden}
+      main{padding:20px 16px 142px}.nav-note{display:none}nav{font-size:9px}.hero{padding:38px 0 12px; min-height:100svh; background-position:center center; background-size:cover}.eyebrow{font-size:9px;letter-spacing:.1em}.eyebrow:before{width:22px}h1{font-size:clamp(4rem,20vw,6.2rem);margin:16px 0 20px}.intro{font-size:14px;line-height:1.6}.metadata{gap:7px;margin-top:24px}.tag{font-size:9px;padding:6px 8px}.playlist-option{min-width:140px;min-height:40px;font-size:11px}.quote-box{margin-top:24px}.offer{bottom:max(8px,env(safe-area-inset-bottom));padding:9px 10px;gap:8px;width:calc(100% - 18px)}.transport{gap:0}.mobile-play-label{display:none}.play-state{font-size:8px;margin-left:3px}.side-controls .volume{display:none}.control{width:27px;padding:0}.main-control{width:44px;height:44px;padding:0;border-radius:50%;font-size:15px}.song-top{gap:7px;font-size:11px}.progress-wrap{height:14px}
     }
   </style>
 </head>
-<body>
+<body data-page-key="chhath">
   <div class="scene">
     <div class="video-bg" aria-hidden="true"><video id="backgroundVideo" autoplay muted loop playsinline preload="auto" src="chhath-background.mp4"></video></div>
     <div class="video-overlay"></div><div class="reeds"></div><div class="water"></div>
@@ -97,10 +98,12 @@
             <button class="playlist-choice is-active" type="button" data-playlist="chhath" role="menuitem">🪔छठ पूजा</button>
             <button class="playlist-choice" type="button" data-playlist="navratri" role="menuitem">🔱नवरात्रि</button>
             <button class="playlist-choice" type="button" data-playlist="bhojpuri" role="menuitem">🎵भोजपुरी</button>
-            <button class="playlist-choice" type="button"data-playlist="purane" role="menuitem">📼पुराने गीत</button>
-            <button class="playlist-choice" type = "button"data-playlist="jhadu-pocha" role="menuitem">🧹 झाड़ू-पोछा</button>
-            <button class="playlist-choice" type = "button"data-playlist="papa" role="menuitem"> 📻पापा के ज़माने के गाने</button>
-            <button class="playlist-choice" type = "button"data-playlist="dil-ka-lafda" role="menuitem"> 💔 Dil Ka Lafda </button>
+            <button class="playlist-choice" type="button" data-playlist="haryanvi" role="menuitem">🎵हरियाणवी</button>
+            <button class="playlist-choice" type="button" data-playlist="purane" role="menuitem">📼पुराने गीत</button>
+            <button class="playlist-choice" type="button" data-playlist="jhadu-pocha" role="menuitem">🧹 झाड़ू-पोछा</button>
+            <button class="playlist-choice" type="button" data-playlist="papa" role="menuitem"> 📻पापा के ज़माने के गाने</button>
+            <button class="playlist-choice" type="button" data-playlist="punjabi" role="menuitem"> 🎵 पंजाबी </button>
+            <button class="playlist-choice" type="button" data-playlist="dil-ka-lafda" role="menuitem"> 💔 Dil Ka Lafda </button>
 
           </div>
         </div>
@@ -127,12 +130,33 @@
     setInterval(()=>{ const q=document.getElementById('quote');q.style.opacity=0;setTimeout(()=>{const activeQuotes=quotes[activePlaylist];quoteIndex=(quoteIndex+1)%activeQuotes.length;q.textContent=activeQuotes[quoteIndex];q.style.opacity=1},300)},4200);
     const playlists = { chhath: { files: window.trackFiles || [], folder: '', label: 'छठ पूजा गीत संग्रह' }, navratri: { files: window.navratriTrackFiles || [], folder: 'navratri/', label: 'नवरात्रि गीत संग्रह' } };
     const audio=document.getElementById('audio'), backgroundVideo=document.getElementById('backgroundVideo'), play=document.getElementById('play'), bar=document.getElementById('bar'), time=document.getElementById('time'), track=document.getElementById('track'), playState=document.getElementById('playState'); const lfsMediaBase='https://media.githubusercontent.com/media/Kumarankit-dangi/chhatsong-website/main/'; let current=0, activePlaylist='chhath', files=playlists.chhath.files;
-    function loadTrack(index, shouldPlay=false){ if(!files.length) return; current=(index+files.length)%files.length; const filename=encodeURIComponent(files[current]); audio.src=activePlaylist==='navratri'?lfsMediaBase+'tracks/navratri/'+filename:'https://raw.githubusercontent.com/Kumarankit-dangi/chhatsong-website/main/tracks/'+filename; track.textContent=files[current].replace(/\.mp3$/i,''); audio.load(); if(shouldPlay) audio.play(); }
+    function safePlayAudio(){
+      if (!audio.src) return;
+      const attemptPlay = () => {
+        audio.play().catch(() => {
+          setTimeout(() => {
+            audio.play().catch(() => {});
+          }, 250);
+        });
+      };
+      if (audio.readyState >= 1) {
+        attemptPlay();
+      } else {
+        const onReady = () => {
+          attemptPlay();
+          audio.removeEventListener('loadedmetadata', onReady);
+        };
+        audio.addEventListener('loadedmetadata', onReady, { once: true });
+      }
+    }
+    function loadTrack(index, shouldPlay=false){ if(!files.length) return; current=(index+files.length)%files.length; const filename=encodeURIComponent(files[current]); const source=activePlaylist==='navratri'?lfsMediaBase+'tracks/navratri/'+filename:'https://raw.githubusercontent.com/Kumarankit-dangi/chhatsong-website/main/tracks/'+filename; track.textContent=files[current].replace(/\.mp3$/i,''); audio.pause(); audio.currentTime=0; audio.src=source; audio.load(); if(shouldPlay) safePlayAudio(); }
    
     function switchPlaylist(name){if(name === 'bhojpuri'){window.location.href = 'bhojpuri.html' ;return;}  if(name === 'purane'){
     window.location.href = 'purane.html';
     return;}  if(name === 'jhadu-pocha'){ window.location.href = 'jhadu-pocha.html'; return;}
      if(name === 'papa'){ window.location.href = "./papa.html"; return;}
+     if(name === 'haryanvi'){ window.location.href = "./haryanvi.html"; return;}
+     if(name === 'punjabi'){ window.location.href = "./punjabi.html"; return;}
     if(name === 'dil-ka-lafda'){
   window.location.href = "./dil-ka-lafda.html";
   return;
@@ -140,20 +164,21 @@
 
 
     const playlist=playlists[name]; activePlaylist=name; files=playlist.files; current=0; const isNavratri=name==='navratri'; document.body.classList.toggle('theme-navratri', isNavratri); backgroundVideo.src=isNavratri?lfsMediaBase+'navratri-background.mp4':'chhath-background.mp4'; backgroundVideo.load(); backgroundVideo.play().catch(()=>{}); document.getElementById('brand').textContent=isNavratri?'शक्ति / 2026':'अर्घ्य / 2026'; document.getElementById('navNote').textContent=isNavratri?'माँ के दरबार में भक्ति और उत्सव':'नदी हर प्रार्थना को याद रखती है'; document.getElementById('eyebrow').textContent=isNavratri?'माँ दुर्गा · शक्ति और भक्ति':'सूर्य देव · आस्था का महापर्व'; document.getElementById('playlistTitle').innerHTML=isNavratri?'नवरात्रि <em>के गीत</em>':'छठ <em>के गीत</em>'; document.getElementById('playlistIntro').textContent=isNavratri?'माँ दुर्गा की आराधना, गरबा की लय और भक्ति से सजे नवरात्रि के गीतों के नाम।':'जहाँ उगते सूरज से नदी मिलती है, वहाँ हर सूप में एक प्रार्थना होती है। नहाय-खाय, घाट और उस सुनहरी सुबह के लिए—ये गीत उसी अपनापन के नाम।'; document.getElementById('tagOne').textContent=isNavratri?'देवी भक्ति गीत':'लोक और भक्ति गीत'; document.getElementById('tagTwo').textContent=isNavratri?'गरबा · डांडिया · आरती':'ठेकुआ · सूप · दौरा'; document.getElementById('tagThree').textContent=isNavratri?'जय माता दी':'जय छठी मैया'; document.getElementById('quote').textContent=quotes[name][0]; document.getElementById('quoteAuthor').textContent=isNavratri?'— माँ का आशीर्वाद':'— घाट की एक याद'; document.getElementById('playerOffer').setAttribute('aria-label',isNavratri?'नवरात्रि संगीत प्लेयर':'छठ संगीत प्लेयर'); document.getElementById('volumeLabel').textContent=isNavratri?'शक्ति एफएम':'घाट एफएम'; document.getElementById('playlistSelect').textContent=isNavratri?'🔱नवरात्रि':'छठ पूजा';
-     document.querySelectorAll('.playlist-choice').forEach(option=>option.classList.toggle('is-active', option.dataset.playlist===name)); document.getElementById('playlistMenu').parentElement.classList.remove('is-open'); document.getElementById('playlistSelect').setAttribute('aria-expanded','false'); quoteIndex=0; if(!files.length) { audio.pause(); track.textContent=isNavratri?'नवरात्रि गाने जल्द जुड़ेंगे':'छठ गीत जल्द जुड़ेंगे'; return; } track.textContent=playlist.label; loadTrack(0,true); }
+     document.querySelectorAll('.playlist-choice').forEach(option=>option.classList.toggle('is-active', option.dataset.playlist===name)); document.getElementById('playlistMenu').parentElement.classList.remove('is-open'); document.getElementById('playlistSelect').setAttribute('aria-expanded','false'); quoteIndex=0; if(!files.length) { audio.pause(); track.textContent=isNavratri?'नवरात्रि गाने जल्द जुड़ेंगे':'छठ गीत जल्द जुड़ेंगे'; return; } track.textContent=playlist.label; loadTrack(Math.floor(Math.random() * files.length), true); }
    
 
 
     document.getElementById('playlistSelect').onclick=()=>{ const switcher=document.getElementById('playlistSelect').parentElement; const isOpen=switcher.classList.toggle('is-open'); document.getElementById('playlistSelect').setAttribute('aria-expanded',String(isOpen)); };
     document.querySelectorAll('.playlist-choice').forEach(option=>option.onclick=()=>switchPlaylist(option.dataset.playlist));
     document.addEventListener('click',event=>{ const switcher=document.querySelector('.playlist-switcher'); if(!switcher.contains(event.target)){ switcher.classList.remove('is-open'); document.getElementById('playlistSelect').setAttribute('aria-expanded','false'); } });
-    play.onclick=()=>{ if(!files.length) return; if(audio.paused) audio.play(); else audio.pause(); };
+    play.onclick=()=>{ if(!files.length) return; if(audio.paused){ if(audio.src){ safePlayAudio(); } else { loadTrack(current,true); } } else { audio.pause(); } };
     audio.addEventListener('play',()=>{play.textContent='⏸';play.setAttribute('aria-label','गीत रोकें');play.setAttribute('title','गीत रोकें');play.setAttribute('aria-pressed','true');playState.classList.add('is-playing');playState.lastElementChild.textContent='चल रहा है';}); audio.addEventListener('pause',()=>{play.textContent='▶';play.setAttribute('aria-label','गीत चलाएँ');play.setAttribute('title','गीत चलाएँ');play.setAttribute('aria-pressed','false');playState.classList.remove('is-playing');playState.lastElementChild.textContent='रुका हुआ';});
     audio.addEventListener('timeupdate',()=>{ const d=audio.duration||0,t=audio.currentTime||0; bar.style.width=d?(t/d*100)+'%':'0%'; time.textContent=`${String(Math.floor(t/60)).padStart(2,'0')}:${String(Math.floor(t%60)).padStart(2,'0')}`; });
     function playNextTrack(){ if(!files.length) return; loadTrack(current===files.length-1?0:current+1,true); }
     document.getElementById('prev').onclick=()=>loadTrack(current-1,true); document.getElementById('next').onclick=()=>loadTrack(current+1,true); audio.addEventListener('ended',playNextTrack);
     document.getElementById('progressWrap').onclick=e=>{const r=e.currentTarget.getBoundingClientRect(); if(audio.duration) audio.currentTime=(e.clientX-r.left)/r.width*audio.duration;};
-    loadTrack(0);
+    const randomTrackIndex = () => files.length ? Math.floor(Math.random() * files.length) : 0;
+    loadTrack(randomTrackIndex(), true);
     const params = new URLSearchParams(window.location.search);
 const selectedPlaylist = params.get("playlist");
 

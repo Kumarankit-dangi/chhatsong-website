@@ -28,8 +28,10 @@ body{background:#090607;color:#fff3e8;font-family:Arial,sans-serif}
   align-items:center;
   gap:15px;
   font-weight:bold;
+  flex-wrap:wrap;
 }
 .live{color:#a8ff63}
+.live-users{display:inline-flex;align-items:center;gap:6px;font-size:12px}
 
 .intro{margin-top:55px;max-width:950px}
 .tag{color:#ffbf65;letter-spacing:4px;font-size:13px}
@@ -65,13 +67,13 @@ h1{
 /* CATEGORY MENU */
 .category-menu{
   position:relative;
-  width:215px;
+  width:min(100%,240px);
   margin-top:24px;
   z-index:50;
 }
 .category-button{
-  width:215px;
-  height:50px;
+  width:100%;
+  min-height:50px;
   border:1px solid #9d6c55;
   border-radius:28px;
   background:#160c0bed;
@@ -90,7 +92,8 @@ h1{
   position:absolute;
   top:57px;
   left:0;
-  width:215px;
+  width:100%;
+  min-width:0;
   padding:7px;
   border:1px solid #76513f;
   border-radius:18px;
@@ -150,25 +153,37 @@ button{
 }
 .bar{height:100%;width:0;background:#ffb94f;border-radius:10px}
 
-@media(max-width:600px){
+@media(max-width:760px){
+  body{overflow-x:hidden}
   .hero{
-    min-height:100vh;
+    min-height:100svh;
     padding:22px 16px 15px;
     background-position:center center;
+    background-size:cover;
   }
   .top{font-size:13px}
   .intro{margin-top:42px}
   h1{font-size:58px}
   .desc{font-size:17px}
   .quote{font-size:15px}
-  .category-menu,.category-button,.category-list{width:205px}
-  .player{padding:12px}
+  .category-menu,.category-button,.category-list{width:min(100%,220px)}
+  .player,
+  .offer { bottom: max(8px,env(safe-area-inset-bottom)); width: calc(100% - 18px); padding: 9px 10px; gap: 8px; }
+  .controls,
+  .transport { gap: 0; }
+  button,
+  .control { width: 27px; height: 27px; }
+  #play,
+  .main-control { width: 44px; height: 44px; }
+  .progress,
+  .progress-wrap { height: 14px; }
+  .progress { margin-left: 0; }
 }
 
 </style>
 </head>
 
-<body>
+<body data-page-key="dil-ka-lafda">
 <div class="page">
 <section class="hero">
  <div class="top">
@@ -212,6 +227,7 @@ button{
         <a href="index.html?playlist=navratri">🔱&nbsp; नवरात्रि</a>
         <a href="bhojpuri.html">🎵&nbsp; भोजपुरी</a>
         <a href="jhadu-pocha.html">🧹&nbsp; झाड़ू-पोछा</a>
+        <a href="haryanvi.html">🎵&nbsp; हरियाणवी</a>
         <a href="purane.html">📼&nbsp; पुराने गीत</a>
         <a href="papa.html">📺&nbsp; पापा के ज़माने के गाने</a>
         <a href="punjabi.html">🎵&nbsp; पंजाबी</a>
@@ -263,7 +279,8 @@ const time=document.getElementById("time");
 const bar=document.getElementById("bar");
 
 let current=0;
-loadTrack(0);
+const randomStartIndex = () => Math.floor(Math.random() * files.length);
+loadTrack(randomStartIndex());
 function loadTrack(index,shouldPlay=false){
   if(!files.length)return;
 

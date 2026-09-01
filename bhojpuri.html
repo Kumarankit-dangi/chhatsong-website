@@ -340,28 +340,21 @@
 
     .offer {
       position:fixed;
-      z-index:5;
+      z-index:100;
       left:50%;
-      bottom:22px;
-      width:min(720px,calc(100% - 28px));
+      bottom:20px;
+      width:min(760px,calc(100% - 26px));
       transform:translateX(-50%);
-      border:1px solid #e3f7a376;
+      border:1px solid rgba(255, 218, 150, 0.38);
       border-radius:20px;
-      background:
-        linear-gradient(
-          105deg,
-          rgba(44,66,19,.77),
-          rgba(20,30,12,.7)
-        );
-      box-shadow:
-        0 15px 50px #0d1406a8,
-        inset 0 1px #f0ffbc38;
+      background:linear-gradient(105deg, rgba(47, 29, 20, 0.91), rgba(17, 12, 9, 0.90));
+      box-shadow:0 15px 50px #000d, inset 0 1px rgba(255, 238, 195, 0.08);
       backdrop-filter:blur(18px);
-      padding:14px 17px;
+      padding:13px 16px;
       display:grid;
       grid-template-columns:auto 1fr auto;
       align-items:center;
-      gap:15px;
+      gap:14px;
     }
 
     .transport {
@@ -381,16 +374,17 @@
     }
 
     .play-state i {
-      width:3px;
-      height:3px;
-      border-radius:20%;
+      width:6px;
+      height:6px;
+      border-radius:50%;
       background:#ffe14d;
       display:inline-block;
+      box-shadow:0 0 8px #ffd475;
     }
 
     .play-state.is-playing i {
       background:#61b8ff;
-      box-shadow:0 0 4px #61b8ff;
+      box-shadow:0 0 8px #61b8ff;
     }
 
     .control {
@@ -400,6 +394,7 @@
       background:transparent;
       width:31px;
       height:31px;
+      border-radius:50%;
       font-size:17px;
       transition:transform .2s,color .2s;
     }
@@ -412,8 +407,7 @@
     .main-control {
       display:inline-grid;
       place-items:center;
-      flex:0 0 44px;
-      width:20px;
+      width:44px;
       height:44px;
       padding:0;
       border-radius:50%;
@@ -584,7 +578,7 @@
   </style>
 </head>
 
-<body>
+<body data-page-key="bhojpuri">
 
   <div class="scene">
 
@@ -667,11 +661,19 @@
             🪔 छठ पूजा
         </a>
 
-        <a href="../index.html?playlist=navratri",>
+        <a href="index.html?playlist=navratri">
     🔱 नवरात्रि
 </a>
         <a href="bhojpuri.html">
             🎵 भोजपुरी
+        </a>
+
+        <a href="haryanvi.html">
+            🎵 हरियाणवी
+        </a>
+
+        <a href="punjabi.html">
+            🎵 पंजाबी
         </a>
 
         <a href="purane.html">
@@ -823,9 +825,13 @@
 
 /* CURRENT PAGE */
 
-.category-dropdown a.current {
+.category-dropdown a.current,
+.category-dropdown a.is-active,
+.category-dropdown a.active {
 
-    background: #4a2b1e;
+    background: linear-gradient(180deg, #4aa3ff, #1f6fe5);
+    color: #edf8ff;
+    box-shadow: 0 0 0 1px rgba(127,180,255,.45), 0 8px 18px rgba(31,111,229,.38);
 
 }
 
@@ -1127,7 +1133,7 @@ function loadTrack(index, shouldPlay = false) {
 
     } else {
 
-      loadTrack(0);
+      loadTrack(Math.floor(Math.random() * files.length));
 
     }
 
