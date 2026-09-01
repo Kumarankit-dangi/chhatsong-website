@@ -199,9 +199,9 @@
     }
 
     .playlist-option {
-      width: 220px;
-      min-height: 45px;
-      padding: 8px 15px;
+      width: 100px;
+      min-height: 30px;
+      padding: 4px 7px;
       border: 1px solid rgba(255, 255, 255, 0.35);
       border-radius: 999px;
       background: rgba(30, 30, 30, 0.42);
@@ -216,10 +216,10 @@
       position: absolute;
       left: 0;
       top: calc(100% + 8px);
-      width: 220px;
+      width:100px;
       max-width: calc(100vw - 40px);
-      padding: 7px;
-      border-radius: 14px;
+      padding: 4px;
+      border-radius: 7px;
       background: rgba(20, 20, 20, 0.96);
       border: 1px solid rgba(255, 255, 255, 0.20);
       z-index: 1000;
@@ -227,7 +227,7 @@
 
     .playlist-switcher.is-open .playlist-menu {
       display: grid;
-      gap: 3px;
+      gap: 1px;
     }
 
     .playlist-choice {
@@ -235,10 +235,10 @@
       border: 0;
       background: transparent;
       color: #fff;
-      padding: 10px 12px;
-      border-radius: 9px;
+      padding: 5px 6px;
+      border-radius: 5px;
       text-align: left;
-      font-size: 13px;
+      font-size: 12px;
       cursor: pointer;
     }
 
@@ -251,15 +251,15 @@
        QUOTE
     ========================== */
     .quote-box {
-      max-width: 600px;
-      margin-top: 38px;
-      padding: 18px 20px;
+      max-width: 100px;
+      margin-top: 19px;
+      padding: 9px 10px;
       border-left: 2px solid rgba(255, 255, 255, 0.65);
       background: rgba(0, 0, 0, 0.10);
     }
 
     .quote {
-      margin-bottom: 8px;
+      margin-bottom: 4px;
       font-size: 20px;
       line-height: 1.5;
     }
@@ -785,7 +785,7 @@
               type="button"
               role="menuitem"
             >
-              पुराने गीत
+              📼पुराने गीत
             </button>
 
             <button
@@ -794,7 +794,7 @@
               type="button"
               role="menuitem"
             >
-              छठ पूजा
+              🪔छठ पूजा
             </button>
 
             <button
@@ -803,7 +803,7 @@
               type="button"
               role="menuitem"
             >
-              नवरात्रि
+              🔱नवरात्रि
             </button>
 
             <button
@@ -812,7 +812,7 @@
               type="button"
               role="menuitem"
             >
-              भोजपुरी
+              🎵भोजपुरी
             </button>
 
             <button
@@ -821,8 +821,14 @@
               type="button"
               role="menuitem"
             >
-              झाड़ू-पोछा 🧹
+              🧹झाड़ू-पोछा 
             </button>
+             <button 
+  class="playlist-choice" 
+  data-playlist="dil-ka-lafda" 
+>
+  💔 Dil Ka Lafda
+</button>
           </div>
         </div>
 
@@ -1352,7 +1358,8 @@
               chhath: "../index.html",
               navratri: "../index.html?playlist=navratri",
               bhojpuri: "../bhojpuri.html",
-              "jhadu-pocha": "../jhadu-pocha.html"
+              "jhadu-pocha": "../jhadu-pocha.html",
+              "dil-ka-lafda": "dil-ka-lafda.html"
             };
 
             if (routes[playlist]) {
