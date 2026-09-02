@@ -149,7 +149,7 @@
         audio.addEventListener('loadedmetadata', onReady, { once: true });
       }
     }
-    function loadTrack(index, shouldPlay=false){ if(!files.length) return; current=(index+files.length)%files.length; const filename=encodeURIComponent(files[current]); const source=activePlaylist==='navratri'?lfsMediaBase+'tracks/navratri/'+filename:'https://raw.githubusercontent.com/Kumarankit-dangi/chhatsong-website/main/tracks/'+filename; track.textContent=files[current].replace(/\.mp3$/i,''); audio.pause(); audio.currentTime=0; audio.src=source; audio.load(); if(shouldPlay) safePlayAudio(); }
+    function loadTrack(index, shouldPlay=false){ if(!files.length) return; current=(index+files.length)%files.length; const rawFilename=files[current]; const filename=encodeURIComponent(rawFilename); const source=activePlaylist==='navratri'?lfsMediaBase+'tracks/navratri/'+filename:'https://raw.githubusercontent.com/Kumarankit-dangi/chhatsong-website/main/tracks/'+filename; const renamedSource='https://raw.githubusercontent.com/Kumarankit-dangi/chhatsong-website/main/tracks/'+encodeURIComponent(rawFilename.replace(/#/g,'')); track.textContent=rawFilename.replace(/\.mp3$/i,''); audio.pause(); audio.currentTime=0; audio.onerror=activePlaylist==='chhath'&&renamedSource!==source?()=>{ audio.onerror=null; audio.src=renamedSource; audio.load(); if(shouldPlay) safePlayAudio(); }:null; audio.src=source; audio.load(); if(shouldPlay) safePlayAudio(); }
    
     function switchPlaylist(name){if(name === 'bhojpuri'){window.location.href = 'bhojpuri.html' ;return;}  if(name === 'purane'){
     window.location.href = 'purane.html';
@@ -188,6 +188,6 @@ if (selectedPlaylist === "navratri") {
   switchPlaylist("chhath");
 }
   </script>
-  <script type="module" src="presence.js?v=live-20260902-3"></script>
+  <script type="module" src="presence.js?v=live-20260902-5"></script>
 </body>
 </html>

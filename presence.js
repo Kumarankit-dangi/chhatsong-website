@@ -3,6 +3,8 @@ const liveSessionPrefix = 'chhatsong-live-session-';
 const liveChannelName = 'chhatsong-live-channel-site-total';
 const pageKey = document.body?.dataset?.pageKey || location.pathname.replace(/\//g, '').replace(/\.html$/, '') || 'home';
 const sessionId = (window.crypto && crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(16).slice(2)}`);
+let firebaseSessionRef = null;
+let firebaseSetPresence = null;
 
 function getLiveUserNodes() {
   return Array.from(document.querySelectorAll('#liveUsers'));
@@ -65,16 +67,6 @@ function readSessionMap() {
 function writeSessionMap(map) {
   try {
     const normalized = pruneSessionMap(map);
-    const validKeys = new Set(Object.keys(normalized));
-
-    for (let i = localStorage.length - 1; i >= 0; i -= 1) {
-      const key = localStorage.key(i);
-      if (!key || !key.startsWith(liveSessionPrefix)) continue;
-      const id = key.replace(liveSessionPrefix, '');
-      if (!validKeys.has(id)) {
-        localStorage.removeItem(key);
-      }
-    }
 
     Object.entries(normalized).forEach(([id, value]) => {
       const entry = { ...value, sessionId: id, connectedAt: Number(value.connectedAt || Date.now()) };
@@ -114,9 +106,17 @@ function registerLocalSession() {
 }
 
 function unregisterLocalSession() {
-  const map = readSessionMap();
-  delete map[sessionId];
-  const total = writeSessionMap(map);
+  try {
+    localStorage.removeItem(sessionKeyFor(sessionId));
+  } catch (error) {
+    // ignore storage cleanup issues
+  }
+  const total = getFallbackCount();
+  try {
+    localStorage.setItem(liveStorageKey, JSON.stringify(readSessionMap()));
+  } catch (error) {
+    // ignore storage cleanup issues
+  }
   renderCount(total);
   broadcastCount(total);
 }
@@ -127,6 +127,9 @@ function heartbeatSession() {
   const total = writeSessionMap(map);
   renderCount(total);
   broadcastCount(total);
+  if (firebaseSetPresence) {
+    firebaseSetPresence({ online: true, pageKey, connectedAt: Date.now() }).catch(() => {});
+  }
 }
 
 function attachCleanupHandlers() {
@@ -164,7 +167,6 @@ setInterval(heartbeatSession, 15000);
 
 try {
   const firebaseModule = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js');
-  const authModule = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js');
   const dbModule = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js');
 
   const firebaseConfig = {
@@ -176,33 +178,30 @@ try {
   };
 
   const app = firebaseModule.initializeApp(firebaseConfig);
-  const auth = authModule.getAuth(app);
   const database = dbModule.getDatabase(app);
   const presenceRef = dbModule.ref(database, 'presence/site-total');
 
   dbModule.onValue(presenceRef, (snapshot) => {
     const data = snapshot.val() || {};
-    const total = Object.keys(data).length || getFallbackCount();
+    const total = Math.max(Object.keys(data).length, getFallbackCount());
     renderCount(total);
   }, () => {
     syncFromStorage();
   });
 
-  authModule.signInAnonymously(auth).then(() => {
-    const sessionRef = dbModule.ref(database, `presence/site-total/${sessionId}`);
-    const connectedRef = dbModule.ref(database, '.info/connected');
+  firebaseSessionRef = dbModule.ref(database, `presence/site-total/${sessionId}`);
+  firebaseSetPresence = (value) => dbModule.set(firebaseSessionRef, value);
+  const connectedRef = dbModule.ref(database, '.info/connected');
 
-    dbModule.onValue(connectedRef, (connectedSnap) => {
-      if (connectedSnap.val() !== true) return;
+  dbModule.onValue(connectedRef, (connectedSnap) => {
+    if (connectedSnap.val() !== true) return;
 
-      dbModule.set(sessionRef, { online: true, pageKey, connectedAt: Date.now() }).then(() => {
-        dbModule.onDisconnect(sessionRef).remove().catch(() => {});
-      }).catch(() => {
-        syncFromStorage();
-      });
+    dbModule.onDisconnect(firebaseSessionRef).remove().then(() => {
+      return dbModule.set(firebaseSessionRef, { online: true, pageKey, connectedAt: Date.now() });
+    }).catch(() => {
+      firebaseSessionRef = null;
+      syncFromStorage();
     });
-  }).catch(() => {
-    syncFromStorage();
   });
 } catch (error) {
   syncFromStorage();
