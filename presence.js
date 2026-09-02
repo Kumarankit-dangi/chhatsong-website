@@ -34,12 +34,12 @@ function countLiveSessions(data) {
     total += Object.keys(pageData).length;
   });
 
-  return total || 1;
+  return total;
 }
 
 function setFallbackCount(count) {
   try {
-    const normalized = Math.max(1, Number(count) || 1);
+    const normalized = Math.max(0, Number(count) || 0);
     localStorage.setItem(liveStorageKey, String(normalized));
   } catch (error) {
     console.warn('Unable to store live count fallback:', error);
@@ -47,17 +47,17 @@ function setFallbackCount(count) {
 
   if ('BroadcastChannel' in window) {
     const ch = new BroadcastChannel(liveChannelName);
-    ch.postMessage({ count: Math.max(1, Number(count) || 1) });
+    ch.postMessage({ count: Math.max(0, Number(count) || 0) });
     ch.close();
   }
 }
 
 function getFallbackCount() {
   try {
-    const saved = Number(localStorage.getItem(liveStorageKey) || 1);
-    return Number.isFinite(saved) ? Math.max(1, saved) : 1;
+    const saved = Number(localStorage.getItem(liveStorageKey) || 0);
+    return Number.isFinite(saved) ? Math.max(0, saved) : 0;
   } catch (error) {
-    return 1;
+    return 0;
   }
 }
 
@@ -68,18 +68,10 @@ try {
   const presenceRef = ref(database, isSiteTotalPage ? 'presence' : `presence/${pageKey}`);
 
   onValue(presenceRef, (snapshot) => {
-    if (isSiteTotalPage) {
-      const data = snapshot.val() || {};
-      const total = countLiveSessions(data);
-      renderCount(total);
-      setFallbackCount(total);
-      return;
-    }
-
     const data = snapshot.val() || {};
-    const count = snapshot.exists() ? Object.keys(data).length || 1 : 1;
-    renderCount(count);
-    setFallbackCount(count);
+    const total = countLiveSessions(data);
+    renderCount(total);
+    setFallbackCount(total);
   }, () => {
     renderCount(getFallbackCount());
   });
