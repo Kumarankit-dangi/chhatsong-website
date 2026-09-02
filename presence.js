@@ -1,4 +1,5 @@
 const liveStorageKey = 'chhatsong-live-count-site-total';
+const liveSessionPrefix = 'chhatsong-live-session-';
 const liveChannelName = 'chhatsong-live-channel-site-total';
 const pageKey = document.body?.dataset?.pageKey || location.pathname.replace(/\//g, '').replace(/\.html$/, '') || 'home';
 const sessionId = (window.crypto && crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(16).slice(2)}`);
@@ -19,6 +20,10 @@ function renderCount(count) {
   });
 }
 
+function sessionKeyFor(id) {
+  return `${liveSessionPrefix}${id}`;
+}
+
 function pruneSessionMap(map) {
   const now = Date.now();
   const nextMap = {};
@@ -34,20 +39,53 @@ function pruneSessionMap(map) {
 }
 
 function readSessionMap() {
+  const nextMap = {};
+
   try {
-    const raw = localStorage.getItem(liveStorageKey);
-    if (!raw) return {};
-    const parsed = JSON.parse(raw);
-    return pruneSessionMap(parsed && typeof parsed === 'object' ? parsed : {});
+    for (let i = 0; i < localStorage.length; i += 1) {
+      const key = localStorage.key(i);
+      if (!key || !key.startsWith(liveSessionPrefix)) continue;
+      const raw = localStorage.getItem(key);
+      if (!raw) continue;
+
+      try {
+        const parsed = JSON.parse(raw);
+        if (!parsed || typeof parsed !== 'object') continue;
+        const sessionIdValue = parsed.sessionId || key.replace(liveSessionPrefix, '');
+        nextMap[sessionIdValue] = parsed;
+      } catch (error) {
+        localStorage.removeItem(key);
+      }
+    }
   } catch (error) {
     return {};
   }
+
+  return pruneSessionMap(nextMap);
 }
 
 function writeSessionMap(map) {
   try {
     const normalized = pruneSessionMap(map);
-    localStorage.setItem(liveStorageKey, JSON.stringify(normalized));
+    const currentKeys = new Set(Object.keys(normalized));
+
+    Object.keys(localStorage).forEach((key) => {
+      if (!key.startsWith(liveSessionPrefix)) return;
+      if (!currentKeys.has(key.replace(liveSessionPrefix, ''))) {
+        localStorage.removeItem(key);
+      }
+    });
+
+    Object.entries(normalized).forEach(([id, value]) => {
+      localStorage.setItem(sessionKeyFor(id), JSON.stringify({
+        ...value,
+        sessionId: id,
+        connectedAt: Number(value.connectedAt || Date.now())
+      }));
+    });
+
+    const legacyMap = normalized;
+    localStorage.setItem(liveStorageKey, JSON.stringify(legacyMap));
     return Object.keys(normalized).length;
   } catch (error) {
     return 0;
@@ -70,21 +108,13 @@ function broadcastCount(count) {
 
 function setFallbackCount(count) {
   const currentMap = readSessionMap();
-  const hasLocalSession = !!currentMap[sessionId];
-
-  if (hasLocalSession) {
-    const total = writeSessionMap(currentMap);
-    renderCount(total);
-    broadcastCount(total);
-    return;
-  }
-
-  broadcastCount(Number(count) || 0);
+  const total = Object.keys(currentMap).length || Math.max(0, Number(count) || 0);
+  renderCount(total);
+  broadcastCount(total);
 }
 
 function getFallbackCount() {
-  const map = readSessionMap();
-  return Object.keys(map).length;
+  return Object.keys(readSessionMap()).length;
 }
 
 function registerLocalSession() {
@@ -96,9 +126,10 @@ function registerLocalSession() {
 }
 
 function unregisterLocalSession() {
-  const map = readSessionMap();
-  delete map[sessionId];
-  const total = writeSessionMap(map);
+  const key = sessionKeyFor(sessionId);
+  localStorage.removeItem(key);
+
+  const total = getFallbackCount();
   renderCount(total);
   broadcastCount(total);
 }
@@ -128,7 +159,8 @@ if ('BroadcastChannel' in window) {
 }
 
 window.addEventListener('storage', (event) => {
-  if (event.key === liveStorageKey) {
+  if (!event.key) return;
+  if (event.key === liveStorageKey || event.key.startsWith(liveSessionPrefix)) {
     syncFromStorage();
   }
 });
