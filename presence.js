@@ -5,6 +5,9 @@ const pageKey = document.body?.dataset?.pageKey || location.pathname.replace(/\/
 const sessionId = (window.crypto && crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(16).slice(2)}`);
 let firebaseSessionRef = null;
 let firebaseSetPresence = null;
+let displayedLiveCount = 0;
+let pendingLiveCount = null;
+let decreaseTimer = null;
 
 function getLiveUserNodes() {
   return Array.from(document.querySelectorAll('#liveUsers'));
@@ -12,9 +15,23 @@ function getLiveUserNodes() {
 
 function renderCount(count) {
   const safeCount = Number.isFinite(Number(count)) ? Math.max(0, Number(count)) : 0;
+  if (safeCount >= displayedLiveCount) {
+    displayedLiveCount = safeCount;
+    pendingLiveCount = null;
+    if (decreaseTimer) clearTimeout(decreaseTimer);
+  } else {
+    pendingLiveCount = safeCount;
+    if (decreaseTimer) clearTimeout(decreaseTimer);
+    decreaseTimer = setTimeout(() => {
+      if (pendingLiveCount === safeCount) displayedLiveCount = safeCount;
+      pendingLiveCount = null;
+      decreaseTimer = null;
+      renderCount(displayedLiveCount);
+    }, 12000);
+  }
   const nodes = getLiveUserNodes();
   if (!nodes.length) return;
-  const label = `${safeCount} live users`;
+  const label = `${displayedLiveCount} live users`;
   nodes.forEach((node) => {
     node.textContent = label;
   });
