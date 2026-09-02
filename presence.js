@@ -28,13 +28,21 @@ function renderCount(count) {
 function countLiveSessions(data) {
   if (!data || typeof data !== 'object') return 0;
 
-  let total = 0;
-  Object.values(data).forEach((pageData) => {
-    if (!pageData || typeof pageData !== 'object') return;
-    total += Object.keys(pageData).length;
-  });
+  const values = Object.values(data);
+  if (!values.length) return 0;
 
-  return total;
+  const looksLikePageMap = values.some((value) => value && typeof value === 'object' && !Array.isArray(value) && Object.values(value).some((nested) => nested && typeof nested === 'object'));
+
+  if (looksLikePageMap) {
+    let total = 0;
+    Object.values(data).forEach((pageData) => {
+      if (!pageData || typeof pageData !== 'object') return;
+      total += Object.keys(pageData).length;
+    });
+    return total;
+  }
+
+  return Object.keys(data).length;
 }
 
 function setFallbackCount(count) {
@@ -65,7 +73,7 @@ try {
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const database = getDatabase(app);
-  const presenceRef = ref(database, isSiteTotalPage ? 'presence' : `presence/${pageKey}`);
+  const presenceRef = ref(database, 'presence/site-total');
 
   onValue(presenceRef, (snapshot) => {
     const data = snapshot.val() || {};
@@ -77,7 +85,7 @@ try {
   });
 
   signInAnonymously(auth).then(() => {
-    const sessionRef = ref(database, `presence/${pageKey}/${sessionId}`);
+    const sessionRef = ref(database, `presence/site-total/${sessionId}`);
     const connectedRef = ref(database, '.info/connected');
 
     onValue(connectedRef, (connectedSnap) => {
