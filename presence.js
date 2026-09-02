@@ -18,11 +18,19 @@ const isSiteTotalPage = true;
 const liveStorageKey = `chhatsong-live-count-${isSiteTotalPage ? 'site-total' : pageKey}`;
 const liveChannelName = `chhatsong-live-channel-${isSiteTotalPage ? 'site-total' : pageKey}`;
 const sessionId = (crypto && crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(16).slice(2)}`);
+const liveLabelStyle = 'live-users';
 
 function renderCount(count) {
   const safeCount = Number.isFinite(Number(count)) ? Math.max(1, Number(count)) : 1;
   if (!liveUsers) return;
-  liveUsers.textContent = `${safeCount} live`;
+
+  const labelMap = {
+    'live-users': `${safeCount} live users`,
+    'users-online': `${safeCount} users online`,
+    'live-colon': `Live: ${safeCount}`
+  };
+
+  liveUsers.textContent = labelMap[liveLabelStyle] || `${safeCount} live users`;
 }
 
 function countLiveSessions(data) {
