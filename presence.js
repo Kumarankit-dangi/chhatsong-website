@@ -54,13 +54,8 @@ function writeSessionMap(map) {
   }
 }
 
-function setFallbackCount(count) {
+function broadcastCount(count) {
   const normalized = Math.max(0, Number(count) || 0);
-  try {
-    localStorage.setItem(liveStorageKey, JSON.stringify(pruneSessionMap(readSessionMap())));
-  } catch (error) {
-    // ignore storage issues
-  }
 
   if ('BroadcastChannel' in window) {
     try {
@@ -73,6 +68,20 @@ function setFallbackCount(count) {
   }
 }
 
+function setFallbackCount(count) {
+  const currentMap = readSessionMap();
+  const hasLocalSession = !!currentMap[sessionId];
+
+  if (hasLocalSession) {
+    const total = writeSessionMap(currentMap);
+    renderCount(total);
+    broadcastCount(total);
+    return;
+  }
+
+  broadcastCount(Number(count) || 0);
+}
+
 function getFallbackCount() {
   const map = readSessionMap();
   return Object.keys(map).length;
@@ -83,7 +92,7 @@ function registerLocalSession() {
   map[sessionId] = { sessionId, pageKey, connectedAt: Date.now() };
   const total = writeSessionMap(map);
   renderCount(total);
-  setFallbackCount(total);
+  broadcastCount(total);
 }
 
 function unregisterLocalSession() {
@@ -91,7 +100,7 @@ function unregisterLocalSession() {
   delete map[sessionId];
   const total = writeSessionMap(map);
   renderCount(total);
-  setFallbackCount(total);
+  broadcastCount(total);
 }
 
 function attachCleanupHandlers() {
