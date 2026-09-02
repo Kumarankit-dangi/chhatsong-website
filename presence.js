@@ -11,9 +11,7 @@ function getLiveUserNodes() {
 function renderCount(count) {
   const safeCount = Number.isFinite(Number(count)) ? Math.max(0, Number(count)) : 0;
   const nodes = getLiveUserNodes();
-
   if (!nodes.length) return;
-
   const label = `${safeCount} live users`;
   nodes.forEach((node) => {
     node.textContent = label;
@@ -67,25 +65,23 @@ function readSessionMap() {
 function writeSessionMap(map) {
   try {
     const normalized = pruneSessionMap(map);
-    const currentKeys = new Set(Object.keys(normalized));
+    const validKeys = new Set(Object.keys(normalized));
 
-    Object.keys(localStorage).forEach((key) => {
-      if (!key.startsWith(liveSessionPrefix)) return;
-      if (!currentKeys.has(key.replace(liveSessionPrefix, ''))) {
+    for (let i = localStorage.length - 1; i >= 0; i -= 1) {
+      const key = localStorage.key(i);
+      if (!key || !key.startsWith(liveSessionPrefix)) continue;
+      const id = key.replace(liveSessionPrefix, '');
+      if (!validKeys.has(id)) {
         localStorage.removeItem(key);
       }
-    });
+    }
 
     Object.entries(normalized).forEach(([id, value]) => {
-      localStorage.setItem(sessionKeyFor(id), JSON.stringify({
-        ...value,
-        sessionId: id,
-        connectedAt: Number(value.connectedAt || Date.now())
-      }));
+      const entry = { ...value, sessionId: id, connectedAt: Number(value.connectedAt || Date.now()) };
+      localStorage.setItem(sessionKeyFor(id), JSON.stringify(entry));
     });
 
-    const legacyMap = normalized;
-    localStorage.setItem(liveStorageKey, JSON.stringify(legacyMap));
+    localStorage.setItem(liveStorageKey, JSON.stringify(normalized));
     return Object.keys(normalized).length;
   } catch (error) {
     return 0;
@@ -94,7 +90,6 @@ function writeSessionMap(map) {
 
 function broadcastCount(count) {
   const normalized = Math.max(0, Number(count) || 0);
-
   if ('BroadcastChannel' in window) {
     try {
       const ch = new BroadcastChannel(liveChannelName);
@@ -104,13 +99,6 @@ function broadcastCount(count) {
       // ignore broadcast issues
     }
   }
-}
-
-function setFallbackCount(count) {
-  const currentMap = readSessionMap();
-  const total = Object.keys(currentMap).length || Math.max(0, Number(count) || 0);
-  renderCount(total);
-  broadcastCount(total);
 }
 
 function getFallbackCount() {
@@ -126,10 +114,9 @@ function registerLocalSession() {
 }
 
 function unregisterLocalSession() {
-  const key = sessionKeyFor(sessionId);
-  localStorage.removeItem(key);
-
-  const total = getFallbackCount();
+  const map = readSessionMap();
+  delete map[sessionId];
+  const total = writeSessionMap(map);
   renderCount(total);
   broadcastCount(total);
 }
@@ -141,9 +128,6 @@ function attachCleanupHandlers() {
 
   window.addEventListener('pagehide', cleanup, { once: true });
   window.addEventListener('beforeunload', cleanup, { once: true });
-  document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'hidden') cleanup();
-  });
 }
 
 function syncFromStorage() {
