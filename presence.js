@@ -14,7 +14,7 @@ const liveUsers = document.getElementById('liveUsers');
 const pageKey = document.body.dataset.pageKey || location.pathname.replace(/\//g, '').replace(/\.html$/, '') || 'home';
 const normalizedPath = (location.pathname || '/').replace(/\/+$/, '') || '/';
 const isRootPage = ['','/','/index.html','/chhatsong-website','/chhatsong-website/index.html'].includes(normalizedPath);
-const isSiteTotalPage = isRootPage || pageKey === 'chhath';
+const isSiteTotalPage = true;
 const liveStorageKey = `chhatsong-live-count-${isSiteTotalPage ? 'site-total' : pageKey}`;
 const liveChannelName = `chhatsong-live-channel-${isSiteTotalPage ? 'site-total' : pageKey}`;
 const sessionId = (crypto && crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(16).slice(2)}`);
