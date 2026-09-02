@@ -121,6 +121,14 @@ function unregisterLocalSession() {
   broadcastCount(total);
 }
 
+function heartbeatSession() {
+  const map = readSessionMap();
+  map[sessionId] = { sessionId, pageKey, connectedAt: Date.now() };
+  const total = writeSessionMap(map);
+  renderCount(total);
+  broadcastCount(total);
+}
+
 function attachCleanupHandlers() {
   const cleanup = () => {
     unregisterLocalSession();
@@ -151,6 +159,8 @@ window.addEventListener('storage', (event) => {
 
 registerLocalSession();
 attachCleanupHandlers();
+window.addEventListener('focus', heartbeatSession, { passive: true });
+setInterval(heartbeatSession, 15000);
 
 try {
   const firebaseModule = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js');
