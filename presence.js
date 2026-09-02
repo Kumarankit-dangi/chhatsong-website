@@ -15,22 +15,14 @@ const pageKey = document.body.dataset.pageKey || location.pathname.replace(/\//g
 const normalizedPath = (location.pathname || '/').replace(/\/+$/, '') || '/';
 const isRootPage = ['','/','/index.html','/chhatsong-website','/chhatsong-website/index.html'].includes(normalizedPath);
 const isSiteTotalPage = true;
-const liveStorageKey = `chhatsong-live-count-${isSiteTotalPage ? 'site-total' : pageKey}`;
-const liveChannelName = `chhatsong-live-channel-${isSiteTotalPage ? 'site-total' : pageKey}`;
+const liveStorageKey = `chhatsong-live-count-site-total`;
+const liveChannelName = `chhatsong-live-channel-site-total`;
 const sessionId = (crypto && crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(16).slice(2)}`);
-const liveLabelStyle = 'live-users';
 
 function renderCount(count) {
-  const safeCount = Number.isFinite(Number(count)) ? Math.max(1, Number(count)) : 1;
+  const safeCount = Number.isFinite(Number(count)) ? Math.max(0, Number(count)) : 0;
   if (!liveUsers) return;
-
-  const labelMap = {
-    'live-users': `${safeCount} live users`,
-    'users-online': `${safeCount} users online`,
-    'live-colon': `Live: ${safeCount}`
-  };
-
-  liveUsers.textContent = labelMap[liveLabelStyle] || `${safeCount} live users`;
+  liveUsers.textContent = `${safeCount} live users`;
 }
 
 function countLiveSessions(data) {
