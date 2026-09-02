@@ -5,9 +5,7 @@ const pageKey = document.body?.dataset?.pageKey || location.pathname.replace(/\/
 const sessionId = (window.crypto && crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(16).slice(2)}`);
 let firebaseSessionRef = null;
 let firebaseSetPresence = null;
-let displayedLiveCount = 0;
-let pendingLiveCount = null;
-let decreaseTimer = null;
+let firebaseReady = false;
 
 function getLiveUserNodes() {
   return Array.from(document.querySelectorAll('#liveUsers'));
@@ -15,23 +13,9 @@ function getLiveUserNodes() {
 
 function renderCount(count) {
   const safeCount = Number.isFinite(Number(count)) ? Math.max(0, Number(count)) : 0;
-  if (safeCount >= displayedLiveCount) {
-    displayedLiveCount = safeCount;
-    pendingLiveCount = null;
-    if (decreaseTimer) clearTimeout(decreaseTimer);
-  } else {
-    pendingLiveCount = safeCount;
-    if (decreaseTimer) clearTimeout(decreaseTimer);
-    decreaseTimer = setTimeout(() => {
-      if (pendingLiveCount === safeCount) displayedLiveCount = safeCount;
-      pendingLiveCount = null;
-      decreaseTimer = null;
-      renderCount(displayedLiveCount);
-    }, 12000);
-  }
   const nodes = getLiveUserNodes();
   if (!nodes.length) return;
-  const label = `${displayedLiveCount} live users`;
+  const label = `${safeCount} live users`;
   nodes.forEach((node) => {
     node.textContent = label;
   });
@@ -165,12 +149,14 @@ function syncFromStorage() {
 if ('BroadcastChannel' in window) {
   const channel = new BroadcastChannel(liveChannelName);
   channel.onmessage = (event) => {
+    if (firebaseReady) return;
     const count = Number(event.data?.count ?? getFallbackCount());
     renderCount(count);
   };
 }
 
 window.addEventListener('storage', (event) => {
+  if (firebaseReady) return;
   if (!event.key) return;
   if (event.key === liveStorageKey || event.key.startsWith(liveSessionPrefix)) {
     syncFromStorage();
@@ -199,9 +185,9 @@ try {
   const presenceRef = dbModule.ref(database, 'presence/site-total');
 
   dbModule.onValue(presenceRef, (snapshot) => {
+    firebaseReady = true;
     const data = snapshot.val() || {};
-    const total = Math.max(Object.keys(data).length, getFallbackCount());
-    renderCount(total);
+    renderCount(Object.keys(data).length);
   }, () => {
     syncFromStorage();
   });
