@@ -184,7 +184,6 @@ try {
     const data = snapshot.val() || {};
     const total = Object.keys(data).length || getFallbackCount();
     renderCount(total);
-    setFallbackCount(total);
   }, () => {
     syncFromStorage();
   });
