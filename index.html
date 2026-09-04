@@ -73,10 +73,100 @@
     .song { min-width:0; } .song-top { display:flex; justify-content:space-between; gap:12px; font-size:12px; font-weight:600; color:#fff1d0; } .song-top span:first-child { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }.song-top span:last-child { font:10px 'DM Mono'; color:#ffc866; white-space:nowrap; }
     .progress-wrap { height:16px; display:flex; align-items:center; cursor:pointer; } .progress { width:100%; height:3px; border-radius:8px; background:#ffc97047; overflow:hidden; } .progress i { display:block; height:100%; width:0%; background:#ffcb5b; box-shadow:0 0 8px #ffd475; transition:width .2s linear; }
     .side-controls { display:flex; align-items:center; gap:2px; } .volume { color:#ffdc9e; font:10px 'DM Mono'; }
+    .flower-trigger { appearance:none; border:1px solid rgba(255,214,145,.65); background:linear-gradient(180deg,rgba(255,233,177,.18),rgba(255,170,85,.09)); color:#fff4d2; border-radius:999px; padding:12px 18px; font:700 14px 'DM Sans',sans-serif; cursor:pointer; box-shadow:0 10px 18px rgba(127,30,0,.2); transition:transform .2s ease, box-shadow .2s ease; }
+    .flower-trigger:hover { transform:translateY(-1px); box-shadow:0 14px 22px rgba(127,30,0,.28); }
+    .flower-trigger:active { transform:translateY(0) scale(.98); }
+    .chhath-actions { display:flex; justify-content:center; margin-top:20px; }
+    .flower-layer { position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:9; }
+    .flower-layer .petal { position:absolute; top:-20px; left:0; font-size:18px; filter:drop-shadow(0 6px 8px rgba(0,0,0,.16)); opacity:0; animation:petal-fall var(--fall-duration, 2600ms) cubic-bezier(.18,.7,.17,1) forwards; }
+    @keyframes petal-fall {
+      0% { opacity:0; transform:translate3d(0,-10px,0) scale(.75) rotate(0deg); }
+      10% { opacity:1; }
+      100% { opacity:0; transform:translate3d(var(--drift, 0px), 110vh,0) scale(1.2) rotate(var(--spin, 180deg)); }
+    }
+    .festive-chhath-glow { position:fixed; inset:0; pointer-events:none; z-index:1; background:radial-gradient(circle at 50% 22%, rgba(255, 210, 120, .18), transparent 33%), radial-gradient(circle at 50% 58%, rgba(255, 143, 90, .1), transparent 40%); }
+    .chhath-chat { position:relative; z-index:3; width:min(680px, calc(100% - 18px)); margin:26px auto 0; padding:16px 14px 12px; border:1px solid rgba(255,214,145,.38); border-radius:18px; background:linear-gradient(180deg,rgba(58,20,14,.66),rgba(24,14,12,.6)); box-shadow:0 14px 38px rgba(24,8,8,.18); backdrop-filter:blur(10px); }
+    .chat-header { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:12px; font:700 13px 'DM Sans',sans-serif; color:#ffe5b6; }
+    .chat-header small { color:#ffbf69; font:10px 'DM Mono'; letter-spacing:.08em; text-transform:uppercase; }
+    .chat-messages { max-height:210px; overflow:auto; display:flex; flex-direction:column; gap:8px; padding-right:4px; }
+    .chat-message { display:flex; font-size:13px; line-height:1.5; }
+    .chat-message.user { justify-content:flex-end; }
+    .chat-message.system { justify-content:flex-start; }
+    .chat-bubble { max-width:78%; padding:8px 10px; border-radius:12px; word-break:break-word; }
+    .chat-message.user .chat-bubble { background:linear-gradient(180deg,#ffd76e,#ffbe4d); color:#3f180d; border-bottom-right-radius:4px; }
+    .chat-message.system .chat-bubble { background:rgba(255,255,255,.08); color:#f8e8c7; border:1px solid rgba(255,214,145,.15); border-bottom-left-radius:4px; }
+    .chat-quick { display:flex; flex-wrap:wrap; gap:8px; margin:12px 0 10px; }
+    .quick-message { cursor:pointer; border:1px solid rgba(255,214,145,.32); background:rgba(255,255,255,.03); color:#ffe8bb; font:500 12px 'DM Sans',sans-serif; border-radius:999px; padding:7px 10px; }
+    .chat-compose { display:flex; align-items:center; gap:8px; }
+    .chat-input { flex:1; min-width:0; border-radius:12px; border:1px solid rgba(255,214,145,.32); background:rgba(19,10,10,.32); color:#fff5dc; padding:11px 12px; font:500 14px 'DM Sans',sans-serif; }
+    .chat-input::placeholder { color:rgba(255,240,209,.7); }
+    .chat-send { appearance:none; border:0; border-radius:12px; background:linear-gradient(180deg,#ffbf49,#ef8f2e); color:#3f180d; font:700 14px 'DM Sans',sans-serif; padding:10px 14px; cursor:pointer; }
     @media(max-width:760px){
       body{overflow-x:hidden}
-      main{padding:20px 16px 142px}.nav-note{display:none}nav{font-size:9px}.hero{padding:38px 0 12px; min-height:100svh; background-position:center center; background-size:cover}.eyebrow{font-size:9px;letter-spacing:.1em}.eyebrow:before{width:22px}h1{font-size:clamp(4rem,20vw,6.2rem);margin:16px 0 20px}.intro{font-size:14px;line-height:1.6}.metadata{gap:7px;margin-top:24px}.tag{font-size:9px;padding:6px 8px}.playlist-option{min-width:140px;min-height:40px;font-size:11px}.quote-box{margin-top:24px}.offer{bottom:max(8px,env(safe-area-inset-bottom));padding:9px 10px;gap:8px;width:calc(100% - 18px)}.transport{gap:0}.mobile-play-label{display:none}.play-state{font-size:8px;margin-left:3px}.side-controls .volume{display:none}.control{width:27px;padding:0}.main-control{width:44px;height:44px;padding:0;border-radius:50%;font-size:15px}.song-top{gap:7px;font-size:11px}.progress-wrap{height:14px}
+      main{padding:20px 16px 142px}.nav-note{display:none}nav{font-size:9px}.hero{padding:38px 0 12px; min-height:100svh; background-position:center center; background-size:cover}.eyebrow{font-size:9px;letter-spacing:.1em}.eyebrow:before{width:22px}h1{font-size:clamp(4rem,20vw,6.2rem);margin:16px 0 20px}.intro{font-size:14px;line-height:1.6}.metadata{gap:7px;margin-top:24px}.tag{font-size:9px;padding:6px 8px}.playlist-option{min-width:140px;min-height:40px;font-size:11px}.quote-box{margin-top:24px}.flower-trigger{padding:11px 16px;font-size:13px}.chhath-chat{margin-top:20px; width:calc(100% - 14px); padding:12px 10px 10px}.chat-quick{gap:6px}.quick-message{font-size:11px;padding:6px 8px}.chat-bubble{max-width:88%}.chat-compose{gap:6px}.chat-input{padding:10px 11px}.chat-send{padding:9px 12px}.offer{bottom:max(8px,env(safe-area-inset-bottom));padding:9px 10px;gap:8px;width:calc(100% - 18px)}.transport{gap:0}.mobile-play-label{display:none}.play-state{font-size:8px;margin-left:3px}.side-controls .volume{display:none}.control{width:27px;padding:0}.main-control{width:44px;height:44px;padding:0;border-radius:50%;font-size:15px}.song-top{gap:7px;font-size:11px}.progress-wrap{height:14px}
     }
+    .chat-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.live-dot {
+  width: 9px;
+  height: 9px;
+  background: #2196f3;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 8px rgba(33, 150, 243, 0.8);
+  animation: livePulse 1.5s infinite;
+}
+
+@keyframes livePulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.45;
+    transform: scale(1.25);
+  }
+}
+@media (max-width: 600px) {
+  .info-nav-links {
+    position: absolute !important;
+    top: 12px !important;
+    right: 12px !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-end !important;
+    gap: 6px !important;
+
+    z-index: 1000 !important;
+  }
+
+  .info-nav-link {
+    font-size: 11px !important;
+    padding: 6px 10px !important;
+    white-space: nowrap !important;
+  }
+}
+@media (max-width: 600px) {
+  .info-nav-links {
+    top: 55px !important;
+    right: 10px !important;
+  }
+
+  #live-users,
+  .live-users,
+  .live-user-count {
+    position: relative !important;
+    z-index: 1100 !important;
+    display: block !important;
+    visibility: visible !important;
+  }
+}
   </style>
 </head>
 <body data-page-key="chhath">
@@ -108,9 +198,38 @@
           </div>
         </div>
         <div class="quote-box"><p class="quote" id="quote">“काँच ही बाँस के बहंगिया...”</p><p class="quote-author" id="quoteAuthor">— घाट की एक याद</p></div>
+        <div class="chhath-actions"><button class="flower-trigger" id="flowerBurstBtn" type="button">🌸 फूल बरसाएँ</button></div>
       </div>
     </section>
+    
+
+    <section class="chhath-chat" aria-label="छठ पूजा लाइव चैट">
+      <div class="chat-header">
+  <div class="chat-title">
+    <span class="live-dot"></span>
+    <span>💬 छठ पूजा लाइव चैट</span>
+  </div>
+  <small>community</small>
+</div>
+      <div class="chat-messages" id="chhathChatMessages" aria-live="polite">
+        <div class="chat-message system"><span class="chat-bubble">🙏 छठ पूजा की शुभकामनाएँ! अपने मन की भावना साझा करें।</span></div>
+      </div>
+      <div class="chat-quick" aria-label="त्वरित संदेश">
+        <button class="quick-message" type="button" data-message="🙏 जय छठी मैया">🙏 जय छठी मैया</button>
+        <button class="quick-message" type="button" data-message="🌅 जय सूर्य देव">🌅 जय सूर्य देव</button>
+        <button class="quick-message" type="button" data-message="❤️ शुभ छठ पूजा">❤️ शुभ छठ पूजा</button>
+        <button class="quick-message" type="button" data-message="🙏 छठी मैया की जय">🙏 छठी मैया की जय</button>
+        <button class="quick-message" type="button" data-message="🎵 बहुत सुंदर गीत">🎵 बहुत सुंदर गीत</button>
+      </div>
+      <div class="chat-compose">
+        <input id="chatInput" class="chat-input" type="text" maxlength="180" placeholder="अपना संदेश लिखें..." aria-label="अपना संदेश लिखें" />
+        <button id="chatSendBtn" class="chat-send" type="button">➤ भेजें</button>
+      </div>
+    </section>
+    
   </main>
+  <div class="flower-layer" id="flowerLayer" aria-hidden="true"></div>
+  <div class="festive-chhath-glow" aria-hidden="true"></div>
   <section class="offer" id="playerOffer" aria-label="छठ संगीत प्लेयर">
     <div class="transport">
       <button class="control" id="prev" aria-label="पिछला गीत">⏮</button>
@@ -127,6 +246,99 @@
       chhath:['“काँच ही बाँस के बहंगिया...”','“उग हो सूरज देव, भेल भिनसरवा।”','“ठेकुआ की खुशबू, घाट का सुकून।”','“आस्था के इस पर्व में, सबके घर उजियार।”','“डूबता सूरज, जुड़े हाथ और भरा हुआ मन।”'],
       navratri:['“जय अम्बे गौरी, मैया जय मंगल मूर्ति।”','“माँ के दरबार में हर मन को शांति मिलती है।”','“गरबा की ताल में भक्ति का रंग।”','“शक्ति, श्रद्धा और उत्सव का पावन पर्व।”','“जय माता दी, घर-घर मंगल हो।”']
     }; let quoteIndex=0;
+    const flowerLayer = document.getElementById('flowerLayer');
+    const flowerState = { active: 0, lastTrigger: 0 };
+    function triggerFlowerBurst(){
+      const now = Date.now();
+      if (now - flowerState.lastTrigger < 180) return;
+      flowerState.lastTrigger = now;
+      if (!flowerLayer) return;
+      const petalTypes = ['🌸','🌼','🌺','❀','💮'];
+      const burstSize = Math.min(16, 24 - flowerState.active);
+      if (burstSize <= 0) return;
+      for (let i = 0; i < burstSize; i += 1) {
+        const petal = document.createElement('span');
+        petal.className = 'petal';
+        petal.textContent = petalTypes[Math.floor(Math.random() * petalTypes.length)];
+        petal.style.left = `${Math.random() * 100}%`;
+        petal.style.setProperty('--drift', `${(Math.random() * 140 - 70).toFixed(2)}px`);
+        petal.style.setProperty('--spin', `${(Math.random() * 540 - 270).toFixed(0)}deg`);
+        petal.style.setProperty('--fall-duration', `${(2300 + Math.random() * 700).toFixed(0)}ms`);
+        petal.style.fontSize = `${(14 + Math.random() * 16).toFixed(0)}px`;
+        flowerLayer.appendChild(petal);
+        flowerState.active += 1;
+        petal.addEventListener('animationend', () => {
+          petal.remove();
+          flowerState.active = Math.max(0, flowerState.active - 1);
+        }, { once: true });
+      }
+    }
+    const chatStorageKey = 'chhath-live-chat-messages';
+    const chatMessagesElement = document.getElementById('chhathChatMessages');
+    const chatInput = document.getElementById('chatInput');
+    const chatSendButton = document.getElementById('chatSendBtn');
+    function getStoredChatMessages(){
+      try {
+        const saved = JSON.parse(localStorage.getItem(chatStorageKey) || '[]');
+        return Array.isArray(saved) ? saved.slice(-12) : [];
+      } catch (error) {
+        return [];
+      }
+    }
+    function persistChatMessages(messages){
+      try {
+        localStorage.setItem(chatStorageKey, JSON.stringify(messages.slice(-12)));
+      } catch (error) {
+        // Ignore storage quota issues.
+      }
+    }
+    function appendChatMessage(messageText, isUserMessage = false){
+      if (!chatMessagesElement) return;
+      const message = document.createElement('div');
+      message.className = `chat-message ${isUserMessage ? 'user' : 'system'}`;
+      const bubble = document.createElement('span');
+      bubble.className = 'chat-bubble';
+      bubble.textContent = messageText;
+      message.appendChild(bubble);
+      chatMessagesElement.appendChild(message);
+      chatMessagesElement.scrollTop = chatMessagesElement.scrollHeight;
+    }
+    function sendChatMessage(rawValue){
+      const messageText = (rawValue || '').trim();
+      if (!messageText) return;
+      const stored = getStoredChatMessages();
+      const nextMessages = [...stored, { text: messageText, isUser: true, ts: Date.now() }];
+      persistChatMessages(nextMessages);
+      appendChatMessage(messageText, true);
+      if (chatInput) chatInput.value = '';
+    }
+    function hydrateChatMessages(){
+      if (!chatMessagesElement) return;
+      const messages = getStoredChatMessages();
+      chatMessagesElement.innerHTML = '';
+      if (!messages.length) {
+        appendChatMessage('🙏 छठ पूजा की शुभकामनाएँ! अपने मन की भावना साझा करें।', false);
+        return;
+      }
+      messages.forEach((entry) => {
+        appendChatMessage(entry.text, Boolean(entry.isUser));
+      });
+    }
+    document.getElementById('flowerBurstBtn').addEventListener('click', triggerFlowerBurst);
+    document.querySelectorAll('.quick-message').forEach((button) => {
+      button.addEventListener('click', () => {
+        const message = button.dataset.message || button.textContent.trim();
+        sendChatMessage(message);
+      });
+    });
+    chatSendButton?.addEventListener('click', () => sendChatMessage(chatInput?.value || ''));
+    chatInput?.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        sendChatMessage(chatInput.value);
+      }
+    });
+    hydrateChatMessages();
     setInterval(()=>{ const q=document.getElementById('quote');q.style.opacity=0;setTimeout(()=>{const activeQuotes=quotes[activePlaylist];quoteIndex=(quoteIndex+1)%activeQuotes.length;q.textContent=activeQuotes[quoteIndex];q.style.opacity=1},300)},4200);
     const playlists = { chhath: { files: window.trackFiles || [], folder: '', label: 'छठ पूजा गीत संग्रह' }, navratri: { files: window.navratriTrackFiles || [], folder: 'navratri/', label: 'नवरात्रि गीत संग्रह' } };
     const audio=document.getElementById('audio'), backgroundVideo=document.getElementById('backgroundVideo'), play=document.getElementById('play'), bar=document.getElementById('bar'), time=document.getElementById('time'), track=document.getElementById('track'), playState=document.getElementById('playState'); const lfsMediaBase='https://media.githubusercontent.com/media/Kumarankit-dangi/chhatsong-website/main/'; let current=0, activePlaylist='chhath', files=playlists.chhath.files;
@@ -189,5 +401,487 @@ if (selectedPlaylist === "navratri") {
 }
   </script>
   <script type="module" src="presence.js?v=live-20260902-9"></script>
+  <script>
+    (() => {
+      const styleId = 'chhatsong-info-style';
+      if (!document.getElementById(styleId)) {
+        const style = document.createElement('style');
+        style.id = styleId;
+        style.textContent = `
+          .info-nav-links {
+            display:flex;
+            align-items:center;
+            justify-content:flex-end;
+            gap:8px;
+            flex-wrap:wrap;
+            margin-left:auto;
+            margin-right:8px;
+          }
+          .info-nav-link {
+            appearance:none;
+            border:1px solid rgba(255,214,145,.45);
+            border-radius:999px;
+            background:rgba(28,13,10,.34);
+            color:#fff1ce;
+            padding:7px 11px;
+            font:500 10px 'DM Mono', sans-serif;
+            letter-spacing:.06em;
+            text-transform:uppercase;
+            cursor:pointer;
+            text-decoration:none;
+            transition:transform .2s ease, background .2s ease;
+          }
+          .info-nav-link:hover {
+            transform:translateY(-1px);
+            background:rgba(255,214,145,.12);
+          }
+          .site-info-section {
+            width:min(1180px, calc(100% - 28px));
+            margin:24px auto 0;
+            padding:0 0 40px;
+            color:#f9eed7;
+            position:relative;
+            z-index:3;
+          }
+          .info-row,
+          .connect-grid,
+          .support-grid {
+            display:grid;
+            gap:16px;
+            margin-top:16px;
+          }
+          .info-row {
+            grid-template-columns:repeat(2, minmax(0, 1fr));
+          }
+          .connect-grid,
+          .support-grid {
+            grid-template-columns:repeat(2, minmax(0, 1fr));
+          }
+          .info-card {
+            background:linear-gradient(180deg, rgba(48,20,15,.72), rgba(21,13,12,.72));
+            border:1px solid rgba(255,214,145,.38);
+            border-radius:18px;
+            padding:18px 18px 16px;
+            box-shadow:0 12px 28px rgba(14,9,8,.12);
+          }
+          .info-card h3 {
+            margin:0 0 12px;
+            font:700 22px 'DM Sans', sans-serif;
+            color:#fff1d2;
+          }
+          .info-card p {
+            margin:0 0 10px;
+            color:#f4e7c0;
+            line-height:1.75;
+            font-size:15px;
+          }
+          .faq-list {
+            display:grid;
+            gap:10px;
+          }
+          .faq-item {
+            border:1px solid rgba(255,214,145,.2);
+            border-radius:12px;
+            background:rgba(255,255,255,.02);
+            overflow:hidden;
+          }
+          .faq-question {
+            width:100%;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:12px;
+            background:transparent;
+            border:0;
+            color:#fbeac4;
+            font:600 15px 'DM Sans', sans-serif;
+            text-align:left;
+            padding:12px 14px;
+            cursor:pointer;
+          }
+          .faq-answer {
+            max-height:0;
+            overflow:hidden;
+            transition:max-height .22s ease, padding .22s ease;
+            padding:0 14px;
+            color:#e8dcc0;
+            line-height:1.7;
+            font-size:14px;
+          }
+          .faq-item.is-open .faq-answer {
+            max-height:180px;
+            padding:0 14px 14px;
+          }
+          .faq-toggle {
+            color:#ffd76d;
+            font-size:18px;
+            line-height:1;
+          }
+          .connect-actions {
+            display:flex;
+            flex-wrap:wrap;
+            gap:10px;
+            margin-top:14px;
+          }
+          .social-button,
+          .cta-button,
+          .modal-close {
+            border:1px solid rgba(255,214,145,.38);
+            border-radius:12px;
+            background:linear-gradient(180deg, rgba(255,205,101,.18), rgba(255,152,68,.12));
+            color:#fff7dc;
+            cursor:pointer;
+            padding:10px 14px;
+            font:600 14px 'DM Sans', sans-serif;
+            transition:transform .2s ease, filter .2s ease;
+          }
+          .social-button:hover,
+          .cta-button:hover,
+          .modal-close:hover {
+            transform:translateY(-1px);
+            filter:brightness(1.03);
+          }
+          .support-placeholder {
+            margin-top:12px;
+            border:1px dashed rgba(255,214,145,.35);
+            border-radius:12px;
+            padding:12px 14px;
+            background:rgba(255,255,255,.02);
+            color:#f5e7be;
+            line-height:1.7;
+          }
+          .site-footer {
+            width:min(1180px, calc(100% - 28px));
+            margin:0 auto 70px;
+            padding:18px 0 10px;
+            border-top:1px solid rgba(255,214,145,.3);
+            color:#f4e1b5;
+            font-size:14px;
+            display:flex;
+            flex-wrap:wrap;
+            align-items:center;
+            justify-content:space-between;
+            gap:10px;
+            position:relative;
+            z-index:3;
+          }
+          .site-footer-links {
+            display:flex;
+            align-items:center;
+            justify-content:flex-end;
+            flex-wrap:wrap;
+            gap:12px;
+          }
+          .site-footer-links button,
+          .site-footer-links a {
+            color:#f9ecd0;
+            text-decoration:none;
+            border:0;
+            background:transparent;
+            padding:0;
+            cursor:pointer;
+            font:500 12px 'DM Sans', sans-serif;
+          }
+          .about-modal {
+            position:fixed;
+            inset:0;
+            display:none;
+            align-items:center;
+            justify-content:center;
+            background:rgba(10,7,6,.62);
+            backdrop-filter:blur(6px);
+            z-index:999;
+            padding:18px;
+          }
+          .about-modal.is-open {
+            display:flex;
+          }
+          .about-modal-card {
+            width:min(620px, 100%);
+            background:linear-gradient(180deg, rgba(58,21,13,.96), rgba(22,13,13,.96));
+            border:1px solid rgba(255,214,145,.38);
+            border-radius:18px;
+            padding:20px 20px 18px;
+            color:#f6e6c1;
+            box-shadow:0 18px 46px rgba(10,6,5,.42);
+          }
+          .about-modal-card h2 {
+            margin:0 0 12px;
+            font:700 26px 'DM Sans', sans-serif;
+          }
+          .about-modal-card p {
+            margin:0 0 10px;
+            line-height:1.8;
+            font-size:15px;
+          }
+          .modal-header {
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:12px;
+          }
+          @media (max-width:760px) {
+            .info-nav-links {
+              justify-content:flex-start;
+              margin:0;
+              width:100%;
+            }
+              @media (max-width: 600px) {
+  .top-actions {
+    top: 12px;
+    right: 12px;
+  }
+}
+   /* Top buttons - right corner */
+.top-actions {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 100;
+}         .info-row,
+            .connect-grid,
+            .support-grid {
+              grid-template-columns:1fr;
+            }
+            .site-footer {
+              padding-top:12px;
+              margin-bottom:92px;
+            }
+          }
+        `;
+        document.head.appendChild(style);
+      }
+
+      const navTarget = document.querySelector('nav') || document.querySelector('.top');
+      if (navTarget && !navTarget.querySelector('.info-nav-links')) {
+        const navLinks = document.createElement('div');
+        navLinks.className = 'info-nav-links';
+        navLinks.innerHTML = `
+          <button type="button" class="info-nav-link about-trigger">ℹ️ हमारे बारे में</button>
+          <a class="info-nav-link faq-link" href="#faq-section">❓ अक्सर पूछे जाने वाले सवाल</a>
+        `;
+        const liveUsers = navTarget.querySelector('.live-users');
+        if (liveUsers) {
+          navTarget.insertBefore(navLinks, liveUsers.nextSibling);
+        } else {
+          navTarget.appendChild(navLinks);
+        }
+      }
+
+      if (!document.querySelector('.site-info-section')) {
+        const infoSection = document.createElement('section');
+        infoSection.className = 'site-info-section';
+        infoSection.innerHTML = `
+          <div class="info-row">
+            <section class="info-card" aria-label="हमारे बारे में">
+              <h3>ℹ️ हमारे बारे में</h3>
+              <p>छठ के गीत — एक जगह, छठ की हर याद के साथ ❤️</p>
+              <p>यह वेबसाइट अलग-अलग प्रकार के गीतों को एक ही जगह आसानी से सुनने और खोजने के लिए बनाई गई है।</p>
+              <p>यहाँ आपको पारंपरिक गीत, भोजपुरी गीत, पुराने यादगार गीत, भक्ति गीत, लोकप्रिय गीत और अलग-अलग श्रेणियों के गीत मिलेंगे।</p>
+              <p>हमारा उद्देश्य संगीत को एक सरल और सुंदर अनुभव के साथ लोगों तक पहुँचाना और पुरानी यादों को फिर से जीवंत करना है।</p>
+            </section>
+            <section class="info-card" id="faq-section" aria-label="अक्सर पूछे जाने वाले सवाल">
+              <h3>❓ अक्सर पूछे जाने वाले सवाल</h3>
+              <div class="faq-list">
+                <div class="faq-item is-open">
+                  <button type="button" class="faq-question">
+                    <span>यह वेबसाइट किस लिए बनाई गई है?</span>
+                    <span class="faq-toggle">−</span>
+                  </button>
+                  <div class="faq-answer">यह वेबसाइट अलग-अलग प्रकार के गीतों को एक जगह सुनने और खोजने के लिए बनाई गई है।</div>
+                </div>
+                <div class="faq-item">
+                  <button type="button" class="faq-question">
+                    <span>इस वेबसाइट पर किस प्रकार के गीत मिलेंगे?</span>
+                    <span class="faq-toggle">+</span>
+                  </button>
+                  <div class="faq-answer">यहाँ अलग-अलग श्रेणियों के गीत, पुराने गीत, लोकप्रिय गीत, भोजपुरी गीत, पंजाबी गीत, भक्ति गीत और अन्य संग्रह उपलब्ध हैं।</div>
+                </div>
+                <div class="faq-item">
+                  <button type="button" class="faq-question">
+                    <span>क्या मैं अपना पसंदीदा गीत सुझा सकता हूँ?</span>
+                    <span class="faq-toggle">+</span>
+                  </button>
+                 <div class="faq-answer">
+  हाँ। नीचे दिए गए
+  <a href="https://whatsapp.com/channel/0029Vb8KDv4DZ4LYnOgtd32C" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+  या
+  <a href="https://www.instagram.com/chhathsong.com_/" target="_blank" rel="noopener noreferrer">Instagram</a>
+  माध्यम से आप अपना पसंदीदा गीत सुझा सकते हैं।
+</div>
+                <div class="faq-item">
+                  <button type="button" class="faq-question">
+                    <span>गीतों का श्रेय किसे दिया जाता है?</span>
+                    <span class="faq-toggle">+</span>
+                  </button>
+                  <div class="faq-answer">गीतों और वीडियो का श्रेय उनके संबंधित कलाकारों, निर्माताओं और मूल स्रोतों को दिया जाता है।</div>
+                </div>
+                <div class="faq-item">
+                  <button type="button" class="faq-question">
+                    <span>क्या मैं वेबसाइट दूसरों के साथ साझा कर सकता हूँ?</span>
+                    <span class="faq-toggle">+</span>
+                  </button>
+                  <div class="faq-answer">हाँ। आप अपने परिवार और दोस्तों के साथ वेबसाइट साझा कर सकते हैं।</div>
+                </div>
+              </div>
+            </section>
+          </div>
+          <div class="connect-grid">
+            <section class="info-card" aria-label="हमसे जुड़ें">
+              <h3>❤️ हमसे जुड़ें</h3>
+              <p>आपके प्यार, सुझाव और सहयोग से यह गीत संग्रह और बेहतर बनेगा।</p>
+<div class="connect-actions">
+  <a href="https://www.instagram.com/chhathsong.com_/"
+     target="_blank"
+     rel="noopener noreferrer"
+     class="social-button">
+    📸 Instagram
+  </a>
+
+  <a href="https://whatsapp.com/channel/0029Vb8KDv4DZ4LYnOgtd32C"
+     target="_blank"
+     rel="noopener noreferrer"
+     class="social-button">
+    💬 WhatsApp
+  </a>
+</div>            </section>
+            <section class="info-card" aria-label="गीत सुझाएँ">
+              <h3>🎵 आपका पसंदीदा गीत नहीं मिला?</h3>
+              <p>हमें अपना पसंदीदा गीत सुझाएँ।</p>
+              <a href="https://whatsapp.com/channel/0029Vb8KDv4DZ4LYnOgtd32C"
+   target="_blank"
+   rel="noopener noreferrer"
+   class="cta-button">
+  गीत सुझाएँ →
+</a>
+            </section>
+          </div>
+          <div class="support-grid">
+            <section class="info-card" aria-label="सहयोग करें">
+  <h3>❤️ इस प्रयास का सहयोग करें</h3>
+
+  <p>
+    अगर आपको यह गीत संग्रह पसंद आया, तो इसे अपने परिवार और दोस्तों के साथ साझा करें।
+    आपका सहयोग इस प्रयास को आगे बढ़ाने में मदद करेगा।
+  </p>
+
+  <div class="support-actions">
+
+    <a
+      href="https://wa.me/?text=छठ के गीत सुनें ❤️ https://kumarankit-dangi.github.io/chhatsong-website/"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="support-button">
+      💬 WhatsApp पर साझा करें
+    </a>
+
+    <button
+      type="button"
+      class="support-button"
+      onclick="navigator.share ? navigator.share({
+        title: 'छठ के गीत',
+        text: 'छठ के गीत सुनें ❤️',
+        url: window.location.href
+      }) : alert('इस डिवाइस पर शेयर सुविधा उपलब्ध नहीं है।')">
+      📤 वेबसाइट साझा करें
+    </button>
+
+  </div>
+</section>
+            <section class="info-card" aria-label="गीतों का श्रेय">
+              <h3>📜 गीतों का श्रेय</h3>
+              <p>इस वेबसाइट पर उपलब्ध गीतों का श्रेय उनके संबंधित कलाकारों, संगीतकारों, निर्माताओं और मूल स्रोतों को दिया जाता है।</p>
+              <p>जहाँ उपलब्ध हो, गीत के मूल स्रोत या संबंधित YouTube चैनल का श्रेय दिया जाए।</p>
+            </section>
+          </div>
+        `;
+        const insertBeforeNode = document.querySelector('.offer, .player, footer');
+        if (insertBeforeNode && insertBeforeNode.parentNode) {
+          insertBeforeNode.parentNode.insertBefore(infoSection, insertBeforeNode.nextSibling);
+        } else {
+          document.body.appendChild(infoSection);
+        }
+      }
+
+      if (!document.querySelector('.site-footer')) {
+        const footer = document.createElement('footer');
+        footer.className = 'site-footer';
+        footer.innerHTML = `
+          <div>© 2026 छठ के गीत</div>
+          <div>प्रेम और संगीत के साथ ❤️</div>
+          <div class="site-footer-links">
+            <button type="button" class="about-trigger">हमारे बारे में</button>
+            <a href="#faq-section">अक्सर पूछे जाने वाले सवाल</a>
+            <a href="https://www.instagram.com/chhathsong.com_/" target="_blank" rel="noopener noreferrer">
+  Instagram
+</a>
+
+<a href="https://whatsapp.com/channel/0029Vb8KDv4DZ4LYnOgtd32C" target="_blank" rel="noopener noreferrer">
+  WhatsApp
+</a>
+          </div>
+        `;
+        document.body.appendChild(footer);
+      }
+
+      const modal = document.getElementById('aboutModal');
+      if (!modal) {
+        const modalNode = document.createElement('div');
+        modalNode.id = 'aboutModal';
+        modalNode.className = 'about-modal';
+        modalNode.innerHTML = `
+          <div class="about-modal-card" role="dialog" aria-modal="true" aria-labelledby="about-modal-title">
+            <div class="modal-header">
+              <h2 id="about-modal-title">ℹ️ हमारे बारे में</h2>
+              <button type="button" class="modal-close" data-close-modal>✕</button>
+            </div>
+            <p>छठ के गीत — एक जगह, छठ की हर याद के साथ ❤️</p>
+            <p>यह वेबसाइट अलग-अलग प्रकार के गीतों को एक ही जगह आसानी से सुनने और खोजने के लिए बनाई गई है।</p>
+            <p>यहाँ आपको पारंपरिक गीत, भोजपुरी गीत, पुराने यादगार गीत, भक्ति गीत, लोकप्रिय गीत और अलग-अलग श्रेणियों के गीत मिलेंगे।</p>
+            <p>हमारा उद्देश्य संगीत को एक सरल और सुंदर अनुभव के साथ लोगों तक पहुँचाना और पुरानी यादों को फिर से जीवंत करना है।</p>
+          </div>
+        `;
+        document.body.appendChild(modalNode);
+      }
+
+      const openAboutModal = () => {
+        const modalNode = document.getElementById('aboutModal');
+        if (modalNode) modalNode.classList.add('is-open');
+      };
+      const closeAboutModal = () => {
+        const modalNode = document.getElementById('aboutModal');
+        if (modalNode) modalNode.classList.remove('is-open');
+      };
+
+      document.querySelectorAll('.about-trigger').forEach((button) => {
+        button.addEventListener('click', openAboutModal);
+      });
+      document.querySelectorAll('[data-close-modal]').forEach((button) => {
+        button.addEventListener('click', closeAboutModal);
+      });
+      const aboutModalNode = document.getElementById('aboutModal');
+      if (aboutModalNode) {
+        aboutModalNode.addEventListener('click', (event) => {
+          if (event.target === aboutModalNode) closeAboutModal();
+        });
+      }
+
+      document.querySelectorAll('.faq-question').forEach((button) => {
+        button.addEventListener('click', () => {
+          const item = button.closest('.faq-item');
+          if (!item) return;
+          const isOpen = item.classList.contains('is-open');
+          document.querySelectorAll('.faq-item').forEach((faqItem) => {
+            faqItem.classList.toggle('is-open', faqItem === item && !isOpen);
+            const toggle = faqItem.querySelector('.faq-toggle');
+            if (toggle) toggle.textContent = faqItem.classList.contains('is-open') ? '−' : '+';
+          });
+        });
+      });
+    })();
+  </script>
 </body>
 </html>

@@ -684,6 +684,122 @@
     <script src="haryanvi-tracks.js"></script>
     <script type="module" src="./presence.js?v=live-20260902-9"></script>
     <script>
+      (() => {
+        const styleId = 'chhatsong-info-style';
+        if (!document.getElementById(styleId)) {
+          const style = document.createElement('style');
+          style.id = styleId;
+          style.textContent = `
+            .info-nav-links { display:flex; align-items:center; justify-content:flex-end; gap:8px; flex-wrap:wrap; margin-left:auto; margin-right:8px; }
+            .info-nav-link { appearance:none; border:1px solid rgba(255,214,145,.45); border-radius:999px; background:rgba(28,13,10,.34); color:#fff1ce; padding:7px 11px; font:500 10px 'DM Mono', sans-serif; letter-spacing:.06em; text-transform:uppercase; cursor:pointer; text-decoration:none; transition:transform .2s ease, background .2s ease; }
+            .info-nav-link:hover { transform:translateY(-1px); background:rgba(255,214,145,.12); }
+            .site-info-section { width:min(1180px, calc(100% - 28px)); margin:24px auto 0; padding:0 0 40px; color:#f9eed7; position:relative; z-index:3; }
+            .info-row, .connect-grid, .support-grid { display:grid; gap:16px; margin-top:16px; }
+            .info-row { grid-template-columns:repeat(2, minmax(0, 1fr)); }
+            .connect-grid, .support-grid { grid-template-columns:repeat(2, minmax(0, 1fr)); }
+            .info-card { background:linear-gradient(180deg, rgba(48,20,15,.72), rgba(21,13,12,.72)); border:1px solid rgba(255,214,145,.38); border-radius:18px; padding:18px 18px 16px; box-shadow:0 12px 28px rgba(14,9,8,.12); }
+            .info-card h3 { margin:0 0 12px; font:700 22px 'DM Sans', sans-serif; color:#fff1d2; }
+            .info-card p { margin:0 0 10px; color:#f4e7c0; line-height:1.75; font-size:15px; }
+            .faq-list { display:grid; gap:10px; }
+            .faq-item { border:1px solid rgba(255,214,145,.2); border-radius:12px; background:rgba(255,255,255,.02); overflow:hidden; }
+            .faq-question { width:100%; display:flex; align-items:center; justify-content:space-between; gap:12px; background:transparent; border:0; color:#fbeac4; font:600 15px 'DM Sans', sans-serif; text-align:left; padding:12px 14px; cursor:pointer; }
+            .faq-answer { max-height:0; overflow:hidden; transition:max-height .22s ease, padding .22s ease; padding:0 14px; color:#e8dcc0; line-height:1.7; font-size:14px; }
+            .faq-item.is-open .faq-answer { max-height:180px; padding:0 14px 14px; }
+            .faq-toggle { color:#ffd76d; font-size:18px; line-height:1; }
+            .connect-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:14px; }
+            .social-button, .cta-button, .modal-close { border:1px solid rgba(255,214,145,.38); border-radius:12px; background:linear-gradient(180deg, rgba(255,205,101,.18), rgba(255,152,68,.12)); color:#fff7dc; cursor:pointer; padding:10px 14px; font:600 14px 'DM Sans', sans-serif; transition:transform .2s ease, filter .2s ease; }
+            .social-button:hover, .cta-button:hover, .modal-close:hover { transform:translateY(-1px); filter:brightness(1.03); }
+            .support-placeholder { margin-top:12px; border:1px dashed rgba(255,214,145,.35); border-radius:12px; padding:12px 14px; background:rgba(255,255,255,.02); color:#f5e7be; line-height:1.7; }
+            .site-footer { width:min(1180px, calc(100% - 28px)); margin:0 auto 70px; padding:18px 0 10px; border-top:1px solid rgba(255,214,145,.3); color:#f4e1b5; font-size:14px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px; position:relative; z-index:3; }
+            .site-footer-links { display:flex; align-items:center; justify-content:flex-end; flex-wrap:wrap; gap:12px; }
+            .site-footer-links button, .site-footer-links a { color:#f9ecd0; text-decoration:none; border:0; background:transparent; padding:0; cursor:pointer; font:500 12px 'DM Sans', sans-serif; }
+            .about-modal { position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(10,7,6,.62); backdrop-filter:blur(6px); z-index:999; padding:18px; }
+            .about-modal.is-open { display:flex; }
+            .about-modal-card { width:min(620px, 100%); background:linear-gradient(180deg, rgba(58,21,13,.96), rgba(22,13,13,.96)); border:1px solid rgba(255,214,145,.38); border-radius:18px; padding:20px 20px 18px; color:#f6e6c1; box-shadow:0 18px 46px rgba(10,6,5,.42); }
+            .about-modal-card h2 { margin:0 0 12px; font:700 26px 'DM Sans', sans-serif; }
+            .about-modal-card p { margin:0 0 10px; line-height:1.8; font-size:15px; }
+            .modal-header { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+            @media (max-width:760px) { .info-nav-links { justify-content:flex-start; margin:0; width:100%; } .info-row, .connect-grid, .support-grid { grid-template-columns:1fr; } .site-footer { padding-top:12px; margin-bottom:92px; } }
+          `;
+          document.head.appendChild(style);
+        }
+
+        const navTarget = document.querySelector('nav') || document.querySelector('.top');
+        if (navTarget && !navTarget.querySelector('.info-nav-links')) {
+          const navLinks = document.createElement('div');
+          navLinks.className = 'info-nav-links';
+          navLinks.innerHTML = '<button type="button" class="info-nav-link about-trigger">ℹ️ हमारे बारे में</button><a class="info-nav-link faq-link" href="#faq-section">❓ अक्सर पूछे जाने वाले सवाल</a>';
+          const liveUsers = navTarget.querySelector('.live-users');
+          if (liveUsers) {
+            navTarget.insertBefore(navLinks, liveUsers.nextSibling);
+          } else {
+            navTarget.appendChild(navLinks);
+          }
+        }
+
+        if (!document.querySelector('.site-info-section')) {
+          const infoSection = document.createElement('section');
+          infoSection.className = 'site-info-section';
+          infoSection.innerHTML = `
+            <div class="info-row">
+              <section class="info-card" aria-label="हमारे बारे में"><h3>ℹ️ हमारे बारे में</h3><p>छठ के गीत — एक जगह, छठ की हर याद के साथ ❤️</p><p>यह वेबसाइट अलग-अलग प्रकार के गीतों को एक ही जगह आसानी से सुनने और खोजने के लिए बनाई गई है।</p><p>यहाँ आपको पारंपरिक गीत, भोजपुरी गीत, पुराने यादगार गीत, भक्ति गीत, लोकप्रिय गीत और अलग-अलग श्रेणियों के गीत मिलेंगे।</p><p>हमारा उद्देश्य संगीत को एक सरल और सुंदर अनुभव के साथ लोगों तक पहुँचाना और पुरानी यादों को फिर से जीवंत करना है।</p></section>
+              <section class="info-card" id="faq-section" aria-label="अक्सर पूछे जाने वाले सवाल"><h3>❓ अक्सर पूछे जाने वाले सवाल</h3><div class="faq-list"><div class="faq-item is-open"><button type="button" class="faq-question"><span>यह वेबसाइट किस लिए बनाई गई है?</span><span class="faq-toggle">−</span></button><div class="faq-answer">यह वेबसाइट अलग-अलग प्रकार के गीतों को एक जगह सुनने और खोजने के लिए बनाई गई है।</div></div><div class="faq-item"><button type="button" class="faq-question"><span>इस वेबसाइट पर किस प्रकार के गीत मिलेंगे?</span><span class="faq-toggle">+</span></button><div class="faq-answer">यहाँ अलग-अलग श्रेणियों के गीत, पुराने गीत, लोकप्रिय गीत, भोजपुरी गीत, पंजाबी गीत, भक्ति गीत और अन्य संग्रह उपलब्ध हैं।</div></div><div class="faq-item"><button type="button" class="faq-question"><span>क्या मैं अपना पसंदीदा गीत सुझा सकता हूँ?</span><span class="faq-toggle">+</span></button><div class="faq-answer">हाँ। नीचे दिए गए WhatsApp या Instagram माध्यम से आप अपना पसंदीदा गीत सुझा सकते हैं।</div></div><div class="faq-item"><button type="button" class="faq-question"><span>गीतों का श्रेय किसे दिया जाता है?</span><span class="faq-toggle">+</span></button><div class="faq-answer">गीतों और वीडियो का श्रेय उनके संबंधित कलाकारों, निर्माताओं और मूल स्रोतों को दिया जाता है।</div></div><div class="faq-item"><button type="button" class="faq-question"><span>क्या मैं वेबसाइट दूसरों के साथ साझा कर सकता हूँ?</span><span class="faq-toggle">+</span></button><div class="faq-answer">हाँ। आप अपने परिवार और दोस्तों के साथ वेबसाइट साझा कर सकते हैं।</div></div></div></section>
+            </div>
+            <div class="connect-grid">
+              <section class="info-card" aria-label="हमसे जुड़ें"><h3>❤️ हमसे जुड़ें</h3><p>आपके प्यार, सुझाव और सहयोग से यह गीत संग्रह और बेहतर बनेगा।</p><div class="connect-actions"><button type="button" class="social-button">📸 Instagram</button><button type="button" class="social-button">💬 WhatsApp</button></div></section>
+              <section class="info-card" aria-label="गीत सुझाएँ"><h3>🎵 आपका पसंदीदा गीत नहीं मिला?</h3><p>हमें अपना पसंदीदा गीत सुझाएँ।</p><button type="button" class="cta-button">गीत सुझाएँ →</button></section>
+            </div>
+            <div class="support-grid">
+              <section class="info-card" aria-label="सहयोग करें"><h3>❤️ इस प्रयास का सहयोग करें</h3><p>अगर आपको यह गीत संग्रह पसंद आया, तो इसे अपने परिवार और दोस्तों के साथ साझा करें। आपका सहयोग इस प्रयास को आगे बढ़ाने में मदद करेगा।</p><div class="support-placeholder">सहयोग क्षेत्र यहाँ कॉन्फ़िगर किया जा सकता है।</div></section>
+              <section class="info-card" aria-label="गीतों का श्रेय"><h3>📜 गीतों का श्रेय</h3><p>इस वेबसाइट पर उपलब्ध गीतों का श्रेय उनके संबंधित कलाकारों, संगीतकारों, निर्माताओं और मूल स्रोतों को दिया जाता है।</p><p>जहाँ उपलब्ध हो, गीत के मूल स्रोत या संबंधित YouTube चैनल का श्रेय दिया जाए।</p></section>
+            </div>
+          `;
+          const insertBeforeNode = document.querySelector('.offer, .player, footer');
+          if (insertBeforeNode && insertBeforeNode.parentNode) {
+            insertBeforeNode.parentNode.insertBefore(infoSection, insertBeforeNode.nextSibling);
+          } else {
+            document.body.appendChild(infoSection);
+          }
+        }
+
+        if (!document.querySelector('.site-footer')) {
+          const footer = document.createElement('footer');
+          footer.className = 'site-footer';
+          footer.innerHTML = '<div>© 2026 छठ के गीत</div><div>प्रेम और संगीत के साथ ❤️</div><div class="site-footer-links"><button type="button" class="about-trigger">हमारे बारे में</button><a href="#faq-section">अक्सर पूछे जाने वाले सवाल</a><button type="button">Instagram</button><button type="button">WhatsApp</button></div>';
+          document.body.appendChild(footer);
+        }
+
+        const modal = document.getElementById('aboutModal');
+        if (!modal) {
+          const modalNode = document.createElement('div');
+          modalNode.id = 'aboutModal';
+          modalNode.className = 'about-modal';
+          modalNode.innerHTML = '<div class="about-modal-card" role="dialog" aria-modal="true" aria-labelledby="about-modal-title"><div class="modal-header"><h2 id="about-modal-title">ℹ️ हमारे बारे में</h2><button type="button" class="modal-close" data-close-modal>✕</button></div><p>छठ के गीत — एक जगह, छठ की हर याद के साथ ❤️</p><p>यह वेबसाइट अलग-अलग प्रकार के गीतों को एक ही जगह आसानी से सुनने और खोजने के लिए बनाई गई है।</p><p>यहाँ आपको पारंपरिक गीत, भोजपुरी गीत, पुराने यादगार गीत, भक्ति गीत, लोकप्रिय गीत और अलग-अलग श्रेणियों के गीत मिलेंगे।</p><p>हमारा उद्देश्य संगीत को एक सरल और सुंदर अनुभव के साथ लोगों तक पहुँचाना और पुरानी यादों को फिर से जीवंत करना है।</p></div>';
+          document.body.appendChild(modalNode);
+        }
+
+        const openAboutModal = () => { const modalNode = document.getElementById('aboutModal'); if (modalNode) modalNode.classList.add('is-open'); };
+        const closeAboutModal = () => { const modalNode = document.getElementById('aboutModal'); if (modalNode) modalNode.classList.remove('is-open'); };
+        document.querySelectorAll('.about-trigger').forEach((button) => { button.addEventListener('click', openAboutModal); });
+        document.querySelectorAll('[data-close-modal]').forEach((button) => { button.addEventListener('click', closeAboutModal); });
+        const aboutModalNode = document.getElementById('aboutModal');
+        if (aboutModalNode) {
+          aboutModalNode.addEventListener('click', (event) => { if (event.target === aboutModalNode) closeAboutModal(); });
+        }
+        document.querySelectorAll('.faq-question').forEach((button) => {
+          button.addEventListener('click', () => {
+            const item = button.closest('.faq-item');
+            if (!item) return;
+            const isOpen = item.classList.contains('is-open');
+            document.querySelectorAll('.faq-item').forEach((faqItem) => {
+              faqItem.classList.toggle('is-open', faqItem === item && !isOpen);
+              const toggle = faqItem.querySelector('.faq-toggle');
+              if (toggle) toggle.textContent = faqItem.classList.contains('is-open') ? '−' : '+';
+            });
+          });
+        });
+      })();
+    </script>
 
         /* =========================
            HARYANVI SONGS
