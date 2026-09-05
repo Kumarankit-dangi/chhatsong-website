@@ -222,10 +222,11 @@
         <button class="quick-message" type="button" data-message="🎵 बहुत सुंदर गीत">🎵 बहुत सुंदर गीत</button>
       </div>
       <div class="chat-compose">
-        <input id="chatInput" class="chat-input" type="text" maxlength="180" placeholder="अपना संदेश लिखें..." aria-label="अपना संदेश लिखें" />
+        <input id="chatInput" class="chat-input" type="text" maxlength="200" placeholder="अपना संदेश लिखें..." aria-label="अपना संदेश लिखें" />
         <button id="chatSendBtn" class="chat-send" type="button">➤ भेजें</button>
       </div>
     </section>
+    
     
   </main>
   <div class="flower-layer" id="flowerLayer" aria-hidden="true"></div>
@@ -273,72 +274,7 @@
         }, { once: true });
       }
     }
-    const chatStorageKey = 'chhath-live-chat-messages';
-    const chatMessagesElement = document.getElementById('chhathChatMessages');
-    const chatInput = document.getElementById('chatInput');
-    const chatSendButton = document.getElementById('chatSendBtn');
-    function getStoredChatMessages(){
-      try {
-        const saved = JSON.parse(localStorage.getItem(chatStorageKey) || '[]');
-        return Array.isArray(saved) ? saved.slice(-12) : [];
-      } catch (error) {
-        return [];
-      }
-    }
-    function persistChatMessages(messages){
-      try {
-        localStorage.setItem(chatStorageKey, JSON.stringify(messages.slice(-12)));
-      } catch (error) {
-        // Ignore storage quota issues.
-      }
-    }
-    function appendChatMessage(messageText, isUserMessage = false){
-      if (!chatMessagesElement) return;
-      const message = document.createElement('div');
-      message.className = `chat-message ${isUserMessage ? 'user' : 'system'}`;
-      const bubble = document.createElement('span');
-      bubble.className = 'chat-bubble';
-      bubble.textContent = messageText;
-      message.appendChild(bubble);
-      chatMessagesElement.appendChild(message);
-      chatMessagesElement.scrollTop = chatMessagesElement.scrollHeight;
-    }
-    function sendChatMessage(rawValue){
-      const messageText = (rawValue || '').trim();
-      if (!messageText) return;
-      const stored = getStoredChatMessages();
-      const nextMessages = [...stored, { text: messageText, isUser: true, ts: Date.now() }];
-      persistChatMessages(nextMessages);
-      appendChatMessage(messageText, true);
-      if (chatInput) chatInput.value = '';
-    }
-    function hydrateChatMessages(){
-      if (!chatMessagesElement) return;
-      const messages = getStoredChatMessages();
-      chatMessagesElement.innerHTML = '';
-      if (!messages.length) {
-        appendChatMessage('🙏 छठ पूजा की शुभकामनाएँ! अपने मन की भावना साझा करें।', false);
-        return;
-      }
-      messages.forEach((entry) => {
-        appendChatMessage(entry.text, Boolean(entry.isUser));
-      });
-    }
-    document.getElementById('flowerBurstBtn').addEventListener('click', triggerFlowerBurst);
-    document.querySelectorAll('.quick-message').forEach((button) => {
-      button.addEventListener('click', () => {
-        const message = button.dataset.message || button.textContent.trim();
-        sendChatMessage(message);
-      });
-    });
-    chatSendButton?.addEventListener('click', () => sendChatMessage(chatInput?.value || ''));
-    chatInput?.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter') {
-        event.preventDefault();
-        sendChatMessage(chatInput.value);
-      }
-    });
-    hydrateChatMessages();
+    document.getElementById('flowerBurstBtn')?.addEventListener('click', triggerFlowerBurst);
     setInterval(()=>{ const q=document.getElementById('quote');q.style.opacity=0;setTimeout(()=>{const activeQuotes=quotes[activePlaylist];quoteIndex=(quoteIndex+1)%activeQuotes.length;q.textContent=activeQuotes[quoteIndex];q.style.opacity=1},300)},4200);
     const playlists = { chhath: { files: window.trackFiles || [], folder: '', label: 'छठ पूजा गीत संग्रह' }, navratri: { files: window.navratriTrackFiles || [], folder: 'navratri/', label: 'नवरात्रि गीत संग्रह' } };
     const audio=document.getElementById('audio'), backgroundVideo=document.getElementById('backgroundVideo'), play=document.getElementById('play'), bar=document.getElementById('bar'), time=document.getElementById('time'), track=document.getElementById('track'), playState=document.getElementById('playState'); const lfsMediaBase='https://media.githubusercontent.com/media/Kumarankit-dangi/chhatsong-website/main/'; let current=0, activePlaylist='chhath', files=playlists.chhath.files;
@@ -401,6 +337,7 @@ if (selectedPlaylist === "navratri") {
 }
   </script>
   <script type="module" src="presence.js?v=live-20260902-9"></script>
+  <script type="module" src="chat.js?v=20260905-1"></script>
   <script>
     (() => {
       const styleId = 'chhatsong-info-style';

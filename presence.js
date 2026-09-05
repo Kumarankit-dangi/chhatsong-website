@@ -180,7 +180,9 @@ try {
     appId: '1:420844144157:web:28ca6a38f2e2772038e8f4'
   };
 
-  const app = firebaseModule.initializeApp(firebaseConfig);
+  const app = (firebaseModule.getApps && firebaseModule.getApps().length)
+    ? firebaseModule.getApp()
+    : firebaseModule.initializeApp(firebaseConfig);
   const database = dbModule.getDatabase(app);
   const presenceRef = dbModule.ref(database, 'presence/site-total');
 
@@ -206,6 +208,12 @@ try {
       syncFromStorage();
     });
   });
+
+  window.__chhathFirebase = { app, database, dbModule };
+  window.dispatchEvent(new CustomEvent('chhatsong:firebase-ready', { detail: { database, dbModule } }));
+  if (typeof window.__initChhathChat === 'function') {
+    window.__initChhathChat(database, dbModule);
+  }
 } catch (error) {
   syncFromStorage();
 }

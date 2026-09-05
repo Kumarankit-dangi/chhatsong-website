@@ -3,6 +3,16 @@
     "presence": {
       ".read": true,
       ".write": true
+    },
+    "chhathChat": {
+      "messages": {
+        ".read": true,
+        ".indexOn": ["timestamp"],
+        "$messageId": {
+          ".write": "!data.exists() && newData.exists()",
+          ".validate": "newData.hasChildren(['text', 'timestamp']) && newData.child('text').isString() && newData.child('text').val().length > 0 && newData.child('text').val().length <= 200 && newData.child('timestamp').isNumber()"
+        }
+      }
     }
   }
 }
