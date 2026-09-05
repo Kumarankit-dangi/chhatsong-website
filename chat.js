@@ -84,6 +84,7 @@ function pushToFirebase(text) {
       console.error('Firebase Realtime Database write error:', err);
     });
   } catch (err) {
+
     console.error('Firebase push exception:', err);
   }
 }
@@ -167,52 +168,24 @@ function setupChatEventListeners() {
   });
 }
 
-// -------------------------------------------------------------
-// Initialization and Firebase handshake
-// -------------------------------------------------------------
-window.__initChhathChat = (database, dbModule) => {
-  startFirebaseChatSync(database, dbModule);
-};
-
 function init() {
   setupChatEventListeners();
 
   if (window.__chhathFirebase) {
-    startFirebaseChatSync(window.__chhathFirebase.database, window.__chhathFirebase.dbModule);
+    startFirebaseChatSync(
+      window.__chhathFirebase.database,
+      window.__chhathFirebase.dbModule
+    );
   } else {
     window.addEventListener('chhatsong:firebase-ready', (event) => {
-      if (event.detail && event.detail.database && event.detail.dbModule) {
-        startFirebaseChatSync(event.detail.database, event.detail.dbModule);
+      const database = event.detail?.database;
+      const dbModule = event.detail?.dbModule;
+
+      if (database && dbModule) {
+        startFirebaseChatSync(database, dbModule);
       }
     }, { once: true });
   }
-
-  // Fallback: If presence.js takes longer than 1.5 seconds, connect directly
-  setTimeout(async () => {
-    if (isListening) return;
-
-    try {
-      const firebaseModule = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js');
-      const dbModule = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js');
-
-      const firebaseConfig = {
-        apiKey: 'AIzaSyDYZFCorRFRMy9TWEiTMp8AAc7IHTlB4ME',
-        authDomain: 'chhath-song-b5e61.firebaseapp.com',
-        databaseURL: 'https://chhath-song-b5e61-default-rtdb.asia-southeast1.firebasedatabase.app',
-        projectId: 'chhath-song-b5e61',
-        appId: '1:420844144157:web:28ca6a38f2e2772038e8f4'
-      };
-
-      const app = (firebaseModule.getApps && firebaseModule.getApps().length)
-        ? firebaseModule.getApp()
-        : firebaseModule.initializeApp(firebaseConfig);
-      const database = dbModule.getDatabase(app);
-
-      startFirebaseChatSync(database, dbModule);
-    } catch (err) {
-      console.warn('Fallback Firebase connect error:', err);
-    }
-  }, 1500);
 }
 
 if (document.readyState === 'loading') {
