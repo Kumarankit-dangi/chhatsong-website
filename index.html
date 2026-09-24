@@ -120,6 +120,136 @@
   box-shadow: 0 0 8px rgba(33, 150, 243, 0.8);
   animation: livePulse 1.5s infinite;
 }
+/* ===== SMALL LIVE CHAT BADGE ===== */
+
+.chhath-chat {
+  position: fixed !important;
+  top: 20px !important;
+  left: 50% !important;
+  right: auto !important;
+  transform: translateX(-50%) !important;
+
+  width: 145px !important;
+  height: 42px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+
+  border: 1px solid #c89b48 !important;
+  border-radius: 25px !important;
+  background: rgba(10, 7, 5, .55) !important;
+  backdrop-filter: blur(12px);
+
+  overflow: hidden;
+  cursor: pointer;
+}
+
+/* ===== RESPONSIVE LIVE CHAT BADGE ===== */
+
+.chhath-chat .chat-header {
+  height: 42px;
+  margin: 0 !important;
+  padding: 0 14px !important;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  font-size: 13px !important;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* Hide COMMUNITY when chat is a small badge */
+.chhath-chat:not(.chat-open) .chat-header small {
+  display: none !important;
+}
+
+/* Keep title inside badge */
+.chhath-chat:not(.chat-open) .chat-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+/* Small badge */
+.chhath-chat:not(.chat-open) {
+  width: auto !important;
+  min-width: 150px;
+  max-width: calc(100vw - 24px);
+}
+
+/* Phone */
+@media (max-width: 600px) {
+
+  .chhath-chat:not(.chat-open) {
+    min-width: 145px;
+    max-width: calc(100vw - 24px);
+  }
+
+  .chhath-chat:not(.chat-open) .chat-header {
+    font-size: 12px !important;
+    padding: 0 12px !important;
+  }
+}
+
+/* Laptop/Desktop */
+@media (min-width: 601px) {
+
+  .chhath-chat:not(.chat-open) {
+    min-width: 155px;
+  }
+}
+
+/* Hide big chat content */
+.chhath-chat .chat-messages,
+.chhath-chat .chat-quick,
+.chhath-chat .chat-compose {
+  display: none;
+}
+
+
+/* ===== OPEN CHAT ===== */
+
+.chhath-chat.chat-open {
+  width: min(680px, calc(100% - 28px)) !important;
+  height: auto !important;
+  max-height: 500px;
+
+  top: 20px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+
+  padding: 16px 14px 12px !important;
+  border-radius: 18px !important;
+}
+
+.chhath-chat.chat-open .chat-messages,
+.chhath-chat.chat-open .chat-quick,
+.chhath-chat.chat-open .chat-compose {
+  display: flex;
+}
+
+.chhath-chat.chat-open .chat-header {
+  margin-bottom: 12px !important;
+}
+
+
+/* Mobile */
+@media(max-width:760px) {
+
+  .chhath-chat {
+    top: 12px !important;
+    width: 145px !important;
+  }
+
+  .chhath-chat.chat-open {
+    width: calc(100% - 24px) !important;
+    top: 12px !important;
+  }
+}
 
 @keyframes livePulse {
   0%, 100% {
@@ -132,7 +262,7 @@
     transform: scale(1.25);
   }
 }
-@media (max-width: 600px) {
+@media (max-width: 900px) {
   .info-nav-links {
     position: absolute !important;
     top: 12px !important;
@@ -152,7 +282,7 @@
     white-space: nowrap !important;
   }
 }
-@media (max-width: 600px) {
+@media (max-width: 900px) {
   .info-nav-links {
     top: 55px !important;
     right: 10px !important;
@@ -165,6 +295,51 @@
     z-index: 1100 !important;
     display: block !important;
     visibility: visible !important;
+  }
+}
+.chhath-chat:not(.chat-open) {
+  position: fixed !important;
+  top: 20px !important;
+  left: 50% !important;
+  right: auto !important;
+  bottom: auto !important;
+  transform: translateX(-50%) !important;
+  margin: 0 !important;
+  z-index: 9999 !important;
+}
+
+@media (max-width: 900px) {
+  .chhath-chat:not(.chat-open) {
+    top: 12px !important;
+    width: auto !important;
+    min-width: 145px !important;
+    max-width: calc(100vw - 24px) !important;
+  }
+}
+/* ===== LIVE CHAT ALWAYS STAYS ON SCREEN ===== */
+
+.chhath-chat:not(.chat-open) {
+  position: fixed !important;
+  top: 20px !important;
+  left: 50% !important;
+  right: auto !important;
+  bottom: auto !important;
+
+  transform: translateX(-50%) !important;
+
+  width: auto !important;
+  min-width: 155px !important;
+  max-width: calc(100vw - 24px) !important;
+
+  margin: 0 !important;
+  z-index: 99999 !important;
+}
+
+@media (max-width: 900px) {
+  .chhath-chat:not(.chat-open) {
+    top: 12px !important;
+    min-width: 145px !important;
+    max-width: calc(100vw - 24px) !important;
   }
 }
   </style>
@@ -205,12 +380,14 @@
 
     <section class="chhath-chat" aria-label="छठ पूजा लाइव चैट">
       <div class="chat-header">
-  <div class="chat-title">
-    <span class="live-dot"></span>
-    <span>💬 छठ पूजा लाइव चैट</span>
-  </div>
-  <small>community</small>
+<div class="chat-title">
+  <span class="live-dot"></span>
+  <span>💬 छठ पूजा लाइव चैट</span>
 </div>
+
+<small>community</small>
+
+<span class="live-count-badge" id="chatLiveCount">0</span>
       <div class="chat-messages" id="chhathChatMessages" aria-live="polite">
         <div class="chat-message system"><span class="chat-bubble">🙏 छठ पूजा की शुभकामनाएँ! अपने मन की भावना साझा करें।</span></div>
       </div>
@@ -225,9 +402,6 @@
         <input id="chatInput" class="chat-input" type="text" maxlength="200" placeholder="अपना संदेश लिखें..." aria-label="अपना संदेश लिखें" />
         <button id="chatSendBtn" class="chat-send" type="button">➤ भेजें</button>
       </div>
-    </section>
-    
-    
   </main>
   <div class="flower-layer" id="flowerLayer" aria-hidden="true"></div>
   <div class="festive-chhath-glow" aria-hidden="true"></div>
@@ -819,6 +993,21 @@ if (selectedPlaylist === "navratri") {
         });
       });
     })();
+    </script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const chat = document.querySelector(".chhath-chat");
+  const header = chat?.querySelector(".chat-header");
+
+  if (!chat || !header) return;
+
+  header.addEventListener("click", function () {
+    chat.classList.toggle("chat-open");
+  });
+
+});
+</script>
   </script>
 </body>
 </html>

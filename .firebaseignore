@@ -1,0 +1,7 @@
+.git
+.gitignore
+.vscode
+firebase-debug.log
+deploy.log
+tracks/**
+node_modules/**
