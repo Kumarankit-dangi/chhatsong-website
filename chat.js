@@ -7,9 +7,31 @@ const SYSTEM_WELCOME = '🙏 छठ पूजा की शुभकामना
 let rtdb = null;
 let db = null;
 let messagesRef = null;
+let chatPresenceRef = null;
+let chatPresenceDb = null;
 let isListening = false;
 const pendingQueue = [];
 const seenMessageKeys = new Set();
+const chatSessionId = (window.crypto && crypto.randomUUID)
+  ? crypto.randomUUID()
+  : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+
+function updateChatPresence(isOpen) {
+  if (!chatPresenceRef || !chatPresenceDb) return;
+  const write = isOpen
+    ? chatPresenceDb.set(chatPresenceRef, { chatting: true, updatedAt: Date.now() })
+    : chatPresenceDb.remove(chatPresenceRef);
+  write.catch((error) => console.warn('Chat presence update failed:', error));
+}
+
+function renderChatPresenceCount(snapshot) {
+  const badge = document.getElementById('chatLiveCount');
+  if (!badge) return;
+  const count = Object.keys(snapshot.val() || {}).length;
+  badge.textContent = String(count);
+  badge.setAttribute('aria-label', `${count} ${count === 1 ? 'person' : 'people'} chatting live`);
+  badge.title = `${count} ${count === 1 ? 'person is' : 'people are'} chatting live`;
+}
 
 /**
  * Safely add a chat message bubble to the chat container.
@@ -49,8 +71,13 @@ function addMessageToUI(key, messageText, isUserMessage = true) {
  * Send chat message to Firebase Realtime Database path: chhathChat/messages
  */
 export function sendChatMessage(rawValue) {
-  const trimmed = (rawValue || '').trim();
+  const input = document.getElementById("chatInput");
+  const trimmed = (rawValue || "").trim();
+
   if (!trimmed) return;
+
+  // Input ko close hone se bachao
+ 
 
   // Maximum 200 characters limit
   const safeText = trimmed.slice(0, 200);
@@ -99,6 +126,24 @@ export function startFirebaseChatSync(database, dbModule) {
   rtdb = database;
   db = dbModule;
   messagesRef = db.ref(rtdb, 'chhathChat/messages');
+  chatPresenceDb = db;
+  chatPresenceRef = db.ref(rtdb, `presence/chhath-chat/${chatSessionId}`);
+
+  const chatPresenceListRef = db.ref(rtdb, 'presence/chhath-chat');
+  db.onValue(chatPresenceListRef, renderChatPresenceCount, (error) => {
+    console.warn('Chat presence count unavailable:', error);
+  });
+
+  const connectedRef = db.ref(rtdb, '.info/connected');
+  db.onValue(connectedRef, (snapshot) => {
+    if (snapshot.val() !== true) return;
+    db.onDisconnect(chatPresenceRef).remove().catch((error) => {
+      console.warn('Chat presence disconnect cleanup unavailable:', error);
+    });
+    if (document.querySelector('.chhath-chat')?.classList.contains('chat-open')) {
+      updateChatPresence(true);
+    }
+  });
 
   let queryRef = messagesRef;
   if (typeof db.query === 'function' && typeof db.limitToLast === 'function') {
@@ -138,6 +183,27 @@ function setupChatEventListeners() {
   const chatInput = document.getElementById('chatInput');
   const chatSendBtn = document.getElementById('chatSendBtn');
   const quickButtons = document.querySelectorAll('.quick-message');
+  const chat = document.querySelector('.chhath-chat');
+  const chatHeader = chat?.querySelector('.chat-header');
+  if (chat && chatHeader) {
+    const toggleChat = () => {
+      const isOpen = chat.classList.toggle('chat-open');
+      chatHeader.setAttribute('aria-expanded', String(isOpen));
+      updateChatPresence(isOpen);
+    };
+    chatHeader.addEventListener('click', toggleChat);
+    chatHeader.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+      toggleChat();
+    });
+  }
+  // Chat input pe click hoga to popup band nahi hoga
+if (chatInput) {
+  chatInput.addEventListener("click", function(e) {
+    e.stopPropagation();
+  });
+}
 
   if (!chatInput && !chatSendBtn && !quickButtons.length) return;
   window.__chhathChatListenersAttached = true;
@@ -192,4 +258,11 @@ if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', init, { once: true });
 } else {
   init();
+}
+const chatPopup = document.querySelector(".live-chat-popup");
+
+if (chatPopup) {
+  chatPopup.addEventListener("click", (e) => {
+    e.stopPropagation();
+  });
 }

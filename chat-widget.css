@@ -1,0 +1,84 @@
+.chhath-chat {
+  position: fixed !important;
+  z-index: 10000 !important;
+  top: 18px !important;
+  left: 50% !important;
+  right: auto !important;
+  bottom: auto !important;
+  transform: translateX(-50%) !important;
+  width: auto !important;
+  min-width: 160px !important;
+  max-width: calc(100vw - 24px) !important;
+  height: 44px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden;
+  border: 1px solid rgba(255, 214, 145, .58) !important;
+  border-radius: 999px !important;
+  background: rgba(24, 14, 12, .94) !important;
+  color: #fff1ce;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+  backdrop-filter: blur(12px);
+  font-family: 'DM Sans', Arial, sans-serif;
+}
+
+.chhath-chat .chat-header {
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 0 !important;
+  padding: 0 14px !important;
+  color: #ffe5b6;
+  font: 700 13px 'DM Sans', Arial, sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.chhath-chat .chat-title { display: inline-flex; align-items: center; gap: 7px; }
+.chhath-chat .live-dot { width: 8px; height: 8px; flex: 0 0 8px; border-radius: 50%; background: #61d976; box-shadow: 0 0 8px #61d976; }
+.chhath-chat .chat-header small { display: none; }
+.chhath-chat .live-count-badge { color: #ffcf70; font: 700 12px 'DM Mono', monospace; }
+
+.chhath-chat .chat-messages,
+.chhath-chat .chat-quick,
+.chhath-chat .chat-compose { display: none; }
+
+.chhath-chat.chat-open {
+  position: fixed !important;
+  z-index: 10000 !important;
+  top: 18px !important;
+  left: 50% !important;
+  right: auto !important;
+  bottom: auto !important;
+  transform: translateX(-50%) !important;
+  width: min(680px, calc(100% - 24px)) !important;
+  height: auto !important;
+  max-height: calc(100dvh - 36px);
+  overflow-y: auto;
+  padding: 12px !important;
+  border-radius: 18px !important;
+  background: rgba(24, 14, 12, .97) !important;
+}
+
+.chhath-chat.chat-open .chat-header { justify-content: space-between; margin-bottom: 10px !important; }
+.chhath-chat.chat-open .chat-header small { display: inline; color: #ffbf69; font: 10px 'DM Mono', monospace; text-transform: uppercase; }
+.chhath-chat.chat-open .chat-messages { display: flex; max-height: min(210px, 30vh); overflow-y: auto; flex-direction: column; gap: 8px; padding-right: 4px; }
+.chhath-chat.chat-open .chat-quick { display: flex; flex-wrap: wrap; gap: 7px; margin: 10px 0; }
+.chhath-chat.chat-open .chat-compose { display: flex; align-items: center; gap: 8px; }
+.chhath-chat .chat-message { display: flex; font-size: 13px; line-height: 1.5; }
+.chhath-chat .chat-message.user { justify-content: flex-end; }
+.chhath-chat .chat-message.system { justify-content: flex-start; }
+.chhath-chat .chat-bubble { max-width: 88%; padding: 8px 10px; border-radius: 12px; word-break: break-word; background: rgba(255, 255, 255, .08); color: #f8e8c7; }
+.chhath-chat .chat-message.user .chat-bubble { background: linear-gradient(180deg, #ffd76e, #ffbe4d); color: #3f180d; }
+.chhath-chat .chat-quick button { cursor: pointer; border: 1px solid rgba(255, 214, 145, .35); border-radius: 999px; padding: 7px 10px; background: rgba(255, 255, 255, .04); color: #ffe8bb; font: 500 12px 'DM Sans', Arial, sans-serif; }
+.chhath-chat .chat-input { flex: 1; min-width: 0; border: 1px solid rgba(255, 214, 145, .35); border-radius: 11px; padding: 10px 12px; background: rgba(19, 10, 10, .65); color: #fff5dc; font: 14px 'DM Sans', Arial, sans-serif; }
+.chhath-chat .chat-send { border: 0; border-radius: 11px; padding: 10px 14px; background: linear-gradient(180deg, #ffbf49, #ef8f2e); color: #3f180d; font: 700 14px 'DM Sans', Arial, sans-serif; cursor: pointer; }
+
+@media (max-width: 600px) {
+  .chhath-chat { top: 12px !important; min-width: 148px !important; }
+  .chhath-chat.chat-open { top: 12px !important; width: calc(100% - 20px) !important; max-height: calc(100dvh - 24px); }
+  .chhath-chat.chat-open .chat-compose { gap: 6px; }
+  .chhath-chat .chat-send { padding: 9px 10px; }
+}

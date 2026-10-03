@@ -214,9 +214,13 @@
 /* ===== OPEN CHAT ===== */
 
 .chhath-chat.chat-open {
+  position: fixed !important;
+  z-index: 10000 !important;
   width: min(680px, calc(100% - 28px)) !important;
   height: auto !important;
-  max-height: 500px;
+  max-height: calc(100dvh - 24px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
 
   top: 20px !important;
   left: 50% !important;
@@ -343,6 +347,9 @@
   }
 }
   </style>
+  <link rel="stylesheet" href="category-switcher.css">
+  <link rel="stylesheet" href="chat-widget.css">
+  <link rel="stylesheet" href="player-theme.css">
 </head>
 <body data-page-key="chhath">
   <div class="scene">
@@ -379,7 +386,7 @@
     
 
     <section class="chhath-chat" aria-label="छठ पूजा लाइव चैट">
-      <div class="chat-header">
+      <div class="chat-header" role="button" tabindex="0" aria-expanded="false" aria-controls="chhathChatMessages">
 <div class="chat-title">
   <span class="live-dot"></span>
   <span>💬 छठ पूजा लाइव चैट</span>
@@ -387,7 +394,7 @@
 
 <small>community</small>
 
-<span class="live-count-badge" id="chatLiveCount">0</span>
+<span class="live-count-badge" id="chatLiveCount">0</span></div>
       <div class="chat-messages" id="chhathChatMessages" aria-live="polite">
         <div class="chat-message system"><span class="chat-bubble">🙏 छठ पूजा की शुभकामनाएँ! अपने मन की भावना साझा करें।</span></div>
       </div>
@@ -398,10 +405,20 @@
         <button class="quick-message" type="button" data-message="🙏 छठी मैया की जय">🙏 छठी मैया की जय</button>
         <button class="quick-message" type="button" data-message="🎵 बहुत सुंदर गीत">🎵 बहुत सुंदर गीत</button>
       </div>
-      <div class="chat-compose">
-        <input id="chatInput" class="chat-input" type="text" maxlength="200" placeholder="अपना संदेश लिखें..." aria-label="अपना संदेश लिखें" />
-        <button id="chatSendBtn" class="chat-send" type="button">➤ भेजें</button>
-      </div>
+  <div class="chat-compose" onclick="event.stopPropagation()">
+  <input
+    id="chatInput"
+    class="chat-input"
+    type="text"
+    maxlength="200"
+    placeholder="अपना संदेश लिखें..."
+    aria-label="अपना संदेश लिखें"
+  />
+  <button id="chatSendBtn" class="chat-send" type="button">
+    ➤ भेजें
+  </button>
+</div>
+    </section>
   </main>
   <div class="flower-layer" id="flowerLayer" aria-hidden="true"></div>
   <div class="festive-chhath-glow" aria-hidden="true"></div>
@@ -994,20 +1011,9 @@ if (selectedPlaylist === "navratri") {
       });
     })();
     </script>
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-
-  const chat = document.querySelector(".chhath-chat");
-  const header = chat?.querySelector(".chat-header");
-
-  if (!chat || !header) return;
-
-  header.addEventListener("click", function () {
-    chat.classList.toggle("chat-open");
-  });
-
-});
-</script>
   </script>
+  <script src="category-switcher.js"></script>
+  <script src="chat-widget.js"></script>
+  <script src="player-theme.js"></script>
 </body>
 </html>

@@ -326,6 +326,9 @@
     }
    
   </style>
+  <link rel="stylesheet" href="category-switcher.css">
+  <link rel="stylesheet" href="chat-widget.css">
+  <link rel="stylesheet" href="player-theme.css">
 </head>
 
 
@@ -787,13 +790,17 @@ document.addEventListener("click", () => {
 // SONGS START LOAD
 
 if (puraneFiles.length) {
-  loadTrack(Math.floor(Math.random() * puraneFiles.length));
+  loadTrack(Math.floor(Math.random() * puraneFiles.length), true);
 }
 
 </script>
 
 <script type="module" src="presence.js?v=live-20260902-9"></script>
 
+  <script src="category-switcher.js"></script>
+  <script src="chat-widget.js"></script>
+  <script type="module" src="chat.js?v=chat-everywhere-20261003"></script>
+  <script src="player-theme.js"></script>
 </body>
 
 </html>
