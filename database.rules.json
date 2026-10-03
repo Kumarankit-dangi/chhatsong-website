@@ -13,6 +13,10 @@
           ".validate": "newData.hasChildren(['text', 'timestamp']) && newData.child('text').isString() && newData.child('text').val().length > 0 && newData.child('text').val().length <= 200 && newData.child('timestamp').isNumber()"
         }
       }
+    },
+    "diyaCount": {
+      ".read": true,
+      ".write": "newData.isNumber() && newData.val() >= 0"
     }
   }
 }

@@ -76,7 +76,15 @@
     .flower-trigger { appearance:none; border:1px solid rgba(255,214,145,.65); background:linear-gradient(180deg,rgba(255,233,177,.18),rgba(255,170,85,.09)); color:#fff4d2; border-radius:999px; padding:12px 18px; font:700 14px 'DM Sans',sans-serif; cursor:pointer; box-shadow:0 10px 18px rgba(127,30,0,.2); transition:transform .2s ease, box-shadow .2s ease; }
     .flower-trigger:hover { transform:translateY(-1px); box-shadow:0 14px 22px rgba(127,30,0,.28); }
     .flower-trigger:active { transform:translateY(0) scale(.98); }
-    .chhath-actions { display:flex; justify-content:center; margin-top:20px; }
+    .chhath-actions { display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:20px; }
+    .diya-action { display:inline-flex; align-items:center; gap:10px; padding:6px 8px 6px 14px; border:1px solid rgba(255,207,104,.66); border-radius:999px; background:linear-gradient(180deg,rgba(117,42,9,.58),rgba(51,16,7,.64)); box-shadow:0 10px 22px rgba(94,25,0,.28), inset 0 1px rgba(255,236,168,.18); }
+    .diya-trigger { appearance:none; border:0; border-radius:999px; padding:9px 13px; color:#fff7dc; background:linear-gradient(135deg,#f07a19,#b6350c); font:700 13px 'DM Sans',sans-serif; cursor:pointer; transition:transform .18s ease, filter .18s ease; }
+    .diya-trigger:hover { transform:translateY(-1px); filter:brightness(1.1); }
+    .diya-trigger:active { transform:scale(.96); }
+    .diya-trigger.is-lit { animation:diya-pulse .82s ease-out; }
+    .diya-count { min-width:84px; color:#ffe9a9; font:600 11px/1.35 'DM Mono',monospace; text-align:left; }
+    .diya-count strong { display:block; color:#fff8dd; font-size:15px; }
+    @keyframes diya-pulse { 0% { box-shadow:0 0 0 0 rgba(255,173,39,.75); } 65% { box-shadow:0 0 0 16px rgba(255,173,39,0); } 100% { box-shadow:0 0 0 0 rgba(255,173,39,0); } }
     .flower-layer { position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:9; }
     .flower-layer .petal { position:absolute; top:-20px; left:0; font-size:18px; filter:drop-shadow(0 6px 8px rgba(0,0,0,.16)); opacity:0; animation:petal-fall var(--fall-duration, 2600ms) cubic-bezier(.18,.7,.17,1) forwards; }
     @keyframes petal-fall {
@@ -380,7 +388,13 @@
           </div>
         </div>
         <div class="quote-box"><p class="quote" id="quote">“काँच ही बाँस के बहंगिया...”</p><p class="quote-author" id="quoteAuthor">— घाट की एक याद</p></div>
-        <div class="chhath-actions"><button class="flower-trigger" id="flowerBurstBtn" type="button">🌸 फूल बरसाएँ</button></div>
+        <div class="chhath-actions">
+          <button class="flower-trigger" id="flowerBurstBtn" type="button">🌸 फूल बरसाएँ</button>
+          <div class="diya-action">
+            <button class="diya-trigger" id="diyaLightBtn" type="button" aria-describedby="diyaCount">🪔 दीप जलाएँ</button>
+            <span class="diya-count" id="diyaCount" aria-live="polite"><strong>0</strong>दीप जले</span>
+          </div>
+        </div>
       </div>
     </section>
     
@@ -528,6 +542,7 @@ if (selectedPlaylist === "navratri") {
 }
   </script>
   <script type="module" src="presence.js?v=live-20260902-9"></script>
+  <script type="module" src="diya-count.js?v=1"></script>
   <script type="module" src="chat.js?v=20260905-1"></script>
   <script>
     (() => {
